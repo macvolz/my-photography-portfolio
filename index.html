@@ -3,176 +3,400 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MACVOLZ — Street Photography</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<title>MACVOLZ — Ranjan | Street Photography</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --bg: #0d0d0b;
-    --text: #e8e4dc;
-    --muted: #888780;
-    --accent: #c9a96e;
-    --border: rgba(201,169,110,0.2);
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --black:#080808;--dark:#111;--gray:#1c1c1c;
+    --mid:#888;--white:#f0f0f0;--gold:#c8a96e;
   }
-  body { background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; font-weight: 300; }
+  html{scroll-behavior:smooth;}
+  body{background:var(--black);color:var(--white);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;overflow-x:hidden;cursor:none;}
 
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1.5rem 4rem;
-    background: linear-gradient(to bottom, rgba(13,13,11,0.95), transparent);
+  /* CURSOR */
+  #cursor{width:6px;height:6px;background:var(--white);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:transform .15s;}
+  #cursor-ring{width:36px;height:36px;border:1px solid rgba(255,255,255,.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .3s,height .3s;}
+  body:hover #cursor{transform:translate(-50%,-50%) scale(1);}
+  .photo-item:hover ~ #cursor,.photo-item:hover #cursor{transform:translate(-50%,-50%) scale(3);}
+
+  /* LOADER */
+  #loader{position:fixed;inset:0;background:var(--black);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity .9s,visibility .9s;}
+  #loader.gone{opacity:0;visibility:hidden;}
+  .load-name{font-size:clamp(28px,6vw,64px);font-weight:900;letter-spacing:.5em;text-transform:uppercase;}
+  .load-bar{width:220px;height:1px;background:rgba(255,255,255,.1);overflow:hidden;}
+  .load-fill{height:100%;width:0;background:var(--white);transition:width 1.6s ease;}
+  .load-label{font-size:10px;letter-spacing:.4em;color:var(--mid);text-transform:uppercase;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:26px 48px;display:flex;justify-content:space-between;align-items:center;transition:background .4s,backdrop-filter .4s;}
+  nav.scrolled{background:rgba(8,8,8,.92);backdrop-filter:blur(12px);}
+  .nav-logo{font-size:17px;font-weight:900;letter-spacing:.35em;text-transform:uppercase;color:var(--white);text-decoration:none;}
+  .nav-links{display:flex;gap:36px;list-style:none;}
+  .nav-links a{color:var(--white);text-decoration:none;font-size:11px;letter-spacing:.25em;text-transform:uppercase;opacity:.6;transition:opacity .3s;}
+  .nav-links a:hover{opacity:1;}
+  .hamburger{display:none;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;padding:4px;}
+  .hamburger span{display:block;width:22px;height:1px;background:var(--white);}
+
+  /* MOBILE MENU */
+  .mob-menu{display:none;position:fixed;inset:0;background:var(--black);z-index:9000;flex-direction:column;align-items:center;justify-content:center;gap:36px;}
+  .mob-menu.open{display:flex;}
+  .mob-menu a{font-size:40px;font-weight:900;text-transform:uppercase;color:var(--white);text-decoration:none;letter-spacing:.08em;transition:color .3s;}
+  .mob-menu a:hover{color:var(--gold);}
+  .mob-close{position:absolute;top:26px;right:48px;background:none;border:none;color:var(--white);font-size:22px;cursor:pointer;}
+
+  /* HERO */
+  .hero{height:100vh;min-height:600px;display:flex;flex-direction:column;justify-content:flex-end;padding:90px 48px 60px;position:relative;overflow:hidden;background:var(--black);}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(25,20,40,.8) 0%,transparent 70%),radial-gradient(ellipse at 80% 20%,rgba(40,20,10,.5) 0%,transparent 60%);}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:80px 80px;}
+  .hero-content{position:relative;z-index:2;}
+  .hero-tag{display:block;font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+  .hero-title{font-size:clamp(64px,14vw,200px);font-weight:900;line-height:.88;text-transform:uppercase;letter-spacing:-.03em;}
+  .hero-title .line1{display:block;color:var(--white);}
+  .hero-title .line2{display:block;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.2);}
+  .hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:48px;flex-wrap:wrap;gap:20px;}
+  .hero-desc{font-size:13px;line-height:1.9;color:var(--mid);max-width:280px;letter-spacing:.04em;}
+  .scroll-hint{display:flex;align-items:center;gap:14px;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--mid);}
+  .scroll-line{width:56px;height:1px;background:rgba(255,255,255,.15);position:relative;overflow:hidden;}
+  .scroll-line::after{content:'';position:absolute;inset:0;background:var(--white);transform:translateX(-100%);animation:swipe 2.2s ease-in-out infinite;}
+  @keyframes swipe{to{transform:translateX(200%);}}
+
+  /* PORTFOLIO */
+  .portfolio{padding:100px 48px;background:var(--dark);}
+  .sec-label{font-size:10px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:48px;display:flex;align-items:center;gap:16px;}
+  .sec-label::after{content:'';height:1px;background:rgba(255,255,255,.08);flex:1;max-width:180px;}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:54px;gap:6px;}
+  .photo-item{position:relative;overflow:hidden;cursor:pointer;}
+  .gi1{grid-column:span 7;grid-row:span 8;}
+  .gi2{grid-column:span 5;grid-row:span 5;}
+  .gi3{grid-column:span 5;grid-row:span 3;}
+  .gi4{grid-column:span 4;grid-row:span 5;}
+  .gi5{grid-column:span 4;grid-row:span 5;}
+  .gi6{grid-column:span 4;grid-row:span 5;}
+  .gi7{grid-column:span 6;grid-row:span 5;}
+  .gi8{grid-column:span 6;grid-row:span 5;}
+  .photo-bg{width:100%;height:100%;transition:transform .7s cubic-bezier(.25,.46,.45,.94);display:flex;align-items:center;justify-content:center;}
+  .photo-item:hover .photo-bg{transform:scale(1.06);}
+  .photo-ov{position:absolute;inset:0;background:rgba(0,0,0,0);transition:background .4s;display:flex;align-items:flex-end;padding:18px;}
+  .photo-item:hover .photo-ov{background:rgba(0,0,0,.55);}
+  .photo-meta{opacity:0;transform:translateY(8px);transition:all .35s;}
+  .photo-item:hover .photo-meta{opacity:1;transform:translateY(0);}
+  .photo-meta h4{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+  .photo-meta p{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:.15em;margin-top:3px;}
+  .photo-num{position:absolute;top:14px;right:14px;font-size:10px;letter-spacing:.2em;color:rgba(255,255,255,.25);opacity:0;transition:opacity .3s;}
+  .photo-item:hover .photo-num{opacity:1;}
+
+  /* gradient themes */
+  .pg1{background:linear-gradient(160deg,#0d0d1f 0%,#1a1a3a 40%,#0a1020 100%);}
+  .pg2{background:linear-gradient(200deg,#1a0800 0%,#5c2200 50%,#1a0a00 100%);}
+  .pg3{background:linear-gradient(180deg,#0a0a0a 0%,#1e1e1e 55%,#111 100%);}
+  .pg4{background:linear-gradient(135deg,#101010 0%,#2a2a2a 50%,#101010 100%);}
+  .pg5{background:linear-gradient(190deg,#050a12 0%,#0d1f30 50%,#05100a 100%);}
+  .pg6{background:linear-gradient(155deg,#1a0505 0%,#3d0f0f 55%,#1a0505 100%);}
+  .pg7{background:linear-gradient(160deg,#090d00 0%,#1a2800 50%,#090d00 100%);}
+  .pg8{background:linear-gradient(140deg,#0d0520 0%,#2a0d45 60%,#0d0520 100%);}
+  .scene-icon{font-size:clamp(28px,4vw,70px);opacity:.35;user-select:none;pointer-events:none;filter:grayscale(30%);}
+
+  /* ABOUT */
+  .about{padding:100px 48px;background:var(--black);}
+  .about-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+  .about-h{font-size:clamp(42px,6vw,84px);font-weight:900;text-transform:uppercase;line-height:.9;letter-spacing:-.03em;}
+  .about-h .stroke{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.2);}
+  .about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px;}
+  .stat{border-top:1px solid rgba(255,255,255,.08);padding-top:18px;}
+  .stat-n{font-size:38px;font-weight:900;letter-spacing:-.03em;}
+  .stat-l{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mid);margin-top:4px;}
+  .about-p{font-size:14px;line-height:1.95;color:var(--mid);margin-bottom:22px;}
+  .about-p strong{color:var(--white);}
+  .about-sig{margin-top:40px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:12px;}
+  .about-sig::before{content:'';width:40px;height:1px;background:var(--gold);}
+
+  /* CONTACT */
+  .contact{padding:100px 48px;background:var(--gray);text-align:center;}
+  .contact-title{font-size:clamp(48px,10vw,140px);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.88;margin-bottom:44px;}
+  .contact-title .stroke{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.18);}
+  .contact-mail{display:inline-block;font-size:13px;letter-spacing:.35em;color:var(--gold);text-decoration:none;text-transform:uppercase;border-bottom:1px solid rgba(200,169,110,.4);padding-bottom:5px;margin-bottom:64px;transition:border-color .3s;}
+  .contact-mail:hover{border-color:var(--gold);}
+  .socials{display:flex;justify-content:center;gap:32px;list-style:none;}
+  .socials a{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .3s;}
+  .socials a:hover{color:var(--white);}
+
+  /* FOOTER */
+  footer{background:var(--black);padding:26px 48px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.04);}
+  footer span{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.25);}
+
+  /* LIGHTBOX */
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:8000;align-items:center;justify-content:center;}
+  #lightbox.open{display:flex;}
+  .lb-close{position:fixed;top:24px;right:40px;background:none;border:none;color:rgba(255,255,255,.6);font-size:10px;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:color .3s;}
+  .lb-close:hover{color:var(--white);}
+  .lb-wrap{width:min(85vw,900px);height:min(80vh,700px);position:relative;overflow:hidden;}
+  .lb-nav{position:fixed;top:50%;transform:translateY(-50%);background:none;border:1px solid rgba(255,255,255,.15);color:var(--white);font-size:18px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .3s;}
+  .lb-nav:hover{background:rgba(255,255,255,.1);}
+  #lb-prev{left:24px;}
+  #lb-next{right:24px;}
+  .lb-caption{position:absolute;bottom:0;left:0;right:0;padding:20px 24px;background:linear-gradient(transparent,rgba(0,0,0,.7));}
+  .lb-caption h3{font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+  .lb-caption p{font-size:11px;color:var(--mid);letter-spacing:.2em;margin-top:4px;}
+  .lb-counter{position:absolute;top:18px;left:24px;font-size:10px;letter-spacing:.3em;color:rgba(255,255,255,.4);}
+
+  /* REVEAL ANIMATION */
+  .reveal{opacity:0;transform:translateY(32px);transition:opacity .9s ease,transform .9s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* RESPONSIVE */
+  @media(max-width:900px){
+    nav{padding:20px 24px;}
+    .nav-links{display:none;}
+    .hamburger{display:flex;}
+    .hero{padding:80px 24px 50px;}
+    .portfolio,.about,.contact{padding:70px 24px;}
+    .grid{grid-template-columns:repeat(6,1fr);}
+    .gi1{grid-column:span 6;grid-row:span 6;}
+    .gi2{grid-column:span 3;grid-row:span 4;}
+    .gi3{grid-column:span 3;grid-row:span 4;}
+    .gi4{grid-column:span 2;grid-row:span 5;}
+    .gi5{grid-column:span 2;grid-row:span 5;}
+    .gi6{grid-column:span 2;grid-row:span 5;}
+    .gi7{grid-column:span 6;grid-row:span 4;}
+    .gi8{display:none;}
+    .about-inner{grid-template-columns:1fr;gap:48px;}
+    .about-stats{grid-template-columns:repeat(3,1fr);}
+    footer{padding:20px 24px;flex-direction:column;gap:8px;text-align:center;}
+    #lb-prev{left:8px;}
+    #lb-next{right:8px;}
+    .mob-close{right:24px;}
   }
-  .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; letter-spacing: 0.25em; color: var(--accent); }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; transition: color 0.3s; }
-  .nav-links a:hover { color: var(--accent); }
-
-  .hero {
-    height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 5rem 4rem;
-    background:
-      linear-gradient(to top, rgba(13,13,11,0.9) 40%, rgba(13,13,11,0.15)),
-      url('IMG_20260115_085313.jpg.jpg') center/cover no-repeat;
-  }
-  .hero-label { font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
-  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 300; line-height: 1.05; margin-bottom: 1.5rem; }
-  .hero h1 em { font-style: italic; color: var(--accent); }
-  .hero p { color: var(--muted); font-size: 0.95rem; max-width: 440px; line-height: 1.9; margin-bottom: 2rem; }
-  .btn {
-    display: inline-block; padding: 0.85rem 2.5rem;
-    border: 1px solid var(--accent); color: var(--accent);
-    font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
-    text-decoration: none; transition: all 0.3s; cursor: pointer; background: transparent;
-  }
-  .btn:hover { background: var(--accent); color: var(--bg); }
-
-  section { padding: 6rem 4rem; }
-  .section-label { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
-  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300; margin-bottom: 3rem; }
-
-  .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
-  .gallery-item { overflow: hidden; background: #1a1a17; }
-  .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; filter: brightness(0.88) grayscale(0.15); }
-  .gallery-item:hover img { transform: scale(1.04); filter: brightness(1) grayscale(0); }
-  .g1 { grid-column: 1/8; height: 480px; }
-  .g2 { grid-column: 8/13; height: 480px; }
-  .g3 { grid-column: 1/5; height: 320px; }
-  .g4 { grid-column: 5/9; height: 320px; }
-  .g5 { grid-column: 9/13; height: 320px; }
-
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-  .about-img { position: relative; }
-  .about-img img { width: 100%; height: 560px; object-fit: cover; display: block; }
-  .about-img::before { content: ''; position: absolute; top: -16px; left: -16px; right: 16px; bottom: 16px; border: 1px solid var(--border); z-index: -1; }
-  .about-text h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; margin-bottom: 1.5rem; line-height: 1.2; }
-  .about-text p { color: var(--muted); line-height: 1.9; margin-bottom: 1.5rem; }
-  .skills-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 2rem 0; }
-  .skill-tag { border: 1px solid var(--border); padding: 6px 16px; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
-
-  .quote-section { background: #0a0a08; text-align: center; padding: 5rem 4rem; }
-  .quote-section blockquote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 300; font-style: italic; color: var(--text); line-height: 1.5; max-width: 800px; margin: 0 auto 1.5rem; }
-  .quote-section blockquote em { color: var(--accent); }
-  .quote-attr { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
-
-  .contact-section { background: #0a0a08; text-align: center; }
-  .contact-section h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 300; margin-bottom: 1rem; }
-  .contact-section h2 em { font-style: italic; color: var(--accent); }
-  .contact-section p { color: var(--muted); margin-bottom: 2rem; }
-  .contact-email { font-family: 'Jost', sans-serif; font-size: 1rem; color: var(--accent); letter-spacing: 0.1em; border: 1px solid var(--border); padding: 0.9rem 2rem; display: inline-block; margin-top: 1rem; }
-
-  footer { padding: 2rem 4rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  footer p { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.1em; }
-
-  @media (max-width: 768px) {
-    nav { padding: 1.2rem 1.5rem; }
-    .nav-links { display: none; }
-    .hero, section { padding: 4rem 1.5rem; }
-    .g1, .g2, .g3, .g4, .g5 { grid-column: 1/-1; height: 260px; }
-    .about-grid { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  @media(max-width:540px){
+    .hero-bottom{flex-direction:column;align-items:flex-start;}
+    .about-stats{grid-template-columns:repeat(2,1fr);}
+    .contact-title{font-size:52px;}
   }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="logo">MACVOLZ</div>
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="load-name">MACVOLZ</div>
+  <div class="load-bar"><div class="load-fill" id="lf"></div></div>
+  <div class="load-label">Loading</div>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" id="mobClose">✕</button>
+  <a href="#portfolio" onclick="closeMob()">Work</a>
+  <a href="#about" onclick="closeMob()">About</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">MACVOLZ</a>
   <ul class="nav-links">
-    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#portfolio">Work</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
 </nav>
 
-<section class="hero">
-  <p class="hero-label">Street Photography — Assam, India</p>
-  <h1>Millions of stories,<br><em>one frame.</em></h1>
-  <p>The street never lies. Every alley, every face, every fleeting second holds a universe waiting to be seen. I just press the shutter.</p>
-  <a href="#gallery" class="btn">View Gallery</a>
-</section>
-
-<section id="gallery">
-  <p class="section-label">Selected Work</p>
-  <h2 class="section-title">Gallery</h2>
-  <div class="gallery-grid">
-    <div class="gallery-item g1">
-      <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=900&q=80" alt="Street life" />
-    </div>
-    <div class="gallery-item g2">
-      <img src="https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=600&q=80" alt="Street portrait" />
-    </div>
-    <div class="gallery-item g3">
-      <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80" alt="City streets" />
-    </div>
-    <div class="gallery-item g4">
-      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Candid moment" />
-    </div>
-    <div class="gallery-item g5">
-      <img src="https://images.unsplash.com/photo-1567306301408-9b74779a11af?w=600&q=80" alt="Street scene" />
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <span class="hero-tag">Street Photography</span>
+    <h1 class="hero-title">
+      <span class="line1">RANJAN</span>
+      <span class="line2">MACVOLZ</span>
+    </h1>
+    <div class="hero-bottom">
+      <p class="hero-desc">Capturing raw moments on city streets — where light, shadow, and human stories collide.</p>
+      <div class="scroll-hint"><div class="scroll-line"></div> Scroll</div>
     </div>
   </div>
 </section>
 
-<div class="quote-section">
-  <blockquote>"I don't take photographs —<br>I collect <em>stories</em> the world almost missed."</blockquote>
-  <p class="quote-attr">— Ranjan / MACVOLZ</p>
-</div>
-
-<section id="about">
-  <div class="about-grid">
-    <div class="about-img">
-      <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=700&q=80" alt="Ranjan — MACVOLZ" />
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="sec-label reveal">Selected Works</div>
+  <div class="grid">
+    <div class="photo-item gi1 reveal" onclick="openLB(0)">
+      <div class="photo-bg pg1"><span class="scene-icon">🌆</span></div>
+      <div class="photo-ov"><div class="photo-meta"><h4>City Dusk</h4><p>Mumbai · 2024</p></div></div>
+      <div class="photo-num">01</div>
     </div>
-    <div class="about-text">
-      <p class="section-label">About</p>
-      <h2>I'm <em style="font-family:'Cormorant Garamond',serif; color:var(--accent); font-style:italic;">Ranjan</em></h2>
-      <p>A street photographer from Assam, India — roaming the lanes, bazaars, and corners that most people walk past without a second glance.</p>
-      <p>Under the name <strong style="color: var(--accent); font-weight: 400;">MACVOLZ</strong>, my mission is simple: to prove that millions of stories live on every street, waiting for someone with a camera and the patience to see them.</p>
-      <p>I shoot raw, honest, and unposed. No studios. No setups. Just life as it happens.</p>
-      <div class="skills-list">
-        <span class="skill-tag">Street Photography</span>
-        <span class="skill-tag">Candid Portraits</span>
-        <span class="skill-tag">Documentary</span>
-        <span class="skill-tag">Black &amp; White</span>
-        <span class="skill-tag">Lightroom</span>
-        <span class="skill-tag">Assam, India</span>
+    <div class="photo-item gi2 reveal" onclick="openLB(1)" style="transition-delay:.1s">
+      <div class="photo-bg pg2"><span class="scene-icon">🚶</span></div>
+      <div class="photo-ov"><div class="photo-meta"><h4>The Walk</h4><p>Delhi · 2024</p></div></div>
+      <div class="photo-num">02</div>
+    </div>
+    <div class="photo-item gi3 reveal" onclick="openLB(2)" style="transition-delay:.15s">
+      <div class="photo-bg pg3"><span class="scene-icon">🌉</span></div>
+      <div class="photo-ov"><div class="photo-meta"><h4>Night Bridge</h4><p>Kolkata · 2023</p></div></div>
+      <div class="photo-num">03</div>
+    </div>
+    <div class="photo-item gi4 reveal" onclick="openLB(3)" style="transition-delay:.2s">
+      <div class="photo-bg pg4"><span class="scene-icon">🏙️</span></div>
+      <div class="photo-ov"><div class="photo-meta"><h4>Urban Grid</h4><p>Bangalore · 2024</p></div></div>
+      <div class="photo-num">04</div>
+    </div>
+    <div class="photo-item gi5 reveal" onclick="openLB(4)" style="transition-delay:.25s">
+      <div class="photo-bg pg5"><span class="scene-icon">🌧️</span></div>
+      <div class="photo-ov"><div class="photo-meta"><h4>Rain Season</h4><p>Chennai · 2023</p></div></div>
+      <div class="photo-num">05</div>
+    </div>
+    <div class="photo-item gi6 reveal" onclick="openLB(5)" style="transition-delay:.3s">
+      <div class="photo-bg pg6"><span class="scene-icon">🕯️</span></div>
+      <div class="photo-ov"><div class="photo-meta"><h4>Dim Alley</h4><p>Varanasi · 2023</p></div></div>
+      <div class="photo-num">06</div>
+    </div>
+    <div class="photo-item gi7 reveal" onclick="openLB(6)" style="transition-delay:.35s">
+      <div class="photo-bg pg7"><span class="scene-icon">🌄</span></div>
+      <div class="photo-ov"><div class="photo-meta"><h4>Golden Hour</h4><p>Jaipur · 2024</p></div></div>
+      <div class="photo-num">07</div>
+    </div>
+    <div class="photo-item gi8 reveal" onclick="openLB(7)" style="transition-delay:.4s">
+      <div class="photo-bg pg8"><span class="scene-icon">🚂</span></div>
+      <div class="photo-ov"><div class="photo-meta"><h4>Last Train</h4><p>Mumbai · 2024</p></div></div>
+      <div class="photo-num">08</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="sec-label reveal">About Me</div>
+  <div class="about-inner">
+    <div>
+      <h2 class="about-h reveal">
+        Ranjan<br>
+        <span class="stroke">MACVOLZ</span>
+      </h2>
+      <div class="about-stats">
+        <div class="stat reveal"><div class="stat-n">6+</div><div class="stat-l">Years</div></div>
+        <div class="stat reveal" style="transition-delay:.1s"><div class="stat-n">200+</div><div class="stat-l">Shots</div></div>
+        <div class="stat reveal" style="transition-delay:.2s"><div class="stat-n">12</div><div class="stat-l">Cities</div></div>
       </div>
-      <a href="#contact" class="btn">Let's Connect</a>
+    </div>
+    <div>
+      <p class="about-p reveal">I'm <strong>Ranjan</strong>, a street photographer roaming the pulse of India's cities under the name <strong>MACVOLZ</strong>. My lens chases the decisive moment — the flash of humanity between strangers, the poetry of everyday chaos.</p>
+      <p class="about-p reveal" style="transition-delay:.1s">From the monsoon-drenched ghats of Varanasi to the relentless rush of Mumbai's local trains, I document what most eyes walk past. Light, shadow, motion, stillness — these are my tools.</p>
+      <p class="about-p reveal" style="transition-delay:.2s">Street photography isn't just what I do. It's how I see the world — one unposed, unfiltered frame at a time.</p>
+      <div class="about-sig reveal" style="transition-delay:.3s">Street · Documentary · Urban</div>
     </div>
   </div>
 </section>
 
-<section id="contact" class="contact-section">
-  <p class="section-label">Get in Touch</p>
-  <h2>Every story<br>deserves to be <em>told.</em></h2>
-  <p>Open for collaborations, exhibitions, and storytelling projects.</p>
-  <a href="mailto:macvolzofficial@gmail.com" class="contact-email">macvolzofficial@gmail.com</a>
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="sec-label reveal" style="justify-content:center;">Get In Touch</div>
+  <h2 class="contact-title reveal">Let's<br><span class="stroke">Connect</span></h2>
+  <a class="contact-mail reveal" href="mailto:ranjan@macvolz.com">ranjan@macvolz.com</a>
+  <ul class="socials">
+    <li><a href="#">Instagram</a></li>
+    <li><a href="#">Behance</a></li>
+    <li><a href="#">500px</a></li>
+    <li><a href="#">VSCO</a></li>
+  </ul>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <p>© 2026 Ranjan — MACVOLZ. All rights reserved.</p>
-  <p>Assam, India</p>
+  <span>© 2025 Ranjan — MACVOLZ</span>
+  <span>Street Photography</span>
 </footer>
 
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button class="lb-close" onclick="closeLB()">Close ✕</button>
+  <button class="lb-nav" id="lb-prev" onclick="lbNav(-1)">‹</button>
+  <div class="lb-wrap" id="lb-wrap"></div>
+  <button class="lb-nav" id="lb-next" onclick="lbNav(1)">›</button>
+</div>
+
+<script>
+  // --- LOADER ---
+  const lf = document.getElementById('lf');
+  lf.style.width = '100%';
+  setTimeout(()=>document.getElementById('loader').classList.add('gone'),2000);
+
+  // --- CURSOR ---
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    cur.style.left=mx+'px'; cur.style.top=my+'px';
+  });
+  (function animRing(){
+    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('.photo-item,a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';});
+    el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';});
+  });
+
+  // --- NAV SCROLL ---
+  window.addEventListener('scroll',()=>{
+    document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+  });
+
+  // --- MOBILE MENU ---
+  document.getElementById('ham').addEventListener('click',()=>document.getElementById('mobMenu').classList.add('open'));
+  document.getElementById('mobClose').addEventListener('click',closeMob);
+  function closeMob(){document.getElementById('mobMenu').classList.remove('open');}
+
+  // --- REVEAL ON SCROLL ---
+  const revObs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+  // --- LIGHTBOX ---
+  const photos = [
+    {title:'City Dusk',loc:'Mumbai · 2024',bg:'pg1',icon:'🌆'},
+    {title:'The Walk',loc:'Delhi · 2024',bg:'pg2',icon:'🚶'},
+    {title:'Night Bridge',loc:'Kolkata · 2023',bg:'pg3',icon:'🌉'},
+    {title:'Urban Grid',loc:'Bangalore · 2024',bg:'pg4',icon:'🏙️'},
+    {title:'Rain Season',loc:'Chennai · 2023',bg:'pg5',icon:'🌧️'},
+    {title:'Dim Alley',loc:'Varanasi · 2023',bg:'pg6',icon:'🕯️'},
+    {title:'Golden Hour',loc:'Jaipur · 2024',bg:'pg7',icon:'🌄'},
+    {title:'Last Train',loc:'Mumbai · 2024',bg:'pg8',icon:'🚂'},
+  ];
+  let curIdx=0;
+
+  function openLB(i){
+    curIdx=i; renderLB();
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLB(){document.getElementById('lightbox').classList.remove('open');}
+  function lbNav(d){curIdx=(curIdx+d+photos.length)%photos.length;renderLB();}
+  function renderLB(){
+    const p=photos[curIdx];
+    document.getElementById('lb-wrap').innerHTML=`
+      <div class="photo-bg ${p.bg}" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <span style="font-size:clamp(60px,12vw,120px);opacity:.3;filter:grayscale(20%)">${p.icon}</span>
+      </div>
+      <div class="lb-counter">${String(curIdx+1).padStart(2,'0')} / ${String(photos.length).padStart(2,'0')}</div>
+      <div class="lb-caption">
+        <h3>${p.title}</h3>
+        <p>${p.loc}</p>
+      </div>`;
+  }
+  document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLB();});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape')closeLB();
+    if(e.key==='ArrowRight')lbNav(1);
+    if(e.key==='ArrowLeft')lbNav(-1);
+  });
+</script>
 </body>
 </html>
