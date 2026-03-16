@@ -165,7 +165,7 @@
   .photo-card{position:relative;aspect-ratio:4/3;overflow:hidden;cursor:pointer;}
   .photo-card.tall{aspect-ratio:3/4;grid-row:span 2;}
   .photo-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .6s cubic-bezier(.25,.46,.45,.94);overflow:hidden;}
-  .photo-bg img{width:100%;height:100%;object-fit:cover;}
+  .photo-bg img{width:100%;height:100%;object-fit:cover;object-position:center;}
   .photo-card:hover .photo-bg{transform:scale(1.08);}
   .photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 60%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;}
   .photo-card:hover .photo-overlay{opacity:1;}
@@ -238,7 +238,8 @@
   #lightbox.open{display:flex;}
   .lb-close{position:fixed;top:20px;right:30px;background:none;border:none;color:rgba(255,255,255,.5);font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;cursor:pointer;transition:color .3s;z-index:10;}
   .lb-close:hover{color:#fff;}
-  .lb-content{width:min(90vw,900px);aspect-ratio:4/3;position:relative;}
+  .lb-content{width:min(90vw,900px);position:relative;display:flex;align-items:center;justify-content:center;}
+  .lb-content img{max-width:100%;max-height:90vh;object-fit:contain;}
   .lb-nav{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;font-size:24px;width:50px;height:50px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;}
   .lb-nav:hover{background:rgba(255,255,255,.1);border-color:var(--orange);}
   #lb-prev{left:20px;}
@@ -270,7 +271,6 @@
     #lb-prev{left:10px;}
     #lb-next{right:10px;}
     .gear-section{padding:15px;}
-    /* FIX: Keep MACVOLZ on one line */
     .hero-tagline{
       font-size:clamp(40px,15vw,70px);
       flex-wrap:nowrap;
@@ -326,14 +326,20 @@
 <section class="portfolio" id="portfolio">
   <h2 class="section-title reveal"><span class="stroke">Street</span> <span class="filled">Stories</span></h2>
   <div class="grid">
+    
+    <!-- ✅ PHOTO 1 - YOUR FIRST PHOTO -->
     <div class="photo-card tall reveal" onclick="openLB(0)">
-      <div class="photo-bg g1"><span class="scene-emoji">🌃</span></div>
+      <div class="photo-bg">
+        <img src="IMG_20260115_085313.jpg.jpg" alt="Night Market">
+      </div>
       <div class="photo-overlay">
         <span class="photo-title">Night Market</span>
         <span class="photo-loc">Rangia · Assam</span>
       </div>
       <span class="photo-num">01</span>
     </div>
+
+    <!-- PHOTO 2 - Emoji placeholder (replace with your photo) -->
     <div class="photo-card reveal" onclick="openLB(1)" style="transition-delay:.1s">
       <div class="photo-bg g2"><span class="scene-emoji">🌧️</span></div>
       <div class="photo-overlay">
@@ -342,16 +348,18 @@
       </div>
       <span class="photo-num">02</span>
     </div>
+
+    <!-- PHOTO 3 - Emoji placeholder (replace with your photo) -->
     <div class="photo-card reveal" onclick="openLB(2)" style="transition-delay:.15s">
-      <div class="photo-bg g3">
-        <img src="IMG_20260115_085313.jpg.jpg" alt="Nature">
-      </div>
+      <div class="photo-bg g3"><span class="scene-emoji">🚶</span></div>
       <div class="photo-overlay">
-        <span class="photo-title">The Nature</span>
-        <span class="photo-loc">Tamulpur · 2024</span>
+        <span class="photo-title">The Walk</span>
+        <span class="photo-loc">Rangia · 2024</span>
       </div>
       <span class="photo-num">03</span>
     </div>
+
+    <!-- PHOTO 4 - Emoji placeholder (replace with your photo) -->
     <div class="photo-card reveal" onclick="openLB(3)" style="transition-delay:.2s">
       <div class="photo-bg g4"><span class="scene-emoji">🛺</span></div>
       <div class="photo-overlay">
@@ -360,6 +368,8 @@
       </div>
       <span class="photo-num">04</span>
     </div>
+
+    <!-- PHOTO 5 - Emoji placeholder (replace with your photo) -->
     <div class="photo-card tall reveal" onclick="openLB(4)" style="transition-delay:.25s">
       <div class="photo-bg g5"><span class="scene-emoji">🌅</span></div>
       <div class="photo-overlay">
@@ -368,6 +378,8 @@
       </div>
       <span class="photo-num">05</span>
     </div>
+
+    <!-- PHOTO 6 - Emoji placeholder (replace with your photo) -->
     <div class="photo-card reveal" onclick="openLB(5)" style="transition-delay:.3s">
       <div class="photo-bg g6"><span class="scene-emoji">🍵</span></div>
       <div class="photo-overlay">
@@ -376,6 +388,8 @@
       </div>
       <span class="photo-num">06</span>
     </div>
+
+    <!-- PHOTO 7 - Emoji placeholder (replace with your photo) -->
     <div class="photo-card reveal" onclick="openLB(6)" style="transition-delay:.35s">
       <div class="photo-bg g7"><span class="scene-emoji">🎭</span></div>
       <div class="photo-overlay">
@@ -384,6 +398,8 @@
       </div>
       <span class="photo-num">07</span>
     </div>
+
+    <!-- PHOTO 8 - Emoji placeholder (replace with your photo) -->
     <div class="photo-card reveal" onclick="openLB(7)" style="transition-delay:.4s">
       <div class="photo-bg g8"><span class="scene-emoji">🌙</span></div>
       <div class="photo-overlay">
@@ -392,6 +408,7 @@
       </div>
       <span class="photo-num">08</span>
     </div>
+
   </div>
 </section>
 
@@ -485,9 +502,9 @@
   const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('in');})},{threshold:.15});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-  // LIGHTBOX
+  // LIGHTBOX - PHOTOS DATA
   const photos=[
-    {title:'Night Market',loc:'Rangia · Assam',bg:'g1',icon:'🌃'},
+    {title:'Night Market',loc:'Rangia · Assam',img:'IMG_20260115_085313.jpg.jpg'},
     {title:'Monsoon Gully',loc:'Rangia · 2024',bg:'g2',icon:'🌧️'},
     {title:'The Walk',loc:'Rangia · 2024',bg:'g3',icon:'🚶'},
     {title:'Street Ride',loc:'Rangia · 2024',bg:'g4',icon:'🛺'},
@@ -503,14 +520,23 @@
   function lbNav(d){cur=(cur+d+photos.length)%photos.length;renderLB();}
   function renderLB(){
     const p=photos[cur];
-    document.getElementById('lb-content').innerHTML=`
-      <div class="photo-bg ${p.bg}" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
-        <span class="scene-emoji" style="font-size:clamp(60px,10vw,120px)">${p.icon}</span>
-      </div>
-      <div class="lb-info">
-        <div class="lb-title">${p.title}</div>
-        <div class="lb-loc">${p.loc}</div>
-      </div>`;
+    if(p.img){
+      document.getElementById('lb-content').innerHTML=`
+        <img src="${p.img}" alt="${p.title}">
+        <div class="lb-info">
+          <div class="lb-title">${p.title}</div>
+          <div class="lb-loc">${p.loc}</div>
+        </div>`;
+    }else{
+      document.getElementById('lb-content').innerHTML=`
+        <div class="photo-bg ${p.bg}" style="width:min(90vw,600px);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;">
+          <span class="scene-emoji" style="font-size:clamp(60px,10vw,120px)">${p.icon}</span>
+        </div>
+        <div class="lb-info">
+          <div class="lb-title">${p.title}</div>
+          <div class="lb-loc">${p.loc}</div>
+        </div>`;
+    }
   }
   document.getElementById('lightbox').addEventListener('click',e=>{if(e.target.id==='lightbox')closeLB();});
   document.addEventListener('keydown',e=>{
