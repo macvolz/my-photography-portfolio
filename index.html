@@ -68,7 +68,16 @@
     50%{transform:scale(1.02);}
   }
 
-  .hero-tagline{font-family:'Permanent Marker',cursive;font-size:clamp(50px,12vw,130px);margin-top:-10px;position:relative;z-index:2;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+  .hero-tagline{
+    font-family:'Permanent Marker',cursive;
+    font-size:clamp(50px,12vw,130px);
+    margin-top:-10px;
+    position:relative;z-index:2;
+    display:flex;
+    flex-wrap:nowrap;
+    justify-content:center;
+    gap:10px;
+  }
   
   .hero-tagline .mac{
     display:inline-block;
@@ -77,6 +86,7 @@
     transform:skewX(-5deg) rotate(-2deg);
     animation:macFloat 4s ease-in-out infinite, macGlow 3s ease-in-out infinite alternate;
     position:relative;
+    flex-shrink:0;
   }
   .hero-tagline .mac::before{
     content:'';
@@ -111,6 +121,7 @@
     transform:skewX(5deg) rotate(2deg);
     animation:volzFloat 4s ease-in-out infinite 0.5s, volzGlow 3s ease-in-out infinite alternate;
     position:relative;
+    flex-shrink:0;
   }
   .hero-tagline .volz::after{
     content:'';
@@ -153,7 +164,8 @@
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:8px;}
   .photo-card{position:relative;aspect-ratio:4/3;overflow:hidden;cursor:pointer;}
   .photo-card.tall{aspect-ratio:3/4;grid-row:span 2;}
-  .photo-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .6s cubic-bezier(.25,.46,.45,.94);}
+  .photo-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .6s cubic-bezier(.25,.46,.45,.94);overflow:hidden;}
+  .photo-bg img{width:100%;height:100%;object-fit:cover;}
   .photo-card:hover .photo-bg{transform:scale(1.08);}
   .photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 60%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;}
   .photo-card:hover .photo-overlay{opacity:1;}
@@ -258,7 +270,12 @@
     #lb-prev{left:10px;}
     #lb-next{right:10px;}
     .gear-section{padding:15px;}
-    .hero-tagline{flex-direction:column;gap:5px;}
+    /* FIX: Keep MACVOLZ on one line */
+    .hero-tagline{
+      font-size:clamp(40px,15vw,70px);
+      flex-wrap:nowrap;
+      gap:5px;
+    }
   }
 </style>
 </head>
