@@ -4,186 +4,174 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MACVOLZ — Ranjan | Street Photography</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Permanent+Marker&family=Bebas+Neue&family=Rock+Salt&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
   :root{
-    --black:#080808;--dark:#111;--gray:#1c1c1c;
-    --mid:#888;--white:#f0f0f0;--gold:#c8a96e;
+    --black:#0a0a0a;--dark:#0f0f0f;--gray:#1a1a1a;
+    --orange:#ff6b35;--pink:#f72585;--yellow:#ffd60a;
+    --green:#06d6a0;--blue:#4cc9f0;--purple:#7209b7;
+    --teal:#2ec4b6;--red:#ef476f;
   }
   html{scroll-behavior:smooth;}
-  body{background:var(--black);color:var(--white);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;overflow-x:hidden;cursor:none;}
-
-  /* CURSOR */
-  #cursor{width:6px;height:6px;background:var(--white);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:transform .15s;}
-  #cursor-ring{width:36px;height:36px;border:1px solid rgba(255,255,255,.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .3s,height .3s;}
-  body:hover #cursor{transform:translate(-50%,-50%) scale(1);}
-  .photo-item:hover ~ #cursor,.photo-item:hover #cursor{transform:translate(-50%,-50%) scale(3);}
+  body{background:var(--black);color:#fff;font-family:'Bebas Neue',sans-serif;overflow-x:hidden;}
 
   /* LOADER */
-  #loader{position:fixed;inset:0;background:var(--black);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity .9s,visibility .9s;}
+  #loader{position:fixed;inset:0;background:var(--black);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .8s,visibility .8s;}
   #loader.gone{opacity:0;visibility:hidden;}
-  .load-name{font-size:clamp(28px,6vw,64px);font-weight:900;letter-spacing:.5em;text-transform:uppercase;}
-  .load-bar{width:220px;height:1px;background:rgba(255,255,255,.1);overflow:hidden;}
-  .load-fill{height:100%;width:0;background:var(--white);transition:width 1.6s ease;}
-  .load-label{font-size:10px;letter-spacing:.4em;color:var(--mid);text-transform:uppercase;}
+  .load-name{font-family:'Permanent Marker',cursive;font-size:clamp(32px,8vw,72px);background:linear-gradient(90deg,var(--orange),var(--pink),var(--yellow),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;animation:glow 2s ease-in-out infinite alternate;}
+  @keyframes glow{from{filter:drop-shadow(0 0 20px rgba(255,107,53,.5));}to{filter:drop-shadow(0 0 40px rgba(247,37,133,.5));}}
+  .load-bar{width:180px;height:3px;background:rgba(255,255,255,.1);overflow:hidden;border-radius:2px;}
+  .load-fill{height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--pink),var(--yellow));transition:width 1.8s ease;}
 
   /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:26px 48px;display:flex;justify-content:space-between;align-items:center;transition:background .4s,backdrop-filter .4s;}
-  nav.scrolled{background:rgba(8,8,8,.92);backdrop-filter:blur(12px);}
-  .nav-logo{font-size:17px;font-weight:900;letter-spacing:.35em;text-transform:uppercase;color:var(--white);text-decoration:none;}
-  .nav-links{display:flex;gap:36px;list-style:none;}
-  .nav-links a{color:var(--white);text-decoration:none;font-size:11px;letter-spacing:.25em;text-transform:uppercase;opacity:.6;transition:opacity .3s;}
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;transition:background .4s;}
+  nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(10px);}
+  .nav-logo{font-family:'Permanent Marker',cursive;font-size:20px;background:linear-gradient(135deg,var(--yellow),var(--orange),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;}
+  .nav-links{display:flex;gap:30px;list-style:none;}
+  .nav-links a{color:#fff;text-decoration:none;font-size:14px;letter-spacing:2px;opacity:.7;transition:all .3s;position:relative;}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--orange);transition:width .3s;}
   .nav-links a:hover{opacity:1;}
-  .hamburger{display:none;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;padding:4px;}
-  .hamburger span{display:block;width:22px;height:1px;background:var(--white);}
+  .nav-links a:hover::after{width:100%;}
+  .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;}
+  .hamburger span{width:24px;height:2px;background:#fff;transition:all .3s;}
 
   /* MOBILE MENU */
-  .mob-menu{display:none;position:fixed;inset:0;background:var(--black);z-index:9000;flex-direction:column;align-items:center;justify-content:center;gap:36px;}
+  .mob-menu{display:none;position:fixed;inset:0;background:var(--black);z-index:9000;flex-direction:column;align-items:center;justify-content:center;gap:30px;}
   .mob-menu.open{display:flex;}
-  .mob-menu a{font-size:40px;font-weight:900;text-transform:uppercase;color:var(--white);text-decoration:none;letter-spacing:.08em;transition:color .3s;}
-  .mob-menu a:hover{color:var(--gold);}
-  .mob-close{position:absolute;top:26px;right:48px;background:none;border:none;color:var(--white);font-size:22px;cursor:pointer;}
+  .mob-menu a{font-family:'Bebas Neue',sans-serif;font-size:48px;color:#fff;text-decoration:none;letter-spacing:4px;transition:all .3s;}
+  .mob-menu a:hover{background:linear-gradient(90deg,var(--orange),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .mob-close{position:absolute;top:20px;right:30px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer;}
 
   /* HERO */
-  .hero{height:100vh;min-height:600px;display:flex;flex-direction:column;justify-content:flex-end;padding:90px 48px 60px;position:relative;overflow:hidden;background:var(--black);}
-  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(25,20,40,.8) 0%,transparent 70%),radial-gradient(ellipse at 80% 20%,rgba(40,20,10,.5) 0%,transparent 60%);}
-  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:80px 80px;}
-  .hero-content{position:relative;z-index:2;}
-  .hero-tag{display:block;font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
-  .hero-title{font-size:clamp(64px,14vw,200px);font-weight:900;line-height:.88;text-transform:uppercase;letter-spacing:-.03em;}
-  .hero-title .line1{display:block;color:var(--white);}
-  .hero-title .line2{display:block;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.2);}
-  .hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:48px;flex-wrap:wrap;gap:20px;}
-  .hero-desc{font-size:13px;line-height:1.9;color:var(--mid);max-width:280px;letter-spacing:.04em;}
-  .scroll-hint{display:flex;align-items:center;gap:14px;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--mid);}
-  .scroll-line{width:56px;height:1px;background:rgba(255,255,255,.15);position:relative;overflow:hidden;}
-  .scroll-line::after{content:'';position:absolute;inset:0;background:var(--white);transform:translateX(-100%);animation:swipe 2.2s ease-in-out infinite;}
-  @keyframes swipe{to{transform:translateX(200%);}}
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:120px 30px 80px;position:relative;overflow:hidden;text-align:center;}
+  .hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 70%,rgba(255,107,53,.08) 0%,transparent 40%),radial-gradient(circle at 70% 30%,rgba(247,37,133,.08) 0%,transparent 40%),radial-gradient(circle at 50% 50%,rgba(6,214,160,.05) 0%,transparent 50%);animation:rotate 30s linear infinite;}
+  @keyframes rotate{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  .hero-tag{font-family:'Tiro Devanagari Hindi',serif;font-size:clamp(14px,3vw,18px);letter-spacing:8px;color:var(--yellow);text-transform:uppercase;margin-bottom:30px;position:relative;z-index:2;}
+  .hero-name{font-family:'Rock Salt',cursive;font-size:clamp(60px,15vw,160px);line-height:1.1;position:relative;z-index:2;}
+  .hero-name .ranjan{display:block;background:linear-gradient(135deg,var(--orange) 0%,var(--yellow) 50%,var(--green) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;animation:colorShift 4s ease-in-out infinite alternate;}
+  @keyframes colorShift{0%{filter:hue-rotate(0deg);}100%{filter:hue-rotate(30deg);}}
+  .hero-tagline{font-family:'Permanent Marker',cursive;font-size:clamp(50px,12vw,130px);margin-top:-10px;position:relative;z-index:2;}
+  .hero-tagline .mac{display:inline-block;color:var(--pink);text-shadow:4px 4px 0 var(--purple),8px 8px 0 rgba(114,9,183,.3);transform:skewX(-5deg) rotate(-2deg);}
+  .hero-tagline .volz{display:inline-block;color:var(--teal);text-shadow:4px 4px 0 var(--green),8px 8px 0 rgba(6,214,160,.3);transform:skewX(5deg) rotate(2deg);}
+  .hero-sub{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,3vw,22px);letter-spacing:6px;color:rgba(255,255,255,.5);margin-top:40px;position:relative;z-index:2;}
+  .hero-sub span{color:var(--orange);}
+  .hero-sub .assam{color:var(--green);}
+  .scroll-indicator{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;animation:bounce 2s ease-in-out infinite;}
+  @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(10px);}}
+  .scroll-indicator span{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,.4);}
+  .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--orange),transparent);}
 
   /* PORTFOLIO */
-  .portfolio{padding:100px 48px;background:var(--dark);}
-  .sec-label{font-size:10px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:48px;display:flex;align-items:center;gap:16px;}
-  .sec-label::after{content:'';height:1px;background:rgba(255,255,255,.08);flex:1;max-width:180px;}
-  .grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:54px;gap:6px;}
-  .photo-item{position:relative;overflow:hidden;cursor:pointer;}
-  .gi1{grid-column:span 7;grid-row:span 8;}
-  .gi2{grid-column:span 5;grid-row:span 5;}
-  .gi3{grid-column:span 5;grid-row:span 3;}
-  .gi4{grid-column:span 4;grid-row:span 5;}
-  .gi5{grid-column:span 4;grid-row:span 5;}
-  .gi6{grid-column:span 4;grid-row:span 5;}
-  .gi7{grid-column:span 6;grid-row:span 5;}
-  .gi8{grid-column:span 6;grid-row:span 5;}
-  .photo-bg{width:100%;height:100%;transition:transform .7s cubic-bezier(.25,.46,.45,.94);display:flex;align-items:center;justify-content:center;}
-  .photo-item:hover .photo-bg{transform:scale(1.06);}
-  .photo-ov{position:absolute;inset:0;background:rgba(0,0,0,0);transition:background .4s;display:flex;align-items:flex-end;padding:18px;}
-  .photo-item:hover .photo-ov{background:rgba(0,0,0,.55);}
-  .photo-meta{opacity:0;transform:translateY(8px);transition:all .35s;}
-  .photo-item:hover .photo-meta{opacity:1;transform:translateY(0);}
-  .photo-meta h4{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
-  .photo-meta p{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:.15em;margin-top:3px;}
-  .photo-num{position:absolute;top:14px;right:14px;font-size:10px;letter-spacing:.2em;color:rgba(255,255,255,.25);opacity:0;transition:opacity .3s;}
-  .photo-item:hover .photo-num{opacity:1;}
+  .portfolio{padding:80px 40px;background:var(--dark);}
+  .section-title{font-family:'Permanent Marker',cursive;font-size:clamp(36px,6vw,56px);margin-bottom:50px;text-align:center;}
+  .section-title .stroke{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.2);}
+  .section-title .filled{background:linear-gradient(90deg,var(--pink),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:8px;}
+  .photo-card{position:relative;aspect-ratio:4/3;overflow:hidden;cursor:pointer;}
+  .photo-card.tall{aspect-ratio:3/4;grid-row:span 2;}
+  .photo-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .6s cubic-bezier(.25,.46,.45,.94);}
+  .photo-card:hover .photo-bg{transform:scale(1.08);}
+  .photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 60%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;}
+  .photo-card:hover .photo-overlay{opacity:1;}
+  .photo-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:4px;}
+  .photo-loc{font-size:12px;letter-spacing:3px;opacity:.6;}
+  .photo-num{position:absolute;top:16px;right:16px;font-family:'Permanent Marker',cursive;font-size:18px;opacity:.4;}
 
-  /* gradient themes */
-  .pg1{background:linear-gradient(160deg,#0d0d1f 0%,#1a1a3a 40%,#0a1020 100%);}
-  .pg2{background:linear-gradient(200deg,#1a0800 0%,#5c2200 50%,#1a0a00 100%);}
-  .pg3{background:linear-gradient(180deg,#0a0a0a 0%,#1e1e1e 55%,#111 100%);}
-  .pg4{background:linear-gradient(135deg,#101010 0%,#2a2a2a 50%,#101010 100%);}
-  .pg5{background:linear-gradient(190deg,#050a12 0%,#0d1f30 50%,#05100a 100%);}
-  .pg6{background:linear-gradient(155deg,#1a0505 0%,#3d0f0f 55%,#1a0505 100%);}
-  .pg7{background:linear-gradient(160deg,#090d00 0%,#1a2800 50%,#090d00 100%);}
-  .pg8{background:linear-gradient(140deg,#0d0520 0%,#2a0d45 60%,#0d0520 100%);}
-  .scene-icon{font-size:clamp(28px,4vw,70px);opacity:.35;user-select:none;pointer-events:none;filter:grayscale(30%);}
+  /* gradients */
+  .g1{background:linear-gradient(135deg,#1a0a00 0%,#4a1500 50%,#1a0500 100%);}
+  .g2{background:linear-gradient(135deg,#0a1a10 0%,#0a3a20 50%,#051a0a 100%);}
+  .g3{background:linear-gradient(135deg,#1a0a1a 0%,#3a0a2a 50%,#150a15 100%);}
+  .g4{background:linear-gradient(135deg,#0a0a1a 0%,#0a1a3a 50%,#050515 100%);}
+  .g5{background:linear-gradient(135deg,#1a1500 0%,#3a3000 50%,#151000 100%);}
+  .g6{background:linear-gradient(135deg,#051510 0,#0a3525 50%,#030d08 100%);}
+  .g7{background:linear-gradient(135deg,#1a0505 0%,#3a1010 50%,#150505 100%);}
+  .g8{background:linear-gradient(135deg,#0a0515 0,#1a0a35 50%,#050310 100%);}
+  .scene-emoji{font-size:clamp(40px,6vw,70px);filter:drop-shadow(0 4px 20px rgba(0,0,0,.5));}
 
   /* ABOUT */
-  .about{padding:100px 48px;background:var(--black);}
-  .about-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
-  .about-h{font-size:clamp(42px,6vw,84px);font-weight:900;text-transform:uppercase;line-height:.9;letter-spacing:-.03em;}
-  .about-h .stroke{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.2);}
-  .about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px;}
-  .stat{border-top:1px solid rgba(255,255,255,.08);padding-top:18px;}
-  .stat-n{font-size:38px;font-weight:900;letter-spacing:-.03em;}
-  .stat-l{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mid);margin-top:4px;}
-  .about-p{font-size:14px;line-height:1.95;color:var(--mid);margin-bottom:22px;}
-  .about-p strong{color:var(--white);}
-  .about-sig{margin-top:40px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:12px;}
-  .about-sig::before{content:'';width:40px;height:1px;background:var(--gold);}
+  .about{padding:100px 40px;background:var(--black);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .about-left{position:relative;}
+  .about-label{font-family:'Tiro Devanagari Hindi',serif;font-size:14px;letter-spacing:4px;color:var(--orange);margin-bottom:20px;}
+  .about-name{font-family:'Rock Salt',cursive;font-size:clamp(48px,8vw,90px);line-height:1.1;}
+  .about-name .r{display:block;background:linear-gradient(135deg,var(--yellow),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .about-name .m{display:block;font-family:'Permanent Marker',cursive;margin-top:10px;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .stats{display:flex;gap:40px;margin-top:50px;flex-wrap:wrap;}
+  .stat{border-left:3px solid var(--orange);padding-left:16px;}
+  .stat:nth-child(2){border-color:var(--pink);}
+  .stat:nth-child(3){border-color:var(--green);}
+  .stat-num{font-size:48px;font-weight:700;background:linear-gradient(135deg,var(--orange),var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .stat-label{font-size:12px;letter-spacing:3px;opacity:.5;margin-top:4px;}
+  .about-text p{font-family:system-ui,sans-serif;font-size:15px;line-height:1.9;color:rgba(255,255,255,.6);margin-bottom:20px;}
+  .about-text p strong{color:#fff;}
+  .about-text .highlight{color:var(--orange);}
+  .about-text .highlight2{color:var(--green);}
+  .about-sig{margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-family:'Permanent Marker',cursive;font-size:14px;color:var(--yellow);letter-spacing:2px;}
 
   /* CONTACT */
-  .contact{padding:100px 48px;background:var(--gray);text-align:center;}
-  .contact-title{font-size:clamp(48px,10vw,140px);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.88;margin-bottom:44px;}
-  .contact-title .stroke{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.18);}
-  .contact-mail{display:inline-block;font-size:13px;letter-spacing:.35em;color:var(--gold);text-decoration:none;text-transform:uppercase;border-bottom:1px solid rgba(200,169,110,.4);padding-bottom:5px;margin-bottom:64px;transition:border-color .3s;}
-  .contact-mail:hover{border-color:var(--gold);}
-  .socials{display:flex;justify-content:center;gap:32px;list-style:none;}
-  .socials a{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .3s;}
-  .socials a:hover{color:var(--white);}
+  .contact{padding:100px 40px;background:var(--gray);text-align:center;position:relative;overflow:hidden;}
+  .contact::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--pink),var(--yellow),var(--green),var(--teal));}
+  .contact-title{font-family:'Rock Salt',cursive;font-size:clamp(40px,8vw,80px);margin-bottom:20px;}
+  .contact-title .c1{color:var(--orange);}
+  .contact-title .c2{color:var(--pink);}
+  .contact-email{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:clamp(20px,4vw,32px);letter-spacing:4px;color:var(--yellow);text-decoration:none;position:relative;margin:40px 0;padding-bottom:8px;}
+  .contact-email::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--yellow);transform:scaleX(0);transition:transform .4s;}
+  .contact-email:hover::after{transform:scaleX(1);}
+  .socials{display:flex;justify-content:center;gap:30px;list-style:none;flex-wrap:wrap;margin-top:50px;}
+  .socials a{font-size:14px;letter-spacing:3px;color:rgba(255,255,255,.5);text-decoration:none;transition:all .3s;padding:10px 20px;border:1px solid rgba(255,255,255,.1);}
+  .socials a:hover{color:var(--orange);border-color:var(--orange);}
+  .location{margin-top:50px;font-family:'Tiro Devanagari Hindi',serif;font-size:16px;color:var(--green);letter-spacing:4px;}
 
   /* FOOTER */
-  footer{background:var(--black);padding:26px 48px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.04);}
-  footer span{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.25);}
+  footer{background:var(--black);padding:30px 40px;text-align:center;border-top:1px solid rgba(255,255,255,.05);}
+  footer p{font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.3);}
+  footer .name{font-family:'Permanent Marker',cursive;color:var(--orange);}
 
   /* LIGHTBOX */
   #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:8000;align-items:center;justify-content:center;}
   #lightbox.open{display:flex;}
-  .lb-close{position:fixed;top:24px;right:40px;background:none;border:none;color:rgba(255,255,255,.6);font-size:10px;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:color .3s;}
-  .lb-close:hover{color:var(--white);}
-  .lb-wrap{width:min(85vw,900px);height:min(80vh,700px);position:relative;overflow:hidden;}
-  .lb-nav{position:fixed;top:50%;transform:translateY(-50%);background:none;border:1px solid rgba(255,255,255,.15);color:var(--white);font-size:18px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .3s;}
-  .lb-nav:hover{background:rgba(255,255,255,.1);}
-  #lb-prev{left:24px;}
-  #lb-next{right:24px;}
-  .lb-caption{position:absolute;bottom:0;left:0;right:0;padding:20px 24px;background:linear-gradient(transparent,rgba(0,0,0,.7));}
-  .lb-caption h3{font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
-  .lb-caption p{font-size:11px;color:var(--mid);letter-spacing:.2em;margin-top:4px;}
-  .lb-counter{position:absolute;top:18px;left:24px;font-size:10px;letter-spacing:.3em;color:rgba(255,255,255,.4);}
+  .lb-close{position:fixed;top:20px;right:30px;background:none;border:none;color:rgba(255,255,255,.5);font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;cursor:pointer;transition:color .3s;z-index:10;}
+  .lb-close:hover{color:#fff;}
+  .lb-content{width:min(90vw,900px);aspect-ratio:4/3;position:relative;}
+  .lb-nav{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;font-size:24px;width:50px;height:50px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;}
+  .lb-nav:hover{background:rgba(255,255,255,.1);border-color:var(--orange);}
+  #lb-prev{left:20px;}
+  #lb-next{right:20px;}
+  .lb-info{position:absolute;bottom:0;left:0;right:0;padding:30px;background:linear-gradient(to top,rgba(0,0,0,.9),transparent);}
+  .lb-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--orange);}
+  .lb-loc{font-size:13px;letter-spacing:4px;opacity:.5;margin-top:4px;}
 
-  /* REVEAL ANIMATION */
-  .reveal{opacity:0;transform:translateY(32px);transition:opacity .9s ease,transform .9s ease;}
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s;}
   .reveal.in{opacity:1;transform:translateY(0);}
 
   /* RESPONSIVE */
   @media(max-width:900px){
-    nav{padding:20px 24px;}
+    nav{padding:16px 24px;}
     .nav-links{display:none;}
     .hamburger{display:flex;}
-    .hero{padding:80px 24px 50px;}
-    .portfolio,.about,.contact{padding:70px 24px;}
-    .grid{grid-template-columns:repeat(6,1fr);}
-    .gi1{grid-column:span 6;grid-row:span 6;}
-    .gi2{grid-column:span 3;grid-row:span 4;}
-    .gi3{grid-column:span 3;grid-row:span 4;}
-    .gi4{grid-column:span 2;grid-row:span 5;}
-    .gi5{grid-column:span 2;grid-row:span 5;}
-    .gi6{grid-column:span 2;grid-row:span 5;}
-    .gi7{grid-column:span 6;grid-row:span 4;}
-    .gi8{display:none;}
-    .about-inner{grid-template-columns:1fr;gap:48px;}
-    .about-stats{grid-template-columns:repeat(3,1fr);}
-    footer{padding:20px 24px;flex-direction:column;gap:8px;text-align:center;}
-    #lb-prev{left:8px;}
-    #lb-next{right:8px;}
+    .hero{padding:100px 24px 60px;}
+    .portfolio,.about,.contact{padding:60px 24px;}
+    .about{grid-template-columns:1fr;gap:40px;}
+    .stats{gap:30px;}
     .mob-close{right:24px;}
   }
-  @media(max-width:540px){
-    .hero-bottom{flex-direction:column;align-items:flex-start;}
-    .about-stats{grid-template-columns:repeat(2,1fr);}
-    .contact-title{font-size:52px;}
+  @media(max-width:600px){
+    .grid{grid-template-columns:1fr;}
+    .photo-card.tall{aspect-ratio:4/3;grid-row:span 1;}
+    .stats{justify-content:center;}
+    .lb-nav{width:40px;height:40px;font-size:18px;}
+    #lb-prev{left:10px;}
+    #lb-next{right:10px;}
   }
 </style>
 </head>
 <body>
 
-<!-- CURSOR -->
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-
 <!-- LOADER -->
 <div id="loader">
   <div class="load-name">MACVOLZ</div>
   <div class="load-bar"><div class="load-fill" id="lf"></div></div>
-  <div class="load-label">Loading</div>
 </div>
 
 <!-- MOBILE MENU -->
@@ -207,191 +195,195 @@
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-content">
-    <span class="hero-tag">Street Photography</span>
-    <h1 class="hero-title">
-      <span class="line1">RANJAN</span>
-      <span class="line2">MACVOLZ</span>
-    </h1>
-    <div class="hero-bottom">
-      <p class="hero-desc">Capturing raw moments on city streets — where light, shadow, and human stories collide.</p>
-      <div class="scroll-hint"><div class="scroll-line"></div> Scroll</div>
-    </div>
+  <div class="hero-tag">Street Photography</div>
+  <h1 class="hero-name">
+    <span class="ranjan">Ranjan</span>
+  </h1>
+  <h2 class="hero-tagline">
+    <span class="mac">MAC</span><span class="volz">VOLZ</span>
+  </h2>
+  <p class="hero-sub">Capturing <span>gully stories</span> from <span class="assam">Assam</span> to the world</p>
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
   </div>
 </section>
 
 <!-- PORTFOLIO -->
 <section class="portfolio" id="portfolio">
-  <div class="sec-label reveal">Selected Works</div>
+  <h2 class="section-title reveal"><span class="stroke">Street</span> <span class="filled">Stories</span></h2>
   <div class="grid">
-    <div class="photo-item gi1 reveal" onclick="openLB(0)">
-      <div class="photo-bg pg1"><span class="scene-icon">🌆</span></div>
-      <div class="photo-ov"><div class="photo-meta"><h4>City Dusk</h4><p>Mumbai · 2024</p></div></div>
-      <div class="photo-num">01</div>
+    <div class="photo-card tall reveal" onclick="openLB(0)">
+      <div class="photo-bg g1"><span class="scene-emoji">🌃</span></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Night Market</span>
+        <span class="photo-loc">Guwahati · Assam</span>
+      </div>
+      <span class="photo-num">01</span>
     </div>
-    <div class="photo-item gi2 reveal" onclick="openLB(1)" style="transition-delay:.1s">
-      <div class="photo-bg pg2"><span class="scene-icon">🚶</span></div>
-      <div class="photo-ov"><div class="photo-meta"><h4>The Walk</h4><p>Delhi · 2024</p></div></div>
-      <div class="photo-num">02</div>
+    <div class="photo-card reveal" onclick="openLB(1)" style="transition-delay:.1s">
+      <div class="photo-bg g2"><span class="scene-emoji">🌧️</span></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Monsoon Gully</span>
+        <span class="photo-loc">Shillong · 2024</span>
+      </div>
+      <span class="photo-num">02</span>
     </div>
-    <div class="photo-item gi3 reveal" onclick="openLB(2)" style="transition-delay:.15s">
-      <div class="photo-bg pg3"><span class="scene-icon">🌉</span></div>
-      <div class="photo-ov"><div class="photo-meta"><h4>Night Bridge</h4><p>Kolkata · 2023</p></div></div>
-      <div class="photo-num">03</div>
+    <div class="photo-card reveal" onclick="openLB(2)" style="transition-delay:.15s">
+      <div class="photo-bg g3"><span class="scene-emoji">🚶</span></div>
+      <div class="photo-overlay">
+        <span class="photo-title">The Walk</span>
+        <span class="photo-loc">Kolkata · 2024</span>
+      </div>
+      <span class="photo-num">03</span>
     </div>
-    <div class="photo-item gi4 reveal" onclick="openLB(3)" style="transition-delay:.2s">
-      <div class="photo-bg pg4"><span class="scene-icon">🏙️</span></div>
-      <div class="photo-ov"><div class="photo-meta"><h4>Urban Grid</h4><p>Bangalore · 2024</p></div></div>
-      <div class="photo-num">04</div>
+    <div class="photo-card reveal" onclick="openLB(3)" style="transition-delay:.2s">
+      <div class="photo-bg g4"><span class="scene-emoji">🛺</span></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Auto Ride</span>
+        <span class="photo-loc">Delhi · 2024</span>
+      </div>
+      <span class="photo-num">04</span>
     </div>
-    <div class="photo-item gi5 reveal" onclick="openLB(4)" style="transition-delay:.25s">
-      <div class="photo-bg pg5"><span class="scene-icon">🌧️</span></div>
-      <div class="photo-ov"><div class="photo-meta"><h4>Rain Season</h4><p>Chennai · 2023</p></div></div>
-      <div class="photo-num">05</div>
+    <div class="photo-card tall reveal" onclick="openLB(4)" style="transition-delay:.25s">
+      <div class="photo-bg g5"><span class="scene-emoji">🌅</span></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Brahmaputra Dawn</span>
+        <span class="photo-loc">Assam · 2024</span>
+      </div>
+      <span class="photo-num">05</span>
     </div>
-    <div class="photo-item gi6 reveal" onclick="openLB(5)" style="transition-delay:.3s">
-      <div class="photo-bg pg6"><span class="scene-icon">🕯️</span></div>
-      <div class="photo-ov"><div class="photo-meta"><h4>Dim Alley</h4><p>Varanasi · 2023</p></div></div>
-      <div class="photo-num">06</div>
+    <div class="photo-card reveal" onclick="openLB(5)" style="transition-delay:.3s">
+      <div class="photo-bg g6"><span class="scene-emoji">🍵</span></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Chai Break</span>
+        <span class="photo-loc">Street Corner</span>
+      </div>
+      <span class="photo-num">06</span>
     </div>
-    <div class="photo-item gi7 reveal" onclick="openLB(6)" style="transition-delay:.35s">
-      <div class="photo-bg pg7"><span class="scene-icon">🌄</span></div>
-      <div class="photo-ov"><div class="photo-meta"><h4>Golden Hour</h4><p>Jaipur · 2024</p></div></div>
-      <div class="photo-num">07</div>
+    <div class="photo-card reveal" onclick="openLB(6)" style="transition-delay:.35s">
+      <div class="photo-bg g7"><span class="scene-emoji">🎭</span></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Bihu Spirit</span>
+        <span class="photo-loc">Assam · 2024</span>
+      </div>
+      <span class="photo-num">07</span>
     </div>
-    <div class="photo-item gi8 reveal" onclick="openLB(7)" style="transition-delay:.4s">
-      <div class="photo-bg pg8"><span class="scene-icon">🚂</span></div>
-      <div class="photo-ov"><div class="photo-meta"><h4>Last Train</h4><p>Mumbai · 2024</p></div></div>
-      <div class="photo-num">08</div>
+    <div class="photo-card reveal" onclick="openLB(7)" style="transition-delay:.4s">
+      <div class="photo-bg g8"><span class="scene-emoji">🌙</span></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Midnight Train</span>
+        <span class="photo-loc">Guwahati</span>
+      </div>
+      <span class="photo-num">08</span>
     </div>
   </div>
 </section>
 
 <!-- ABOUT -->
 <section class="about" id="about">
-  <div class="sec-label reveal">About Me</div>
-  <div class="about-inner">
-    <div>
-      <h2 class="about-h reveal">
-        Ranjan<br>
-        <span class="stroke">MACVOLZ</span>
-      </h2>
-      <div class="about-stats">
-        <div class="stat reveal"><div class="stat-n">6+</div><div class="stat-l">Years</div></div>
-        <div class="stat reveal" style="transition-delay:.1s"><div class="stat-n">200+</div><div class="stat-l">Shots</div></div>
-        <div class="stat reveal" style="transition-delay:.2s"><div class="stat-n">12</div><div class="stat-l">Cities</div></div>
+  <div class="about-left">
+    <div class="about-label">Street Photographer</div>
+    <h2 class="about-name reveal">
+      <span class="r">Ranjan</span>
+      <span class="m">MACVOLZ</span>
+    </h2>
+    <div class="stats">
+      <div class="stat reveal">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">YEARS</div>
+      </div>
+      <div class="stat reveal" style="transition-delay:.1s">
+        <div class="stat-num">150+</div>
+        <div class="stat-label">PHOTOS</div>
+      </div>
+      <div class="stat reveal" style="transition-delay:.2s">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">CITIES</div>
       </div>
     </div>
-    <div>
-      <p class="about-p reveal">I'm <strong>Ranjan</strong>, a street photographer roaming the pulse of India's cities under the name <strong>MACVOLZ</strong>. My lens chases the decisive moment — the flash of humanity between strangers, the poetry of everyday chaos.</p>
-      <p class="about-p reveal" style="transition-delay:.1s">From the monsoon-drenched ghats of Varanasi to the relentless rush of Mumbai's local trains, I document what most eyes walk past. Light, shadow, motion, stillness — these are my tools.</p>
-      <p class="about-p reveal" style="transition-delay:.2s">Street photography isn't just what I do. It's how I see the world — one unposed, unfiltered frame at a time.</p>
-      <div class="about-sig reveal" style="transition-delay:.3s">Street · Documentary · Urban</div>
-    </div>
+  </div>
+  <div class="about-text">
+    <p class="reveal">Hey, I'm <strong>Ranjan</strong> — a <span class="highlight">street photographer</span> from the heart of <span class="highlight2">Assam, India</span>. Under the name <strong>MACVOLZ</strong>, I roam the gullys and galis, chasing those raw, unscripted moments that most people walk past.</p>
+    <p class="reveal" style="transition-delay:.1s">From the tea gardens of Assam to the chaotic beauty of Indian metros, my camera finds stories in the everyday — the chai wallah's smile, the monsoon reflections, the bustling local trains.</p>
+    <p class="reveal" style="transition-delay:.2s">This isn't just photography. It's <strong>gully storytelling</strong> — authentic, colorful, and unapologetically Indian.</p>
+    <div class="about-sig reveal" style="transition-delay:.3s">📸 Street • Documentary • Raw</div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
-  <div class="sec-label reveal" style="justify-content:center;">Get In Touch</div>
-  <h2 class="contact-title reveal">Let's<br><span class="stroke">Connect</span></h2>
-  <a class="contact-mail reveal" href="mailto:ranjan@macvolz.com">ranjan@macvolz.com</a>
+  <h2 class="contact-title reveal"><span class="c1">Let's</span> <span class="c2">Connect</span></h2>
+  <a href="mailto:ranjan@macvolz.com" class="contact-email reveal">ranjan@macvolz.com</a>
   <ul class="socials">
     <li><a href="#">Instagram</a></li>
     <li><a href="#">Behance</a></li>
     <li><a href="#">500px</a></li>
     <li><a href="#">VSCO</a></li>
   </ul>
+  <p class="location">📍 Assam, INDIA</p>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <span>© 2025 Ranjan — MACVOLZ</span>
-  <span>Street Photography</span>
+  <p>© 2025 <span class="name">Ranjan — MACVOLZ</span> | Street Photography from Assam</p>
 </footer>
 
 <!-- LIGHTBOX -->
 <div id="lightbox">
-  <button class="lb-close" onclick="closeLB()">Close ✕</button>
+  <button class="lb-close" onclick="closeLB()">CLOSE ✕</button>
   <button class="lb-nav" id="lb-prev" onclick="lbNav(-1)">‹</button>
-  <div class="lb-wrap" id="lb-wrap"></div>
+  <div class="lb-content" id="lb-content"></div>
   <button class="lb-nav" id="lb-next" onclick="lbNav(1)">›</button>
 </div>
 
 <script>
-  // --- LOADER ---
-  const lf = document.getElementById('lf');
-  lf.style.width = '100%';
+  // LOADER
+  document.getElementById('lf').style.width='100%';
   setTimeout(()=>document.getElementById('loader').classList.add('gone'),2000);
 
-  // --- CURSOR ---
-  const cur = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{
-    mx=e.clientX; my=e.clientY;
-    cur.style.left=mx+'px'; cur.style.top=my+'px';
-  });
-  (function animRing(){
-    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
-    requestAnimationFrame(animRing);
-  })();
-  document.querySelectorAll('.photo-item,a,button').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';});
-    el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';});
-  });
-
-  // --- NAV SCROLL ---
+  // NAV SCROLL
   window.addEventListener('scroll',()=>{
     document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
   });
 
-  // --- MOBILE MENU ---
+  // MOBILE MENU
   document.getElementById('ham').addEventListener('click',()=>document.getElementById('mobMenu').classList.add('open'));
   document.getElementById('mobClose').addEventListener('click',closeMob);
   function closeMob(){document.getElementById('mobMenu').classList.remove('open');}
 
-  // --- REVEAL ON SCROLL ---
-  const revObs = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
-  },{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+  // REVEAL
+  const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('in');})},{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-  // --- LIGHTBOX ---
-  const photos = [
-    {title:'City Dusk',loc:'Mumbai · 2024',bg:'pg1',icon:'🌆'},
-    {title:'The Walk',loc:'Delhi · 2024',bg:'pg2',icon:'🚶'},
-    {title:'Night Bridge',loc:'Kolkata · 2023',bg:'pg3',icon:'🌉'},
-    {title:'Urban Grid',loc:'Bangalore · 2024',bg:'pg4',icon:'🏙️'},
-    {title:'Rain Season',loc:'Chennai · 2023',bg:'pg5',icon:'🌧️'},
-    {title:'Dim Alley',loc:'Varanasi · 2023',bg:'pg6',icon:'🕯️'},
-    {title:'Golden Hour',loc:'Jaipur · 2024',bg:'pg7',icon:'🌄'},
-    {title:'Last Train',loc:'Mumbai · 2024',bg:'pg8',icon:'🚂'},
+  // LIGHTBOX
+  const photos=[
+    {title:'Night Market',loc:'Guwahati · Assam',bg:'g1',icon:'🌃'},
+    {title:'Monsoon Gully',loc:'Shillong · 2024',bg:'g2',icon:'🌧️'},
+    {title:'The Walk',loc:'Kolkata · 2024',bg:'g3',icon:'🚶'},
+    {title:'Auto Ride',loc:'Delhi · 2024',bg:'g4',icon:'🛺'},
+    {title:'Brahmaputra Dawn',loc:'Assam · 2024',bg:'g5',icon:'🌅'},
+    {title:'Chai Break',loc:'Street Corner',bg:'g6',icon:'🍵'},
+    {title:'Bihu Spirit',loc:'Assam · 2024',bg:'g7',icon:'🎭'},
+    {title:'Midnight Train',loc:'Guwahati',bg:'g8',icon:'🌙'},
   ];
-  let curIdx=0;
+  let cur=0;
 
-  function openLB(i){
-    curIdx=i; renderLB();
-    document.getElementById('lightbox').classList.add('open');
-  }
+  function openLB(i){cur=i;renderLB();document.getElementById('lightbox').classList.add('open');}
   function closeLB(){document.getElementById('lightbox').classList.remove('open');}
-  function lbNav(d){curIdx=(curIdx+d+photos.length)%photos.length;renderLB();}
+  function lbNav(d){cur=(cur+d+photos.length)%photos.length;renderLB();}
   function renderLB(){
-    const p=photos[curIdx];
-    document.getElementById('lb-wrap').innerHTML=`
-      <div class="photo-bg ${p.bg}" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-        <span style="font-size:clamp(60px,12vw,120px);opacity:.3;filter:grayscale(20%)">${p.icon}</span>
+    const p=photos[cur];
+    document.getElementById('lb-content').innerHTML=`
+      <div class="photo-bg ${p.bg}" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+        <span class="scene-emoji" style="font-size:clamp(60px,10vw,120px)">${p.icon}</span>
       </div>
-      <div class="lb-counter">${String(curIdx+1).padStart(2,'0')} / ${String(photos.length).padStart(2,'0')}</div>
-      <div class="lb-caption">
-        <h3>${p.title}</h3>
-        <p>${p.loc}</p>
+      <div class="lb-info">
+        <div class="lb-title">${p.title}</div>
+        <div class="lb-loc">${p.loc}</div>
       </div>`;
   }
-  document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLB();});
+  document.getElementById('lightbox').addEventListener('click',e=>{if(e.target.id==='lightbox')closeLB();});
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape')closeLB();
     if(e.key==='ArrowRight')lbNav(1);
