@@ -48,12 +48,95 @@
   .hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 70%,rgba(255,107,53,.08) 0%,transparent 40%),radial-gradient(circle at 70% 30%,rgba(247,37,133,.08) 0%,transparent 40%),radial-gradient(circle at 50% 50%,rgba(6,214,160,.05) 0%,transparent 50%);animation:rotate 30s linear infinite;}
   @keyframes rotate{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
   .hero-tag{font-family:'Tiro Devanagari Hindi',serif;font-size:clamp(14px,3vw,18px);letter-spacing:8px;color:var(--yellow);text-transform:uppercase;margin-bottom:30px;position:relative;z-index:2;}
+
+  /* NAME ANIMATIONS */
   .hero-name{font-family:'Rock Salt',cursive;font-size:clamp(60px,15vw,160px);line-height:1.1;position:relative;z-index:2;}
-  .hero-name .ranjan{display:block;background:linear-gradient(135deg,var(--orange) 0%,var(--yellow) 50%,var(--green) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;animation:colorShift 4s ease-in-out infinite alternate;}
-  @keyframes colorShift{0%{filter:hue-rotate(0deg);}100%{filter:hue-rotate(30deg);}}
-  .hero-tagline{font-family:'Permanent Marker',cursive;font-size:clamp(50px,12vw,130px);margin-top:-10px;position:relative;z-index:2;}
-  .hero-tagline .mac{display:inline-block;color:var(--pink);text-shadow:4px 4px 0 var(--purple),8px 8px 0 rgba(114,9,183,.3);transform:skewX(-5deg) rotate(-2deg);}
-  .hero-tagline .volz{display:inline-block;color:var(--teal);text-shadow:4px 4px 0 var(--green),8px 8px 0 rgba(6,214,160,.3);transform:skewX(5deg) rotate(2deg);}
+  .hero-name .ranjan{
+    display:block;
+    background:linear-gradient(135deg,var(--orange) 0%,var(--yellow) 50%,var(--green) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:colorShift 4s ease-in-out infinite alternate, breathe 3s ease-in-out infinite;
+    filter:drop-shadow(0 0 30px rgba(255,107,53,.4));
+  }
+  @keyframes colorShift{
+    0%{filter:drop-shadow(0 0 30px rgba(255,107,53,.5)) hue-rotate(0deg);}
+    50%{filter:drop-shadow(0 0 50px rgba(247,37,133,.6)) hue-rotate(15deg);}
+    100%{filter:drop-shadow(0 0 30px rgba(6,214,160,.5)) hue-rotate(30deg);}
+  }
+  @keyframes breathe{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.02);}
+  }
+
+  .hero-tagline{font-family:'Permanent Marker',cursive;font-size:clamp(50px,12vw,130px);margin-top:-10px;position:relative;z-index:2;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+  
+  .hero-tagline .mac{
+    display:inline-block;
+    color:var(--pink);
+    text-shadow:4px 4px 0 var(--purple),8px 8px 0 rgba(114,9,183,.3);
+    transform:skewX(-5deg) rotate(-2deg);
+    animation:macFloat 4s ease-in-out infinite, macGlow 3s ease-in-out infinite alternate;
+    position:relative;
+  }
+  .hero-tagline .mac::before{
+    content:'';
+    position:absolute;
+    inset:-10px -20px;
+    border:2px solid transparent;
+    border-radius:8px;
+    background:linear-gradient(90deg,transparent,rgba(247,37,133,.3),transparent) border-box;
+    animation:borderSlide 3s linear infinite;
+    -webkit-mask:linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask:linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+  }
+  @keyframes macFloat{
+    0%,100%{transform:skewX(-5deg) rotate(-2deg) translateY(0);}
+    50%{transform:skewX(-5deg) rotate(-2deg) translateY(-8px);}
+  }
+  @keyframes macGlow{
+    0%{filter:drop-shadow(0 0 20px rgba(247,37,133,.4));}
+    100%{filter:drop-shadow(0 0 40px rgba(247,37,133,.7));}
+  }
+  @keyframes borderSlide{
+    0%{background-position:-200% 0;}
+    100%{background-position:200% 0;}
+  }
+
+  .hero-tagline .volz{
+    display:inline-block;
+    color:var(--teal);
+    text-shadow:4px 4px 0 var(--green),8px 8px 0 rgba(6,214,160,.3);
+    transform:skewX(5deg) rotate(2deg);
+    animation:volzFloat 4s ease-in-out infinite 0.5s, volzGlow 3s ease-in-out infinite alternate;
+    position:relative;
+  }
+  .hero-tagline .volz::after{
+    content:'';
+    position:absolute;
+    bottom:-5px;
+    left:0;
+    width:100%;
+    height:3px;
+    background:linear-gradient(90deg,transparent,var(--teal),var(--green),var(--teal),transparent);
+    background-size:200% 100%;
+    animation:underlineMove 2s linear infinite;
+    border-radius:2px;
+  }
+  @keyframes volzFloat{
+    0%,100%{transform:skewX(5deg) rotate(2deg) translateY(0);}
+    50%{transform:skewX(5deg) rotate(2deg) translateY(-8px);}
+  }
+  @keyframes volzGlow{
+    0%{filter:drop-shadow(0 0 20px rgba(46,196,182,.4));}
+    100%{filter:drop-shadow(0 0 40px rgba(46,196,182,.7));}
+  }
+  @keyframes underlineMove{
+    0%{background-position:-200% 0;}
+    100%{background-position:200% 0;}
+  }
+
   .hero-sub{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,3vw,22px);letter-spacing:6px;color:rgba(255,255,255,.5);margin-top:40px;position:relative;z-index:2;}
   .hero-sub span{color:var(--orange);}
   .hero-sub .assam{color:var(--green);}
@@ -84,9 +167,9 @@
   .g3{background:linear-gradient(135deg,#1a0a1a 0%,#3a0a2a 50%,#150a15 100%);}
   .g4{background:linear-gradient(135deg,#0a0a1a 0%,#0a1a3a 50%,#050515 100%);}
   .g5{background:linear-gradient(135deg,#1a1500 0%,#3a3000 50%,#151000 100%);}
-  .g6{background:linear-gradient(135deg,#051510 0,#0a3525 50%,#030d08 100%);}
+  .g6{background:linear-gradient(135deg,#051510 0,#0a3525 50,#030d08 100%);}
   .g7{background:linear-gradient(135deg,#1a0505 0%,#3a1010 50%,#150505 100%);}
-  .g8{background:linear-gradient(135deg,#0a0515 0,#1a0a35 50%,#050310 100%);}
+  .g8{background:linear-gradient(135deg,#0a0515 0,#1a0a35 50,#050310 100%);}
   .scene-emoji{font-size:clamp(40px,6vw,70px);filter:drop-shadow(0 4px 20px rgba(0,0,0,.5));}
 
   /* ABOUT */
@@ -102,6 +185,15 @@
   .stat:nth-child(3){border-color:var(--green);}
   .stat-num{font-size:48px;font-weight:700;background:linear-gradient(135deg,var(--orange),var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent;}
   .stat-label{font-size:12px;letter-spacing:3px;opacity:.5;margin-top:4px;}
+
+  /* GEAR SECTION */
+  .gear-section{margin-top:40px;padding:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);}
+  .gear-title{font-family:'Permanent Marker',cursive;font-size:14px;color:var(--yellow);margin-bottom:15px;letter-spacing:2px;}
+  .gear-item{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .gear-icon{font-size:20px;}
+  .gear-text{font-size:13px;letter-spacing:1px;opacity:.7;}
+  .gear-text span{color:var(--teal);}
+
   .about-text p{font-family:system-ui,sans-serif;font-size:15px;line-height:1.9;color:rgba(255,255,255,.6);margin-bottom:20px;}
   .about-text p strong{color:#fff;}
   .about-text .highlight{color:var(--orange);}
@@ -117,9 +209,11 @@
   .contact-email{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:clamp(20px,4vw,32px);letter-spacing:4px;color:var(--yellow);text-decoration:none;position:relative;margin:40px 0;padding-bottom:8px;}
   .contact-email::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--yellow);transform:scaleX(0);transition:transform .4s;}
   .contact-email:hover::after{transform:scaleX(1);}
-  .socials{display:flex;justify-content:center;gap:30px;list-style:none;flex-wrap:wrap;margin-top:50px;}
+  .socials{display:flex;justify-content:center;gap:20px;list-style:none;flex-wrap:wrap;margin-top:50px;}
   .socials a{font-size:14px;letter-spacing:3px;color:rgba(255,255,255,.5);text-decoration:none;transition:all .3s;padding:10px 20px;border:1px solid rgba(255,255,255,.1);}
   .socials a:hover{color:var(--orange);border-color:var(--orange);}
+  .socials .insta-main:hover{color:var(--pink);border-color:var(--pink);}
+  .socials .insta-second:hover{color:var(--teal);border-color:var(--teal);}
   .location{margin-top:50px;font-family:'Tiro Devanagari Hindi',serif;font-size:16px;color:var(--green);letter-spacing:4px;}
 
   /* FOOTER */
@@ -163,6 +257,8 @@
     .lb-nav{width:40px;height:40px;font-size:18px;}
     #lb-prev{left:10px;}
     #lb-next{right:10px;}
+    .gear-section{padding:15px;}
+    .hero-tagline{flex-direction:column;gap:5px;}
   }
 </style>
 </head>
@@ -202,7 +298,7 @@
   <h2 class="hero-tagline">
     <span class="mac">MAC</span><span class="volz">VOLZ</span>
   </h2>
-  <p class="hero-sub">Capturing <span>gully stories</span> from <span class="assam">Assam</span> to the world</p>
+  <p class="hero-sub">Capturing <span>gully stories</span> from <span class="assam">Rangia, Assam</span></p>
   <div class="scroll-indicator">
     <span>SCROLL</span>
     <div class="scroll-line"></div>
@@ -217,7 +313,7 @@
       <div class="photo-bg g1"><span class="scene-emoji">🌃</span></div>
       <div class="photo-overlay">
         <span class="photo-title">Night Market</span>
-        <span class="photo-loc">Guwahati · Assam</span>
+        <span class="photo-loc">Rangia · Assam</span>
       </div>
       <span class="photo-num">01</span>
     </div>
@@ -225,7 +321,7 @@
       <div class="photo-bg g2"><span class="scene-emoji">🌧️</span></div>
       <div class="photo-overlay">
         <span class="photo-title">Monsoon Gully</span>
-        <span class="photo-loc">Shillong · 2024</span>
+        <span class="photo-loc">Rangia · 2024</span>
       </div>
       <span class="photo-num">02</span>
     </div>
@@ -233,22 +329,22 @@
       <div class="photo-bg g3"><span class="scene-emoji">🚶</span></div>
       <div class="photo-overlay">
         <span class="photo-title">The Walk</span>
-        <span class="photo-loc">Kolkata · 2024</span>
+        <span class="photo-loc">Rangia · 2024</span>
       </div>
       <span class="photo-num">03</span>
     </div>
     <div class="photo-card reveal" onclick="openLB(3)" style="transition-delay:.2s">
       <div class="photo-bg g4"><span class="scene-emoji">🛺</span></div>
       <div class="photo-overlay">
-        <span class="photo-title">Auto Ride</span>
-        <span class="photo-loc">Delhi · 2024</span>
+        <span class="photo-title">Street Ride</span>
+        <span class="photo-loc">Rangia · 2024</span>
       </div>
       <span class="photo-num">04</span>
     </div>
     <div class="photo-card tall reveal" onclick="openLB(4)" style="transition-delay:.25s">
       <div class="photo-bg g5"><span class="scene-emoji">🌅</span></div>
       <div class="photo-overlay">
-        <span class="photo-title">Brahmaputra Dawn</span>
+        <span class="photo-title">Rangia Dawn</span>
         <span class="photo-loc">Assam · 2024</span>
       </div>
       <span class="photo-num">05</span>
@@ -264,16 +360,16 @@
     <div class="photo-card reveal" onclick="openLB(6)" style="transition-delay:.35s">
       <div class="photo-bg g7"><span class="scene-emoji">🎭</span></div>
       <div class="photo-overlay">
-        <span class="photo-title">Bihu Spirit</span>
-        <span class="photo-loc">Assam · 2024</span>
+        <span class="photo-title">Local Spirit</span>
+        <span class="photo-loc">Rangia · 2024</span>
       </div>
       <span class="photo-num">07</span>
     </div>
     <div class="photo-card reveal" onclick="openLB(7)" style="transition-delay:.4s">
       <div class="photo-bg g8"><span class="scene-emoji">🌙</span></div>
       <div class="photo-overlay">
-        <span class="photo-title">Midnight Train</span>
-        <span class="photo-loc">Guwahati</span>
+        <span class="photo-title">Silent Night</span>
+        <span class="photo-loc">Rangia</span>
       </div>
       <span class="photo-num">08</span>
     </div>
@@ -290,43 +386,57 @@
     </h2>
     <div class="stats">
       <div class="stat reveal">
-        <div class="stat-num">5+</div>
-        <div class="stat-label">YEARS</div>
+        <div class="stat-num">&lt;1</div>
+        <div class="stat-label">YEAR</div>
       </div>
       <div class="stat reveal" style="transition-delay:.1s">
-        <div class="stat-num">150+</div>
+        <div class="stat-num">50+</div>
         <div class="stat-label">PHOTOS</div>
       </div>
       <div class="stat reveal" style="transition-delay:.2s">
-        <div class="stat-num">10+</div>
-        <div class="stat-label">CITIES</div>
+        <div class="stat-num">1</div>
+        <div class="stat-label">CITY</div>
+      </div>
+    </div>
+    <div class="gear-section reveal" style="transition-delay:.3s">
+      <div class="gear-title">📱 My Gear</div>
+      <div class="gear-item">
+        <span class="gear-icon">📱</span>
+        <span class="gear-text"><span>iQOO Neo 10R</span></span>
+      </div>
+      <div class="gear-item">
+        <span class="gear-icon">📸</span>
+        <span class="gear-text">50MP Main · OIS</span>
+      </div>
+      <div class="gear-item">
+        <span class="gear-icon">🔭</span>
+        <span class="gear-text">2x Portrait Lens</span>
       </div>
     </div>
   </div>
   <div class="about-text">
-    <p class="reveal">Hey, I'm <strong>Ranjan</strong> — a <span class="highlight">street photographer</span> from the heart of <span class="highlight2">Assam, India</span>. Under the name <strong>MACVOLZ</strong>, I roam the gullys and galis, chasing those raw, unscripted moments that most people walk past.</p>
-    <p class="reveal" style="transition-delay:.1s">From the tea gardens of Assam to the chaotic beauty of Indian metros, my camera finds stories in the everyday — the chai wallah's smile, the monsoon reflections, the bustling local trains.</p>
-    <p class="reveal" style="transition-delay:.2s">This isn't just photography. It's <strong>gully storytelling</strong> — authentic, colorful, and unapologetically Indian.</p>
-    <div class="about-sig reveal" style="transition-delay:.3s">📸 Street • Documentary • Raw</div>
+    <p class="reveal">Hey, I'm <strong>Ranjan</strong> — a <span class="highlight">street photographer</span> from <span class="highlight2">Rangia, Assam</span>. Under the name <strong>MACVOLZ</strong>, I roam the gullys and streets of my hometown, chasing those raw, unscripted moments that most people walk past.</p>
+    <p class="reveal" style="transition-delay:.1s">I started this journey less than a year ago with just my phone — an <strong>iQOO Neo 10R</strong>. No fancy camera, no expensive lenses. Just my eyes and a device in my pocket, capturing the soul of Rangia one frame at a time.</p>
+    <p class="reveal" style="transition-delay:.2s">This isn't just photography. It's <strong>gully storytelling</strong> — authentic, raw, and unapologetically from the heart of Assam.</p>
+    <div class="about-sig reveal" style="transition-delay:.3s">📸 Street • Phone Photography • Raw</div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
   <h2 class="contact-title reveal"><span class="c1">Let's</span> <span class="c2">Connect</span></h2>
-  <a href="mailto:ranjan@macvolz.com" class="contact-email reveal">ranjan@macvolz.com</a>
+  <a href="mailto:macvolzofficial@gmail.com" class="contact-email reveal">macvolzofficial@gmail.com</a>
   <ul class="socials">
-    <li><a href="#">Instagram</a></li>
+    <li><a href="https://instagram.com/macvolz_" target="_blank" class="insta-main">@macvolz_</a></li>
+    <li><a href="https://instagram.com/fliex_frame" target="_blank" class="insta-second">@fliex_frame</a></li>
     <li><a href="#">Behance</a></li>
-    <li><a href="#">500px</a></li>
-    <li><a href="#">VSCO</a></li>
   </ul>
-  <p class="location">📍 Assam, INDIA</p>
+  <p class="location">📍 Rangia, Assam · INDIA</p>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2025 <span class="name">Ranjan — MACVOLZ</span> | Street Photography from Assam</p>
+  <p>© 2025 <span class="name">Ranjan — MACVOLZ</span> | Street Photography from Rangia</p>
 </footer>
 
 <!-- LIGHTBOX -->
@@ -358,14 +468,14 @@
 
   // LIGHTBOX
   const photos=[
-    {title:'Night Market',loc:'Guwahati · Assam',bg:'g1',icon:'🌃'},
-    {title:'Monsoon Gully',loc:'Shillong · 2024',bg:'g2',icon:'🌧️'},
-    {title:'The Walk',loc:'Kolkata · 2024',bg:'g3',icon:'🚶'},
-    {title:'Auto Ride',loc:'Delhi · 2024',bg:'g4',icon:'🛺'},
-    {title:'Brahmaputra Dawn',loc:'Assam · 2024',bg:'g5',icon:'🌅'},
+    {title:'Night Market',loc:'Rangia · Assam',bg:'g1',icon:'🌃'},
+    {title:'Monsoon Gully',loc:'Rangia · 2024',bg:'g2',icon:'🌧️'},
+    {title:'The Walk',loc:'Rangia · 2024',bg:'g3',icon:'🚶'},
+    {title:'Street Ride',loc:'Rangia · 2024',bg:'g4',icon:'🛺'},
+    {title:'Rangia Dawn',loc:'Assam · 2024',bg:'g5',icon:'🌅'},
     {title:'Chai Break',loc:'Street Corner',bg:'g6',icon:'🍵'},
-    {title:'Bihu Spirit',loc:'Assam · 2024',bg:'g7',icon:'🎭'},
-    {title:'Midnight Train',loc:'Guwahati',bg:'g8',icon:'🌙'},
+    {title:'Local Spirit',loc:'Rangia · 2024',bg:'g7',icon:'🎭'},
+    {title:'Silent Night',loc:'Rangia',bg:'g8',icon:'🌙'},
   ];
   let cur=0;
 
