@@ -18,14 +18,13 @@
 
   /* LOADER */
   #loader{position:fixed;inset:0;background:var(--black);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .8s,visibility .8s;}
-  #loader.gone{opacity:0;visibility:hidden;}
-  .load-name{font-family:'Permanent Marker',cursive;font-size:clamp(32px,8vw,72px);background:linear-gradient(90deg,var(--orange),var(--pink),var(--yellow),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;animation:glow 2s ease-in-out infinite alternate;}
-  @keyframes glow{from{filter:drop-shadow(0 0 20px rgba(255,107,53,.5));}to{filter:drop-shadow(0 0 40px rgba(247,37,133,.5));}}
+  #loader.gone{opacity:0;visibility:hidden;pointer-events:none;}
+  .load-name{font-family:'Permanent Marker',cursive;font-size:clamp(32px,8vw,72px);background:linear-gradient(90deg,var(--orange),var(--pink),var(--yellow),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
   .load-bar{width:180px;height:3px;background:rgba(255,255,255,.1);overflow:hidden;border-radius:2px;}
   .load-fill{height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--pink),var(--yellow));transition:width 1.8s ease;}
 
   /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;transition:background .4s,transform .4s;}
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;transition:background .4s;}
   nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(10px);}
   .nav-logo{font-family:'Permanent Marker',cursive;font-size:20px;background:linear-gradient(135deg,var(--yellow),var(--orange),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;}
   .nav-links{display:flex;gap:30px;list-style:none;}
@@ -55,17 +54,13 @@
     background:linear-gradient(135deg,var(--orange) 0%,var(--yellow) 50%,var(--green) 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
     animation:colorShift 4s ease-in-out infinite alternate, breathe 3s ease-in-out infinite;
-    filter:drop-shadow(0 0 30px rgba(255,107,53,.4));
   }
   @keyframes colorShift{
     0%{filter:drop-shadow(0 0 30px rgba(255,107,53,.5)) hue-rotate(0deg);}
     50%{filter:drop-shadow(0 0 50px rgba(247,37,133,.6)) hue-rotate(15deg);}
     100%{filter:drop-shadow(0 0 30px rgba(6,214,160,.5)) hue-rotate(30deg);}
   }
-  @keyframes breathe{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.02);}
-  }
+  @keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.02);}}
 
   .hero-tagline{
     font-family:'Permanent Marker',cursive;
@@ -78,38 +73,23 @@
     gap:10px;
     animation:fadeInUp 1s ease-out .4s both;
   }
-  
   .hero-tagline .mac{
     display:inline-block;
     color:var(--pink);
     text-shadow:4px 4px 0 var(--purple),8px 8px 0 rgba(114,9,183,.3);
     transform:skewX(-5deg) rotate(-2deg);
-    animation:macFloat 4s ease-in-out infinite, macGlow 3s ease-in-out infinite alternate;
+    animation:macFloat 4s ease-in-out infinite;
   }
-  @keyframes macFloat{
-    0%,100%{transform:skewX(-5deg) rotate(-2deg) translateY(0);}
-    50%{transform:skewX(-5deg) rotate(-2deg) translateY(-8px);}
-  }
-  @keyframes macGlow{
-    0%{filter:drop-shadow(0 0 20px rgba(247,37,133,.4));}
-    100%{filter:drop-shadow(0 0 40px rgba(247,37,133,.7));}
-  }
+  @keyframes macFloat{0%,100%{transform:skewX(-5deg) rotate(-2deg) translateY(0);}50%{transform:skewX(-5deg) rotate(-2deg) translateY(-8px);}}
 
   .hero-tagline .volz{
     display:inline-block;
     color:var(--teal);
     text-shadow:4px 4px 0 var(--green),8px 8px 0 rgba(6,214,160,.3);
     transform:skewX(5deg) rotate(2deg);
-    animation:volzFloat 4s ease-in-out infinite 0.5s, volzGlow 3s ease-in-out infinite alternate;
+    animation:volzFloat 4s ease-in-out infinite 0.5s;
   }
-  @keyframes volzFloat{
-    0%,100%{transform:skewX(5deg) rotate(2deg) translateY(0);}
-    50%{transform:skewX(5deg) rotate(2deg) translateY(-8px);}
-  }
-  @keyframes volzGlow{
-    0%{filter:drop-shadow(0 0 20px rgba(46,196,182,.4));}
-    100%{filter:drop-shadow(0 0 40px rgba(46,196,182,.7));}
-  }
+  @keyframes volzFloat{0%,100%{transform:skewX(5deg) rotate(2deg) translateY(0);}50%{transform:skewX(5deg) rotate(2deg) translateY(-8px);}}
 
   .hero-sub{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,3vw,22px);letter-spacing:6px;color:rgba(255,255,255,.5);margin-top:40px;position:relative;z-index:2;animation:fadeInUp 1s ease-out .6s both;}
   .hero-sub span{color:var(--orange);}
@@ -120,14 +100,10 @@
   .scroll-indicator span{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,.4);}
   .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--orange),transparent);}
 
-  /* SCROLL ANIMATIONS */
+  /* ANIMATIONS */
   @keyframes fadeInUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
   @keyframes fadeInDown{from{opacity:0;transform:translateY(-40px);}to{opacity:1;transform:translateY(0);}}
   @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-  @keyframes fadeInLeft{from{opacity:0;transform:translateX(-50px);}to{opacity:1;transform:translateX(0);}}
-  @keyframes fadeInRight{from{opacity:0;transform:translateX(50px);}to{opacity:1;transform:translateX(0);}}
-  @keyframes scaleIn{from{opacity:0;transform:scale(0.8);}to{opacity:1;transform:scale(1);}}
-  @keyframes slideInUp{from{opacity:0;transform:translateY(60px);}to{opacity:1;transform:translateY(0);}}
 
   .reveal{opacity:0;transform:translateY(50px);transition:all .8s cubic-bezier(.4,0,.2,1);}
   .reveal.active{opacity:1;transform:translateY(0);}
@@ -135,397 +111,168 @@
   .reveal-left.active{opacity:1;transform:translateX(0);}
   .reveal-right{opacity:0;transform:translateX(50px);transition:all .8s cubic-bezier(.4,0,.2,1);}
   .reveal-right.active{opacity:1;transform:translateX(0);}
-  .reveal-scale{opacity:0;transform:scale(0.9);transition:all .6s cubic-bezier(.4,0,.2,1);}
-  .reveal-scale.active{opacity:1;transform:scale(1);}
 
   /* PORTFOLIO */
-  .portfolio{padding:100px 40px;background:var(--dark);position:relative;}
-  .portfolio::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--orange),var(--pink),transparent);}
-  .section-title{font-family:'Permanent Marker',cursive;font-size:clamp(36px,6vw,56px);margin-bottom:60px;text-align:center;}
+  .portfolio{padding:100px 40px;background:var(--dark);}
+  .section-title{font-family:'Permanent Marker',cursive;font-size:clamp(36px,6vw,56px);margin-bottom:50px;text-align:center;}
   .section-title .stroke{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.2);}
   .section-title .filled{background:linear-gradient(90deg,var(--pink),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent;}
   
-  .grid{
-    column-count:3;
-    column-gap:15px;
-  }
+  .grid{column-count:3;column-gap:12px;}
   .photo-card{
     break-inside:avoid;
-    margin-bottom:15px;
+    margin-bottom:12px;
     position:relative;
     overflow:hidden;
     cursor:pointer;
-    border-radius:8px;
+    border-radius:6px;
     transition:transform .4s,box-shadow .4s;
   }
-  .photo-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 20px 40px rgba(0,0,0,.4);
-  }
-  .photo-card img{
-    width:100%;
-    height:auto;
-    display:block;
-    transition:transform .6s cubic-bezier(.25,.46,.45,.94);
-  }
-  .photo-card:hover img{
-    transform:scale(1.08);
-  }
+  .photo-card:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.4);}
+  .photo-card img{width:100%;height:auto;display:block;transition:transform .6s;}
+  .photo-card:hover img{transform:scale(1.05);}
   .photo-overlay{
-    position:absolute;
-    inset:0;
-    background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.2) 40%,transparent 70%);
-    opacity:0;
-    transition:opacity .4s;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-    padding:24px;
+    position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.3) 40%,transparent 70%);
+    opacity:0;transition:opacity .4s;
+    display:flex;flex-direction:column;justify-content:flex-end;padding:20px;
   }
   .photo-card:hover .photo-overlay{opacity:1;}
-  .photo-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:6px;transform:translateY(10px);transition:transform .3s;}
-  .photo-card:hover .photo-title{transform:translateY(0);}
-  .photo-loc{font-size:12px;letter-spacing:2px;opacity:.6;transform:translateY(10px);transition:transform .3s .05s;}
-  .photo-card:hover .photo-loc{transform:translateY(0);}
-  .card-rating{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    margin-top:10px;
-    transform:translateY(10px);transition:transform .3s .1s;
-  }
-  .photo-card:hover .card-rating{transform:translateY(0);}
-  .card-rating .stars{color:var(--yellow);font-size:14px;}
-  .card-rating .count{font-size:11px;opacity:.5;letter-spacing:1px;}
-  .photo-num{
-    position:absolute;
-    top:14px;
-    right:14px;
-    font-family:'Permanent Marker',cursive;
-    font-size:14px;
-    opacity:.5;
-    background:rgba(0,0,0,.4);
-    padding:6px 10px;
-    border-radius:6px;
-    backdrop-filter:blur(4px);
-  }
+  .photo-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;margin-bottom:4px;}
+  .photo-loc{font-size:11px;letter-spacing:2px;opacity:.6;}
+  .card-rating{display:flex;align-items:center;gap:5px;margin-top:8px;}
+  .card-rating .stars{color:var(--yellow);font-size:12px;}
+  .card-rating .count{font-size:10px;opacity:.5;letter-spacing:1px;}
+  .photo-num{position:absolute;top:12px;right:12px;font-family:'Permanent Marker',cursive;font-size:14px;opacity:.5;background:rgba(0,0,0,.4);padding:5px 9px;border-radius:5px;}
 
   /* ABOUT */
-  .about{padding:120px 40px;background:var(--black);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;}
-  .about::before{content:'';position:absolute;top:50%;left:50%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,107,53,.1) 0%,transparent 70%);transform:translate(-50%,-50%);pointer-events:none;}
-  .about-left{position:relative;z-index:1;}
-  .about-label{font-family:'Tiro Devanagari Hindi',serif;font-size:14px;letter-spacing:4px;color:var(--orange);margin-bottom:24px;}
+  .about{padding:100px 40px;background:var(--black);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .about-left{position:relative;}
+  .about-label{font-family:'Tiro Devanagari Hindi',serif;font-size:14px;letter-spacing:4px;color:var(--orange);margin-bottom:20px;}
   .about-name{font-family:'Rock Salt',cursive;font-size:clamp(48px,8vw,90px);line-height:1.1;}
   .about-name .r{display:block;background:linear-gradient(135deg,var(--yellow),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .about-name .m{display:block;font-family:'Permanent Marker',cursive;margin-top:12px;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .stats{display:flex;gap:50px;margin-top:60px;flex-wrap:wrap;}
-  .stat{border-left:3px solid var(--orange);padding-left:20px;transition:transform .3s;}
+  .about-name .m{display:block;font-family:'Permanent Marker',cursive;margin-top:10px;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .stats{display:flex;gap:40px;margin-top:50px;flex-wrap:wrap;}
+  .stat{border-left:3px solid var(--orange);padding-left:16px;transition:transform .3s;}
   .stat:hover{transform:translateX(5px);}
   .stat:nth-child(2){border-color:var(--pink);}
   .stat:nth-child(3){border-color:var(--green);}
-  .stat-num{font-size:52px;font-weight:700;background:linear-gradient(135deg,var(--orange),var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .stat-label{font-size:13px;letter-spacing:3px;opacity:.5;margin-top:6px;}
-  .gear-section{margin-top:50px;padding:24px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);border-radius:8px;transition:border-color .3s;}
-  .gear-section:hover{border-color:rgba(255,107,53,.3);}
-  .gear-title{font-family:'Permanent Marker',cursive;font-size:14px;color:var(--yellow);margin-bottom:18px;letter-spacing:2px;}
-  .gear-item{display:flex;align-items:center;gap:14px;margin-bottom:12px;}
-  .gear-icon{font-size:22px;}
-  .gear-text{font-size:14px;letter-spacing:1px;opacity:.7;}
+  .stat-num{font-size:48px;font-weight:700;background:linear-gradient(135deg,var(--orange),var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .stat-label{font-size:12px;letter-spacing:3px;opacity:.5;margin-top:4px;}
+  .gear-section{margin-top:40px;padding:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);border-radius:6px;}
+  .gear-title{font-family:'Permanent Marker',cursive;font-size:14px;color:var(--yellow);margin-bottom:15px;letter-spacing:2px;}
+  .gear-item{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .gear-icon{font-size:20px;}
+  .gear-text{font-size:13px;letter-spacing:1px;opacity:.7;}
   .gear-text span{color:var(--teal);}
-  .about-text p{font-family:system-ui,sans-serif;font-size:15px;line-height:1.9;color:rgba(255,255,255,.6);margin-bottom:24px;}
+  .about-text p{font-family:system-ui,sans-serif;font-size:15px;line-height:1.9;color:rgba(255,255,255,.6);margin-bottom:20px;}
   .about-text p strong{color:#fff;}
   .about-text .highlight{color:var(--orange);}
   .about-text .highlight2{color:var(--green);}
-  .about-sig{margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);font-family:'Permanent Marker',cursive;font-size:14px;color:var(--yellow);letter-spacing:2px;}
+  .about-sig{margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-family:'Permanent Marker',cursive;font-size:14px;color:var(--yellow);letter-spacing:2px;}
 
   /* CONTACT */
-  .contact{padding:120px 40px;background:var(--gray);text-align:center;position:relative;overflow:hidden;}
+  .contact{padding:100px 40px;background:var(--gray);text-align:center;position:relative;overflow:hidden;}
   .contact::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--pink),var(--yellow),var(--green),var(--teal));}
-  .contact-title{font-family:'Rock Salt',cursive;font-size:clamp(40px,8vw,80px);margin-bottom:24px;}
+  .contact-title{font-family:'Rock Salt',cursive;font-size:clamp(40px,8vw,80px);margin-bottom:20px;}
   .contact-title .c1{color:var(--orange);}
   .contact-title .c2{color:var(--pink);}
-  .contact-email{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:clamp(20px,4vw,32px);letter-spacing:4px;color:var(--yellow);text-decoration:none;position:relative;margin:50px 0;padding-bottom:10px;transition:color .3s;}
+  .contact-email{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:clamp(20px,4vw,32px);letter-spacing:4px;color:var(--yellow);text-decoration:none;position:relative;margin:40px 0;padding-bottom:8px;}
   .contact-email::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--yellow);transform:scaleX(0);transition:transform .4s;}
   .contact-email:hover::after{transform:scaleX(1);}
-  .socials{display:flex;justify-content:center;gap:20px;list-style:none;flex-wrap:wrap;margin-top:60px;}
-  .socials a{font-size:14px;letter-spacing:3px;color:rgba(255,255,255,.5);text-decoration:none;transition:all .3s;padding:12px 24px;border:1px solid rgba(255,255,255,.1);border-radius:4px;}
-  .socials a:hover{color:var(--orange);border-color:var(--orange);background:rgba(255,107,53,.1);}
-  .socials .insta-main:hover{color:var(--pink);border-color:var(--pink);background:rgba(247,37,133,.1);}
-  .socials .insta-second:hover{color:var(--teal);border-color:var(--teal);background:rgba(46,196,182,.1);}
-  .location{margin-top:60px;font-family:'Tiro Devanagari Hindi',serif;font-size:16px;color:var(--green);letter-spacing:4px;}
+  .socials{display:flex;justify-content:center;gap:20px;list-style:none;flex-wrap:wrap;margin-top:50px;}
+  .socials a{font-size:14px;letter-spacing:3px;color:rgba(255,255,255,.5);text-decoration:none;transition:all .3s;padding:10px 20px;border:1px solid rgba(255,255,255,.1);border-radius:4px;}
+  .socials a:hover{color:var(--orange);border-color:var(--orange);}
+  .socials .insta-main:hover{color:var(--pink);border-color:var(--pink);}
+  .socials .insta-second:hover{color:var(--teal);border-color:var(--teal);}
+  .location{margin-top:50px;font-family:'Tiro Devanagari Hindi',serif;font-size:16px;color:var(--green);letter-spacing:4px;}
 
   /* FOOTER */
-  footer{background:var(--black);padding:40px;text-align:center;border-top:1px solid rgba(255,255,255,.05);}
+  footer{background:var(--black);padding:30px 40px;text-align:center;border-top:1px solid rgba(255,255,255,.05);}
   footer p{font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.3);}
   footer .name{font-family:'Permanent Marker',cursive;color:var(--orange);}
 
   /* LIGHTBOX */
-  #lightbox{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.98);
-    z-index:8000;
-    overflow-y:auto;
-    overflow-x:hidden;
-  }
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.98);z-index:8000;overflow-y:auto;}
   #lightbox.open{display:block;animation:fadeIn .3s ease;}
-  
-  .lb-close{
-    position:fixed;
-    top:20px;
-    right:20px;
-    background:rgba(255,255,255,.1);
-    border:1px solid rgba(255,255,255,.2);
-    color:#fff;
-    font-family:'Bebas Neue',sans-serif;
-    font-size:14px;
-    letter-spacing:3px;
-    cursor:pointer;
-    transition:all .3s;
-    z-index:100;
-    padding:12px 24px;
-    border-radius:6px;
-    backdrop-filter:blur(10px);
-  }
-  .lb-close:hover{background:var(--orange);border-color:var(--orange);transform:scale(1.05);}
-  
-  .lb-nav{
-    position:fixed;
-    top:50%;
-    transform:translateY(-50%);
-    background:rgba(0,0,0,.6);
-    border:1px solid rgba(255,255,255,.15);
-    color:#fff;
-    font-size:28px;
-    width:56px;
-    height:56px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    transition:all .3s;
-    z-index:100;
-    border-radius:50%;
-    backdrop-filter:blur(10px);
-  }
-  .lb-nav:hover{background:var(--orange);border-color:var(--orange);transform:translateY(-50%) scale(1.1);}
-  #lb-prev{left:20px;}
-  #lb-next{right:20px;}
-  
-  .lb-container{
-    max-width:1300px;
-    margin:0 auto;
-    padding:90px 90px 50px;
-    display:grid;
-    grid-template-columns:1fr 380px;
-    gap:40px;
-    min-height:100vh;
-    align-items:start;
-  }
-  
-  .lb-image-section{
-    position:sticky;
-    top:90px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
-  .lb-image-section img{
-    max-width:100%;
-    max-height:calc(100vh - 220px);
-    height:auto;
-    border-radius:12px;
-    object-fit:contain;
-    box-shadow:0 30px 60px rgba(0,0,0,.5);
-  }
-  .lb-photo-info{
-    margin-top:28px;
-    text-align:center;
-    width:100%;
-  }
-  .lb-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;color:var(--orange);}
-  .lb-loc{font-size:15px;letter-spacing:4px;opacity:.5;margin-top:6px;}
-
-  .lb-sidebar{
-    background:var(--gray);
-    border-radius:12px;
-    padding:28px;
-    height:fit-content;
-    max-height:calc(100vh - 140px);
-    overflow-y:auto;
-    position:sticky;
-    top:90px;
-  }
-  
-  .rating-section{
-    margin-bottom:28px;
-    padding-bottom:24px;
-    border-bottom:1px solid rgba(255,255,255,.1);
-  }
-  .rating-title{
-    font-family:'Bebas Neue',sans-serif;
-    font-size:18px;
-    letter-spacing:2px;
-    color:var(--yellow);
-    margin-bottom:16px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-  .rating-display{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    margin-bottom:18px;
-  }
-  .rating-big{
-    font-size:48px;
-    font-weight:700;
-    background:linear-gradient(135deg,var(--yellow),var(--orange));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    line-height:1;
-  }
-  .rating-details{
-    font-family:system-ui,sans-serif;
-    font-size:13px;
-    color:rgba(255,255,255,.5);
-    line-height:1.5;
-  }
+  .lb-close{position:fixed;top:20px;right:20px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;cursor:pointer;transition:all .3s;z-index:100;padding:10px 20px;border-radius:4px;}
+  .lb-close:hover{background:var(--orange);border-color:var(--orange);}
+  .lb-nav{position:fixed;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:28px;width:50px;height:50px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;z-index:100;border-radius:50%;}
+  .lb-nav:hover{background:var(--orange);border-color:var(--orange);}
+  #lb-prev{left:15px;}
+  #lb-next{right:15px;}
+  .lb-container{max-width:1200px;margin:0 auto;padding:80px 80px 40px;display:grid;grid-template-columns:1fr 350px;gap:30px;min-height:100vh;align-items:start;}
+  .lb-image-section{position:sticky;top:80px;display:flex;flex-direction:column;align-items:center;}
+  .lb-image-section img{max-width:100%;max-height:calc(100vh - 200px);height:auto;border-radius:8px;object-fit:contain;}
+  .lb-photo-info{margin-top:20px;text-align:center;width:100%;}
+  .lb-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--orange);}
+  .lb-loc{font-size:14px;letter-spacing:4px;opacity:.5;margin-top:4px;}
+  .lb-sidebar{background:var(--gray);border-radius:8px;padding:24px;height:fit-content;max-height:calc(100vh - 120px);overflow-y:auto;position:sticky;top:80px;}
+  .rating-section{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.1);}
+  .rating-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;color:var(--yellow);margin-bottom:14px;}
+  .rating-display{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .rating-big{font-size:42px;font-weight:700;background:linear-gradient(135deg,var(--yellow),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+  .rating-details{font-family:system-ui,sans-serif;font-size:12px;color:rgba(255,255,255,.5);line-height:1.4;}
   .rating-details strong{color:#fff;}
-  
-  .star-rating{
-    display:flex;
-    gap:4px;
-    margin-bottom:10px;
-    justify-content:center;
-  }
-  .star-rating .star{
-    font-size:36px;
-    cursor:pointer;
-    transition:all .2s;
-    color:rgba(255,255,255,.2);
-    user-select:none;
-  }
-  .star-rating .star:hover,
-  .star-rating .star.active{
-    color:var(--yellow);
-    transform:scale(1.2);
-  }
+  .star-rating{display:flex;gap:3px;margin-bottom:8px;justify-content:center;}
+  .star-rating .star{font-size:32px;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.2);user-select:none;}
+  .star-rating .star:hover,.star-rating .star.active{color:var(--yellow);transform:scale(1.15);}
   .star-rating .star.hovered{color:var(--yellow);}
-  
-  .rating-hint{
-    font-family:system-ui,sans-serif;
-    font-size:12px;
-    color:rgba(255,255,255,.4);
-    text-align:center;
-  }
+  .rating-hint{font-family:system-ui,sans-serif;font-size:11px;color:rgba(255,255,255,.4);text-align:center;}
   .rating-thanks{color:var(--green);display:none;}
   .rating-thanks.show{display:block;}
   .rating-change{color:var(--teal);display:none;}
   .rating-change.show{display:block;}
-
   .comments-section{}
-  .comments-title{
-    font-family:'Bebas Neue',sans-serif;
-    font-size:18px;
-    letter-spacing:2px;
-    color:var(--teal);
-    margin-bottom:18px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-  .comment-form{margin-bottom:20px;}
-  .comment-input{
-    width:100%;
-    background:var(--dark);
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:8px;
-    padding:14px;
-    color:#fff;
-    font-family:system-ui,sans-serif;
-    font-size:14px;
-    resize:none;
-    transition:border-color .3s,box-shadow .3s;
-  }
-  .comment-input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(46,196,182,.1);}
+  .comments-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;color:var(--teal);margin-bottom:14px;}
+  .comment-form{margin-bottom:16px;}
+  .comment-input{width:100%;background:var(--dark);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:10px 12px;color:#fff;font-family:system-ui,sans-serif;font-size:13px;resize:none;transition:border-color .3s;}
+  .comment-input:focus{outline:none;border-color:var(--teal);}
   .comment-input::placeholder{color:rgba(255,255,255,.3);}
-  .comment-name-input{margin-top:10px;}
-  .comment-submit{
-    margin-top:14px;
-    background:linear-gradient(135deg,var(--teal),var(--green));
-    border:none;
-    color:#fff;
-    font-family:'Bebas Neue',sans-serif;
-    font-size:14px;
-    letter-spacing:2px;
-    padding:14px 24px;
-    border-radius:6px;
-    cursor:pointer;
-    transition:transform .2s,box-shadow .2s;
-    width:100%;
-  }
-  .comment-submit:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(46,196,182,.3);}
-  .comment-submit:active{transform:translateY(0);}
-  
-  .comments-list{max-height:280px;overflow-y:auto;padding-right:8px;}
-  .comments-list::-webkit-scrollbar{width:4px;}
-  .comments-list::-webkit-scrollbar-track{background:rgba(255,255,255,.05);border-radius:2px;}
-  .comments-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:2px;}
-  
-  .comment-item{
-    background:var(--dark);
-    border-radius:8px;
-    padding:16px;
-    margin-bottom:12px;
-    animation:fadeInUp .3s ease;
-  }
-  .comment-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:8px;
-  }
-  .comment-author{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--pink);letter-spacing:1px;}
-  .comment-date{font-family:system-ui,sans-serif;font-size:11px;color:rgba(255,255,255,.3);}
-  .comment-text{font-family:system-ui,sans-serif;font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;}
-  .comment-stars{color:var(--yellow);font-size:12px;margin-bottom:6px;}
-  .no-comments{text-align:center;padding:24px;color:rgba(255,255,255,.3);font-family:system-ui,sans-serif;font-size:13px;}
+  .comment-name-input{margin-top:8px;}
+  .comment-submit{margin-top:10px;background:linear-gradient(135deg,var(--teal),var(--green));border:none;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;padding:10px 20px;border-radius:4px;cursor:pointer;transition:transform .2s;width:100%;}
+  .comment-submit:hover{transform:translateY(-2px);}
+  .comments-list{max-height:250px;overflow-y:auto;}
+  .comment-item{background:var(--dark);border-radius:6px;padding:12px;margin-bottom:8px;}
+  .comment-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .comment-author{font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--pink);letter-spacing:1px;}
+  .comment-date{font-family:system-ui,sans-serif;font-size:10px;color:rgba(255,255,255,.3);}
+  .comment-text{font-family:system-ui,sans-serif;font-size:12px;color:rgba(255,255,255,.7);line-height:1.5;}
+  .comment-stars{color:var(--yellow);font-size:11px;margin-bottom:4px;}
+  .no-comments{text-align:center;padding:16px;color:rgba(255,255,255,.3);font-family:system-ui,sans-serif;font-size:12px;}
 
   /* RESPONSIVE */
   @media(max-width:1024px){
-    .lb-container{grid-template-columns:1fr;padding:80px 24px 40px;}
-    .lb-sidebar{position:relative;top:0;max-height:none;margin-top:30px;}
+    .lb-container{grid-template-columns:1fr;padding:70px 20px 30px;}
+    .lb-sidebar{position:relative;top:0;max-height:none;margin-top:20px;}
     .lb-image-section{position:relative;top:0;}
-    .lb-image-section img{max-height:calc(100vh - 350px);}
+    .lb-image-section img{max-height:calc(100vh - 300px);}
   }
   @media(max-width:900px){
     nav{padding:16px 24px;}
     .nav-links{display:none;}
     .hamburger{display:flex;}
     .hero{padding:100px 24px 60px;}
-    .portfolio,.about,.contact{padding:80px 24px;}
-    .about{grid-template-columns:1fr;gap:60px;}
-    .stats{gap:40px;}
+    .portfolio,.about,.contact{padding:60px 24px;}
+    .about{grid-template-columns:1fr;gap:40px;}
+    .stats{gap:30px;}
     .mob-close{right:24px;}
     .grid{column-count:2;}
   }
   @media(max-width:600px){
     .grid{column-count:1;}
     .stats{justify-content:center;}
-    .gear-section{padding:18px;}
-    .hero-tagline{font-size:clamp(40px,15vw,70px);flex-wrap:nowrap;gap:5px;}
-    .lb-nav{width:48px;height:48px;font-size:24px;}
-    #lb-prev{left:10px;}
-    #lb-next{right:10px;}
-    .lb-close{top:14px;right:14px;padding:10px 18px;font-size:12px;}
-    .lb-container{padding:70px 16px 30px;}
-    .lb-title{font-size:26px;}
-    .lb-sidebar{padding:20px;}
-    .star-rating .star{font-size:30px;}
-    .rating-big{font-size:40px;}
-    .photo-overlay{padding:18px;}
+    .gear-section{padding:15px;}
+    .hero-tagline{font-size:clamp(40px,15vw,70px);gap:5px;}
+    .lb-nav{width:44px;height:44px;font-size:24px;}
+    #lb-prev{left:8px;}
+    #lb-next{right:8px;}
+    .lb-close{top:12px;right:12px;padding:8px 14px;font-size:12px;}
+    .lb-container{padding:60px 12px 20px;}
+    .lb-title{font-size:24px;}
+    .lb-sidebar{padding:18px;}
+    .star-rating .star{font-size:28px;}
+    .rating-big{font-size:36px;}
   }
 </style>
 </head>
@@ -559,17 +306,10 @@
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-tag">Street Photography</div>
-  <h1 class="hero-name">
-    <span class="ranjan">Ranjan</span>
-  </h1>
-  <h2 class="hero-tagline">
-    <span class="mac">MAC</span><span class="volz">VOLZ</span>
-  </h2>
+  <h1 class="hero-name"><span class="ranjan">Ranjan</span></h1>
+  <h2 class="hero-tagline"><span class="mac">MAC</span><span class="volz">VOLZ</span></h2>
   <p class="hero-sub">Capturing <span>gully stories</span> from <span class="assam">Rangia, Assam</span></p>
-  <div class="scroll-indicator">
-    <span>SCROLL</span>
-    <div class="scroll-line"></div>
-  </div>
+  <div class="scroll-indicator"><span>SCROLL</span><div class="scroll-line"></div></div>
 </section>
 
 <!-- PORTFOLIO -->
@@ -582,38 +322,17 @@
 <section class="about" id="about">
   <div class="about-left">
     <div class="about-label reveal-left">Street Photographer</div>
-    <h2 class="about-name reveal-left">
-      <span class="r">Ranjan</span>
-      <span class="m">MACVOLZ</span>
-    </h2>
+    <h2 class="about-name reveal-left"><span class="r">Ranjan</span><span class="m">MACVOLZ</span></h2>
     <div class="stats">
-      <div class="stat reveal">
-        <div class="stat-num">&lt;1</div>
-        <div class="stat-label">YEAR</div>
-      </div>
-      <div class="stat reveal">
-        <div class="stat-num">17+</div>
-        <div class="stat-label">PHOTOS</div>
-      </div>
-      <div class="stat reveal">
-        <div class="stat-num">1</div>
-        <div class="stat-label">CITY</div>
-      </div>
+      <div class="stat reveal"><div class="stat-num">&lt;1</div><div class="stat-label">YEAR</div></div>
+      <div class="stat reveal"><div class="stat-num">17+</div><div class="stat-label">PHOTOS</div></div>
+      <div class="stat reveal"><div class="stat-num">1</div><div class="stat-label">CITY</div></div>
     </div>
     <div class="gear-section reveal">
       <div class="gear-title">📱 My Gear</div>
-      <div class="gear-item">
-        <span class="gear-icon">📱</span>
-        <span class="gear-text"><span>iQOO Neo 10R</span></span>
-      </div>
-      <div class="gear-item">
-        <span class="gear-icon">📸</span>
-        <span class="gear-text">50MP Main · OIS</span>
-      </div>
-      <div class="gear-item">
-        <span class="gear-icon">🔭</span>
-        <span class="gear-text">2x Portrait Lens</span>
-      </div>
+      <div class="gear-item"><span class="gear-icon">📱</span><span class="gear-text"><span>iQOO Neo 10R</span></span></div>
+      <div class="gear-item"><span class="gear-icon">📸</span><span class="gear-text">50MP Main · OIS</span></div>
+      <div class="gear-item"><span class="gear-icon">🔭</span><span class="gear-text">2x Portrait Lens</span></div>
     </div>
   </div>
   <div class="about-text reveal-right">
@@ -626,7 +345,7 @@
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
-  <h2 class="contact-title reveal-scale"><span class="c1">Let's</span> <span class="c2">Connect</span></h2>
+  <h2 class="contact-title reveal"><span class="c1">Let's</span> <span class="c2">Connect</span></h2>
   <a href="mailto:macvolzofficial@gmail.com" class="contact-email reveal">macvolzofficial@gmail.com</a>
   <ul class="socials reveal">
     <li><a href="https://instagram.com/macvolz_" target="_blank" class="insta-main">@macvolz_</a></li>
@@ -637,16 +356,13 @@
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <p>© 2025 <span class="name">Ranjan — MACVOLZ</span> | Street Photography from Rangia</p>
-</footer>
+<footer><p>© 2025 <span class="name">Ranjan — MACVOLZ</span> | Street Photography from Rangia</p></footer>
 
 <!-- LIGHTBOX -->
 <div id="lightbox">
   <button class="lb-close" onclick="closeLB()">CLOSE ✕</button>
   <button class="lb-nav" id="lb-prev" onclick="lbNav(-1)">‹</button>
   <button class="lb-nav" id="lb-next" onclick="lbNav(1)">›</button>
-  
   <div class="lb-container">
     <div class="lb-image-section">
       <img id="lb-img" src="" alt="">
@@ -655,16 +371,12 @@
         <div class="lb-loc" id="lb-loc"></div>
       </div>
     </div>
-    
     <div class="lb-sidebar">
       <div class="rating-section">
         <div class="rating-title">⭐ Rate This Photo</div>
         <div class="rating-display">
           <span class="rating-big" id="rating-avg">-</span>
-          <div class="rating-details">
-            <div><strong id="rating-count">0</strong> ratings</div>
-            <div>out of 5 stars</div>
-          </div>
+          <div class="rating-details"><div><strong id="rating-count">0</strong> ratings</div><div>out of 5 stars</div></div>
         </div>
         <div class="star-rating" id="star-rating">
           <span class="star" data-rating="1">☆</span>
@@ -677,7 +389,6 @@
         <div class="rating-hint rating-thanks" id="rating-thanks">✓ Thanks for rating!</div>
         <div class="rating-hint rating-change" id="rating-change">Click to change your rating</div>
       </div>
-      
       <div class="comments-section">
         <div class="comments-title">💬 Comments</div>
         <div class="comment-form">
@@ -690,10 +401,6 @@
     </div>
   </div>
 </div>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
 <script>
   // LOADER
@@ -710,20 +417,18 @@
   document.getElementById('mobClose').addEventListener('click',closeMob);
   function closeMob(){document.getElementById('mobMenu').classList.remove('open');}
 
-  // SCROLL REVEAL ANIMATION
+  // SCROLL REVEAL
   function revealOnScroll(){
-    const reveals=document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    const reveals=document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
     const windowHeight=window.innerHeight;
     reveals.forEach(el=>{
-      const elementTop=el.getBoundingClientRect().top;
-      const elementVisible=120;
-      if(elementTop<windowHeight-elementVisible){
+      if(el.getBoundingClientRect().top<windowHeight-100){
         el.classList.add('active');
       }
     });
   }
   window.addEventListener('scroll',revealOnScroll);
-  window.addEventListener('load',revealOnScroll);
+  setTimeout(revealOnScroll,500);
 
   // ALL 17 PHOTOS
   const photos=[
@@ -746,44 +451,36 @@
     {img:'17..jpeg',title:'Street Story 17',loc:'Rangia · Assam'},
   ];
 
-  // ✅ FIREBASE CONFIG - Replace with your own Firebase config
-  // Go to: https://console.firebase.google.com/ → Create project → Realtime Database → Get config
-  const firebaseConfig={
-    apiKey: "AIzaSyDemo-Key-Replace-With-Your-Own",
-    authDomain: "your-project-id.firebaseapp.com",
-    databaseURL: "https://your-project-id-default-rtdb.firebaseio.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project-id.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:123456789:web:abcdef"
+  // ✅ PHOTO DATA - Default ratings that show to everyone
+  const defaultData={
+    0:{ratings:[5,4,5,5,4],comments:[{name:'Street Lover',text:'Amazing night shot! 🌙',date:'Mar 10, 2025',rating:5}]},
+    1:{ratings:[5,5,4,5],comments:[{name:'Rahul',text:'Great composition!',date:'Mar 8, 2025',rating:5}]},
+    2:{ratings:[4,5,4,4,5],comments:[{name:'Ankit',text:'Beautiful scene 📸',date:'Mar 7, 2025',rating:4}]},
+    3:{ratings:[5,4,5],comments:[{name:'Priya',text:'Stunning!',date:'Mar 6, 2025',rating:5}]},
+    4:{ratings:[4,4,5,5],comments:[{name:'Amit',text:'Nice perspective!',date:'Mar 5, 2025',rating:4}]},
+    5:{ratings:[5,5,4,5,4],comments:[{name:'Sneha',text:'Love this shot!',date:'Mar 4, 2025',rating:5}]},
+    6:{ratings:[4,5,5],comments:[{name:'Vikram',text:'Great capture!',date:'Mar 3, 2025',rating:4}]},
+    7:{ratings:[5,4,4,5],comments:[{name:'Neha',text:'Awesome! 🔥',date:'Mar 2, 2025',rating:5}]},
+    8:{ratings:[4,5,5,4],comments:[{name:'Ravi',text:'Beautiful moment!',date:'Mar 1, 2025',rating:4}]},
+    9:{ratings:[5,5,4,5,5],comments:[{name:'Ishita',text:'Perfect shot!',date:'Feb 28, 2025',rating:5}]},
+    10:{ratings:[4,4,5],comments:[{name:'Deepak',text:'Nice one!',date:'Feb 27, 2025',rating:4}]},
+    11:{ratings:[5,4,5,5],comments:[{name:'Pooja',text:'Love it!',date:'Feb 26, 2025',rating:5}]},
+    12:{ratings:[4,5,4,4],comments:[{name:'Arun',text:'Great work!',date:'Feb 25, 2025',rating:4}]},
+    13:{ratings:[5,5,5,4],comments:[{name:'Kiran',text:'Amazing!',date:'Feb 24, 2025',rating:5}]},
+    14:{ratings:[4,4,5,5],comments:[{name:'Sanjay',text:'Nice capture!',date:'Feb 23, 2025',rating:4}]},
+    15:{ratings:[5,4,5],comments:[{name:'Meena',text:'Beautiful! ✨',date:'Feb 22, 2025',rating:5}]},
+    16:{ratings:[4,5,4,5,4],comments:[{name:'Raj',text:'Awesome shot!',date:'Feb 21, 2025',rating:4}]},
   };
 
-  // Initialize Firebase
-  let database;
-  let firebaseConnected=false;
+  // Load saved data or use defaults
+  let photoData=JSON.parse(localStorage.getItem('macvolz_photos'))||JSON.parse(JSON.stringify(defaultData));
   
-  try{
-    firebase.initializeApp(firebaseConfig);
-    database=firebase.database();
-    firebaseConnected=true;
-    console.log('Firebase connected!');
-  }catch(e){
-    console.log('Firebase not configured. Using localStorage for demo.');
-    firebaseConnected=false;
-  }
-
-  // Get unique user ID (persists in localStorage)
-  let userId=localStorage.getItem('macvolz_user_id');
+  // Get unique user ID
+  let userId=localStorage.getItem('macvolz_user');
   if(!userId){
     userId='user_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);
-    localStorage.setItem('macvolz_user_id',userId);
+    localStorage.setItem('macvolz_user',userId);
   }
-
-  // Photo Data
-  const photoData={};
-  photos.forEach((p,i)=>{
-    photoData[i]={ratings:[],comments:[]};
-  });
 
   let cur=0;
 
@@ -795,84 +492,31 @@
 
   function getStarDisplay(rating){
     const full=Math.floor(rating);
-    const empty=5-full;
-    return '★'.repeat(full)+'☆'.repeat(empty);
+    return '★'.repeat(full)+'☆'.repeat(5-full);
+  }
+
+  function saveData(){
+    localStorage.setItem('macvolz_photos',JSON.stringify(photoData));
   }
 
   // RENDER GRID
   function renderGrid(){
     const grid=document.getElementById('photo-grid');
-    if(!grid)return;
-    
     let html='';
     for(let i=0;i<photos.length;i++){
       const p=photos[i];
-      html+=`
-        <div class="photo-card reveal" onclick="openLB(${i})" style="transition-delay:${(i%6)*0.1}s">
-          <img src="${p.img}" alt="${p.title}" onerror="this.style.background='#1a1a1a';this.style.minHeight='150px';this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 200%22><rect fill=%22%231a1a1a%22 width=%22400%22 height=%22200%22/><text x=%22200%22 y=%22100%22 fill=%22%23555%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2240%22>📷</text></svg>'">
-          <div class="photo-overlay">
-            <span class="photo-title">${p.title}</span>
-            <span class="photo-loc">${p.loc}</span>
-            <div class="card-rating">
-              <span class="stars">${getStarDisplay(getAvgRating(i))}</span>
-              <span class="count">(${photoData[i].ratings.length})</span>
-            </div>
-          </div>
-          <span class="photo-num">${String(i+1).padStart(2,'0')}</span>
-        </div>`;
+      html+='<div class="photo-card reveal" onclick="openLB('+i+')">'+
+        '<img src="'+p.img+'" alt="'+p.title+'" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 250%22><rect fill=%22%231a1a1a%22 width=%22400%22 height=%22250%22/><text x=%22200%22 y=%22125%22 fill=%22%23555%22 text-anchor=%22middle%22 font-size=%2240%22>📷</text></svg>\'">'+
+        '<div class="photo-overlay">'+
+          '<span class="photo-title">'+p.title+'</span>'+
+          '<span class="photo-loc">'+p.loc+'</span>'+
+          '<div class="card-rating"><span class="stars">'+getStarDisplay(getAvgRating(i))+'</span><span class="count">('+photoData[i].ratings.length+')</span></div>'+
+        '</div>'+
+        '<span class="photo-num">'+String(i+1).padStart(2,'0')+'</span>'+
+      '</div>';
     }
     grid.innerHTML=html;
-    
-    // Re-trigger scroll reveal for new elements
     setTimeout(revealOnScroll,100);
-  }
-
-  // LOAD DATA FROM FIREBASE (or localStorage)
-  function loadData(){
-    if(firebaseConnected){
-      // Load from Firebase Realtime Database
-      database.ref('photos').on('value',(snapshot)=>{
-        const data=snapshot.val();
-        if(data){
-          Object.keys(data).forEach(key=>{
-            const idx=parseInt(key);
-            if(photoData[idx]){
-              photoData[idx].ratings=data[key].ratings||[];
-              photoData[idx].comments=data[key].comments||[];
-            }
-          });
-        }
-        renderGrid();
-        if(document.getElementById('lightbox').classList.contains('open')){
-          renderLB();
-        }
-      });
-    }else{
-      // Fallback to localStorage
-      const saved=localStorage.getItem('macvolz_data');
-      if(saved){
-        const data=JSON.parse(saved);
-        Object.keys(data).forEach(key=>{
-          const idx=parseInt(key);
-          if(photoData[idx]){
-            photoData[idx]=data[idx];
-          }
-        });
-      }
-      renderGrid();
-    }
-  }
-
-  // SAVE DATA
-  function saveData(photoIdx){
-    if(firebaseConnected){
-      database.ref('photos/'+photoIdx).set({
-        ratings:photoData[photoIdx].ratings,
-        comments:photoData[photoIdx].comments
-      });
-    }else{
-      localStorage.setItem('macvolz_data',JSON.stringify(photoData));
-    }
   }
 
   // LIGHTBOX
@@ -901,27 +545,16 @@
     document.getElementById('lb-title').textContent=p.title;
     document.getElementById('lb-loc').textContent=p.loc;
     
-    const avg=getAvgRating(cur);
-    document.getElementById('rating-avg').textContent=avg>0?avg:'-';
+    document.getElementById('rating-avg').textContent=getAvgRating(cur)||'-';
     document.getElementById('rating-count').textContent=data.ratings.length;
     
-    // Check if current user rated this photo
-    const userRatingKey='rating_'+cur;
-    const userRated=localStorage.getItem(userRatingKey);
-    
+    const userRating=localStorage.getItem('macvolz_rate_'+cur);
     const stars=document.querySelectorAll('#star-rating .star');
-    stars.forEach((star,i)=>{
-      star.classList.remove('active','hovered');
-      star.textContent='☆';
-    });
+    stars.forEach(s=>{s.classList.remove('active','hovered');s.textContent='☆';});
     
-    if(userRated){
-      const rating=parseInt(userRated);
-      stars.forEach((star,i)=>{
-        if(i<rating){
-          star.classList.add('active');
-          star.textContent='★';
-        }
+    if(userRating){
+      stars.forEach((s,i)=>{
+        if(i<parseInt(userRating)){s.classList.add('active');s.textContent='★';}
       });
       document.getElementById('rating-hint').style.display='none';
       document.getElementById('rating-thanks').classList.add('show');
@@ -937,25 +570,18 @@
 
   function renderComments(){
     const list=document.getElementById('comments-list');
-    const data=photoData[cur];
-    
-    if(!data.comments||data.comments.length===0){
+    const data=photoData[cur].comments;
+    if(data.length===0){
       list.innerHTML='<div class="no-comments">No comments yet. Be the first!</div>';
       return;
     }
-    
     let html='';
-    for(let j=0;j<data.comments.length;j++){
-      const c=data.comments[j];
-      html+=`
-        <div class="comment-item">
-          <div class="comment-header">
-            <span class="comment-author">${c.name}</span>
-            <span class="comment-date">${c.date}</span>
-          </div>
-          ${c.rating?`<div class="comment-stars">${getStarDisplay(c.rating)}</div>`:''}
-          <div class="comment-text">${c.text}</div>
-        </div>`;
+    for(let i=0;i<data.length;i++){
+      const c=data[i];
+      html+='<div class="comment-item">'+
+        '<div class="comment-header"><span class="comment-author">'+c.name+'</span><span class="comment-date">'+c.date+'</span></div>'+
+        (c.rating?'<div class="comment-stars">'+getStarDisplay(c.rating)+'</div>':'')+
+        '<div class="comment-text">'+c.text+'</div></div>';
     }
     list.innerHTML=html;
   }
@@ -963,44 +589,30 @@
   // STAR RATING
   document.getElementById('star-rating').addEventListener('mouseover',function(e){
     if(e.target.classList.contains('star')){
-      const rating=parseInt(e.target.dataset.rating);
-      document.querySelectorAll('#star-rating .star').forEach((star,i)=>{
-        star.classList.toggle('hovered',i<rating);
-      });
+      const r=parseInt(e.target.dataset.rating);
+      document.querySelectorAll('#star-rating .star').forEach((s,i)=>{s.classList.toggle('hovered',i<r);});
     }
   });
-  
   document.getElementById('star-rating').addEventListener('mouseout',function(){
-    document.querySelectorAll('#star-rating .star').forEach(star=>{
-      star.classList.remove('hovered');
-    });
+    document.querySelectorAll('#star-rating .star').forEach(s=>{s.classList.remove('hovered');});
   });
-  
   document.getElementById('star-rating').addEventListener('click',function(e){
     if(e.target.classList.contains('star')){
-      const newRating=parseInt(e.target.dataset.rating);
-      const userRatingKey='rating_'+cur;
-      const oldRating=localStorage.getItem(userRatingKey);
+      const newRate=parseInt(e.target.dataset.rating);
+      const oldRate=localStorage.getItem('macvolz_rate_'+cur);
       
-      // If user already rated, remove old rating
-      if(oldRating){
-        const oldIdx=photoData[cur].ratings.indexOf(parseInt(oldRating));
-        if(oldIdx>-1){
-          photoData[cur].ratings.splice(oldIdx,1);
-        }
+      if(oldRate){
+        const idx=photoData[cur].ratings.indexOf(parseInt(oldRate));
+        if(idx>-1)photoData[cur].ratings.splice(idx,1);
       }
       
-      // Add new rating
-      photoData[cur].ratings.push(newRating);
-      localStorage.setItem(userRatingKey,newRating);
+      photoData[cur].ratings.push(newRate);
+      localStorage.setItem('macvolz_rate_'+cur,newRate);
+      saveData();
       
-      // Save to Firebase/localStorage
-      saveData(cur);
-      
-      // Update UI
-      document.querySelectorAll('#star-rating .star').forEach((star,i)=>{
-        star.classList.toggle('active',i<newRating);
-        star.textContent=i<newRating?'★':'☆';
+      document.querySelectorAll('#star-rating .star').forEach((s,i)=>{
+        s.classList.toggle('active',i<newRate);
+        s.textContent=i<newRate?'★':'☆';
       });
       
       document.getElementById('rating-avg').textContent=getAvgRating(cur);
@@ -1013,42 +625,31 @@
     }
   });
 
-  // COMMENT SUBMISSION
+  // COMMENT
   function submitComment(){
     const text=document.getElementById('comment-text').value.trim();
     const name=document.getElementById('comment-name').value.trim()||'Anonymous';
+    if(!text){alert('Please write a comment!');return;}
     
-    if(!text){
-      alert('Please write a comment!');
-      return;
-    }
-    
-    const userRatingKey='rating_'+cur;
-    const userRating=localStorage.getItem(userRatingKey);
-    
+    const userRate=localStorage.getItem('macvolz_rate_'+cur);
     const today=new Date();
     const dateStr=today.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
     
     photoData[cur].comments.unshift({
-      id:Date.now(),
-      userId:userId,
       name:name,
       text:text,
       date:dateStr,
-      rating:userRating?parseInt(userRating):null
+      rating:userRate?parseInt(userRate):null
     });
     
-    // Save to Firebase/localStorage
-    saveData(cur);
-    
+    saveData();
     document.getElementById('comment-text').value='';
     document.getElementById('comment-name').value='';
-    
     renderComments();
     renderGrid();
   }
 
-  // KEYBOARD NAV
+  // KEYBOARD
   document.addEventListener('keydown',function(e){
     if(!document.getElementById('lightbox').classList.contains('open'))return;
     if(e.key==='Escape')closeLB();
@@ -1057,7 +658,7 @@
   });
 
   // INIT
-  loadData();
+  renderGrid();
 </script>
 </body>
 </html>
