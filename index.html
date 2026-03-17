@@ -123,7 +123,7 @@
   .scroll-indicator span{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,.4);}
   .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--orange),transparent);}
 
-  /* PORTFOLIO - MASONRY GRID */
+  /* PORTFOLIO */
   .portfolio{padding:80px 40px;background:var(--dark);}
   .section-title{font-family:'Permanent Marker',cursive;font-size:clamp(36px,6vw,56px);margin-bottom:50px;text-align:center;}
   .section-title .stroke{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.2);}
@@ -164,22 +164,14 @@
   .photo-card:hover .photo-overlay{opacity:1;}
   .photo-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;margin-bottom:4px;}
   .photo-loc{font-size:11px;letter-spacing:2px;opacity:.6;}
-
   .card-rating{
     display:flex;
     align-items:center;
     gap:4px;
     margin-top:8px;
   }
-  .card-rating .stars{
-    color:var(--yellow);
-    font-size:12px;
-  }
-  .card-rating .count{
-    font-size:10px;
-    opacity:.5;
-    letter-spacing:1px;
-  }
+  .card-rating .stars{color:var(--yellow);font-size:12px;}
+  .card-rating .count{font-size:10px;opacity:.5;letter-spacing:1px;}
   .photo-num{
     position:absolute;
     top:12px;
@@ -205,14 +197,12 @@
   .stat:nth-child(3){border-color:var(--green);}
   .stat-num{font-size:48px;font-weight:700;background:linear-gradient(135deg,var(--orange),var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent;}
   .stat-label{font-size:12px;letter-spacing:3px;opacity:.5;margin-top:4px;}
-
   .gear-section{margin-top:40px;padding:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);}
   .gear-title{font-family:'Permanent Marker',cursive;font-size:14px;color:var(--yellow);margin-bottom:15px;letter-spacing:2px;}
   .gear-item{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
   .gear-icon{font-size:20px;}
   .gear-text{font-size:13px;letter-spacing:1px;opacity:.7;}
   .gear-text span{color:var(--teal);}
-
   .about-text p{font-family:system-ui,sans-serif;font-size:15px;line-height:1.9;color:rgba(255,255,255,.6);margin-bottom:20px;}
   .about-text p strong{color:#fff;}
   .about-text .highlight{color:var(--orange);}
@@ -270,7 +260,6 @@
   }
   .lb-close:hover{background:var(--orange);border-color:var(--orange);}
   
-  /* Navigation buttons */
   .lb-nav{
     position:fixed;
     top:50%;
@@ -326,7 +315,6 @@
   .lb-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--orange);}
   .lb-loc{font-size:14px;letter-spacing:4px;opacity:.5;margin-top:4px;}
 
-  /* Right Sidebar */
   .lb-sidebar{
     background:var(--gray);
     border-radius:8px;
@@ -338,7 +326,6 @@
     top:80px;
   }
   
-  /* RATING SECTION */
   .rating-section{
     margin-bottom:24px;
     padding-bottom:20px;
@@ -350,11 +337,7 @@
     letter-spacing:2px;
     color:var(--yellow);
     margin-bottom:14px;
-    display:flex;
-    align-items:center;
-    gap:8px;
   }
-  
   .rating-display{
     display:flex;
     align-items:center;
@@ -394,9 +377,7 @@
     color:var(--yellow);
     transform:scale(1.15);
   }
-  .star-rating .star.hovered{
-    color:var(--yellow);
-  }
+  .star-rating .star.hovered{color:var(--yellow);}
   
   .rating-hint{
     font-family:system-ui,sans-serif;
@@ -404,18 +385,11 @@
     color:rgba(255,255,255,.4);
     text-align:center;
   }
-  .rating-hint.rating-thanks{
-    color:var(--green);
-    display:none;
-  }
-  .rating-hint.rating-thanks.show{display:block;}
-  .rating-hint.rating-change{
-    color:var(--teal);
-    display:none;
-  }
-  .rating-hint.rating-change.show{display:block;}
+  .rating-thanks{color:var(--green);display:none;}
+  .rating-thanks.show{display:block;}
+  .rating-change{color:var(--teal);display:none;}
+  .rating-change.show{display:block;}
 
-  /* COMMENTS SECTION */
   .comments-section{}
   .comments-title{
     font-family:'Bebas Neue',sans-serif;
@@ -423,14 +397,8 @@
     letter-spacing:2px;
     color:var(--teal);
     margin-bottom:14px;
-    display:flex;
-    align-items:center;
-    gap:8px;
   }
-  
-  .comment-form{
-    margin-bottom:16px;
-  }
+  .comment-form{margin-bottom:16px;}
   .comment-input{
     width:100%;
     background:var(--dark);
@@ -443,16 +411,9 @@
     resize:none;
     transition:border-color .3s;
   }
-  .comment-input:focus{
-    outline:none;
-    border-color:var(--teal);
-  }
+  .comment-input:focus{outline:none;border-color:var(--teal);}
   .comment-input::placeholder{color:rgba(255,255,255,.3);}
-  
-  .comment-name-input{
-    margin-top:8px;
-  }
-  
+  .comment-name-input{margin-top:8px;}
   .comment-submit{
     margin-top:10px;
     background:linear-gradient(135deg,var(--teal),var(--green));
@@ -467,15 +428,8 @@
     transition:transform .2s,box-shadow .2s;
     width:100%;
   }
-  .comment-submit:hover{
-    transform:translateY(-2px);
-    box-shadow:0 4px 20px rgba(46,196,182,.3);
-  }
-  
-  .comments-list{
-    max-height:250px;
-    overflow-y:auto;
-  }
+  .comment-submit:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(46,196,182,.3);}
+  .comments-list{max-height:250px;overflow-y:auto;}
   .comment-item{
     background:var(--dark);
     border-radius:6px;
@@ -488,61 +442,21 @@
     align-items:center;
     margin-bottom:6px;
   }
-  .comment-author{
-    font-family:'Bebas Neue',sans-serif;
-    font-size:13px;
-    color:var(--pink);
-    letter-spacing:1px;
-  }
-  .comment-date{
-    font-family:system-ui,sans-serif;
-    font-size:10px;
-    color:rgba(255,255,255,.3);
-  }
-  .comment-text{
-    font-family:system-ui,sans-serif;
-    font-size:12px;
-    color:rgba(255,255,255,.7);
-    line-height:1.5;
-  }
-  .comment-stars{
-    color:var(--yellow);
-    font-size:11px;
-    margin-bottom:4px;
-  }
-  
-  .no-comments{
-    text-align:center;
-    padding:16px;
-    color:rgba(255,255,255,.3);
-    font-family:system-ui,sans-serif;
-    font-size:12px;
-  }
+  .comment-author{font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--pink);letter-spacing:1px;}
+  .comment-date{font-family:system-ui,sans-serif;font-size:10px;color:rgba(255,255,255,.3);}
+  .comment-text{font-family:system-ui,sans-serif;font-size:12px;color:rgba(255,255,255,.7);line-height:1.5;}
+  .comment-stars{color:var(--yellow);font-size:11px;margin-bottom:4px;}
+  .no-comments{text-align:center;padding:16px;color:rgba(255,255,255,.3);font-family:system-ui,sans-serif;font-size:12px;}
 
-  /* REVEAL */
   .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s;}
   .reveal.in{opacity:1;transform:translateY(0);}
 
-  /* RESPONSIVE */
   @media(max-width:1024px){
-    .lb-container{
-      grid-template-columns:1fr;
-      padding:70px 20px 30px;
-    }
-    .lb-sidebar{
-      position:relative;
-      top:0;
-      max-height:none;
-    }
-    .lb-image-section{
-      position:relative;
-      top:0;
-    }
-    .lb-image-section img{
-      max-height:calc(100vh - 300px);
-    }
+    .lb-container{grid-template-columns:1fr;padding:70px 20px 30px;}
+    .lb-sidebar{position:relative;top:0;max-height:none;}
+    .lb-image-section{position:relative;top:0;}
+    .lb-image-section img{max-height:calc(100vh - 300px);}
   }
-  
   @media(max-width:900px){
     nav{padding:16px 24px;}
     .nav-links{display:none;}
@@ -554,28 +468,16 @@
     .mob-close{right:24px;}
     .grid{column-count:2;}
   }
-  
   @media(max-width:600px){
     .grid{column-count:1;}
     .stats{justify-content:center;}
     .gear-section{padding:15px;}
-    .hero-tagline{
-      font-size:clamp(40px,15vw,70px);
-      flex-wrap:nowrap;
-      gap:5px;
-    }
+    .hero-tagline{font-size:clamp(40px,15vw,70px);flex-wrap:nowrap;gap:5px;}
     .lb-nav{width:44px;height:44px;font-size:24px;}
     #lb-prev{left:8px;}
     #lb-next{right:8px;}
-    .lb-close{
-      top:12px;
-      right:12px;
-      padding:8px 14px;
-      font-size:12px;
-    }
-    .lb-container{
-      padding:60px 12px 20px;
-    }
+    .lb-close{top:12px;right:12px;padding:8px 14px;font-size:12px;}
+    .lb-container{padding:60px 12px 20px;}
     .lb-title{font-size:24px;}
     .lb-sidebar{padding:18px;}
     .star-rating .star{font-size:28px;}
@@ -628,7 +530,7 @@
 
 <!-- PORTFOLIO -->
 <section class="portfolio" id="portfolio">
-  <h2 class="section-title reveal"><span class="stroke">Street</span> <span class="filled">Stories</span></h2>
+  <h2 class="section-title"><span class="stroke">Street</span> <span class="filled">Stories</span></h2>
   <div class="grid" id="photo-grid"></div>
 </section>
 
@@ -636,25 +538,25 @@
 <section class="about" id="about">
   <div class="about-left">
     <div class="about-label">Street Photographer</div>
-    <h2 class="about-name reveal">
+    <h2 class="about-name">
       <span class="r">Ranjan</span>
       <span class="m">MACVOLZ</span>
     </h2>
     <div class="stats">
-      <div class="stat reveal">
+      <div class="stat">
         <div class="stat-num">&lt;1</div>
         <div class="stat-label">YEAR</div>
       </div>
-      <div class="stat reveal" style="transition-delay:.1s">
+      <div class="stat">
         <div class="stat-num">17+</div>
         <div class="stat-label">PHOTOS</div>
       </div>
-      <div class="stat reveal" style="transition-delay:.2s">
+      <div class="stat">
         <div class="stat-num">1</div>
         <div class="stat-label">CITY</div>
       </div>
     </div>
-    <div class="gear-section reveal" style="transition-delay:.3s">
+    <div class="gear-section">
       <div class="gear-title">📱 My Gear</div>
       <div class="gear-item">
         <span class="gear-icon">📱</span>
@@ -671,17 +573,17 @@
     </div>
   </div>
   <div class="about-text">
-    <p class="reveal">Hey, I'm <strong>Ranjan</strong> — a <span class="highlight">street photographer</span> from <span class="highlight2">Rangia, Assam</span>. Under the name <strong>MACVOLZ</strong>, I roam the gullys and streets of my hometown, chasing those raw, unscripted moments that most people walk past.</p>
-    <p class="reveal" style="transition-delay:.1s">I started this journey less than a year ago with just my phone — an <strong>iQOO Neo 10R</strong>. No fancy camera, no expensive lenses. Just my eyes and a device in my pocket, capturing the soul of Rangia one frame at a time.</p>
-    <p class="reveal" style="transition-delay:.2s">This isn't just photography. It's <strong>gully storytelling</strong> — authentic, raw, and unapologetically from the heart of Assam.</p>
-    <div class="about-sig reveal" style="transition-delay:.3s">📸 Street • Phone Photography • Raw</div>
+    <p>Hey, I'm <strong>Ranjan</strong> — a <span class="highlight">street photographer</span> from <span class="highlight2">Rangia, Assam</span>. Under the name <strong>MACVOLZ</strong>, I roam the gullys and streets of my hometown, chasing those raw, unscripted moments that most people walk past.</p>
+    <p>I started this journey less than a year ago with just my phone — an <strong>iQOO Neo 10R</strong>. No fancy camera, no expensive lenses. Just my eyes and a device in my pocket, capturing the soul of Rangia one frame at a time.</p>
+    <p>This isn't just photography. It's <strong>gully storytelling</strong> — authentic, raw, and unapologetically from the heart of Assam.</p>
+    <div class="about-sig">📸 Street • Phone Photography • Raw</div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
-  <h2 class="contact-title reveal"><span class="c1">Let's</span> <span class="c2">Connect</span></h2>
-  <a href="mailto:macvolzofficial@gmail.com" class="contact-email reveal">macvolzofficial@gmail.com</a>
+  <h2 class="contact-title"><span class="c1">Let's</span> <span class="c2">Connect</span></h2>
+  <a href="mailto:macvolzofficial@gmail.com" class="contact-email">macvolzofficial@gmail.com</a>
   <ul class="socials">
     <li><a href="https://instagram.com/macvolz_" target="_blank" class="insta-main">@macvolz_</a></li>
     <li><a href="https://instagram.com/fliex_frame" target="_blank" class="insta-second">@fliex_frame</a></li>
@@ -760,11 +662,7 @@
   document.getElementById('mobClose').addEventListener('click',closeMob);
   function closeMob(){document.getElementById('mobMenu').classList.remove('open');}
 
-  // REVEAL
-  const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('in');})},{threshold:.15});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-  // ALL 17 PHOTOS
+  // ALL 17 PHOTOS - Make sure these match your file names exactly
   const photos=[
     {img:'IMG_20260115_085313.jpg.jpg',title:'Street Story 01',loc:'Rangia · Assam'},
     {img:'1.jpeg',title:'Street Story 02',loc:'Rangia · Assam'},
@@ -797,9 +695,7 @@
     };
   });
 
-  // ✅ USER RATINGS TRACKER - One rating per photo per user
   const userRatings={};
-  
   let cur=0;
 
   function getAvgRating(i){
@@ -810,28 +706,37 @@
 
   function getStarDisplay(rating){
     const full=Math.floor(rating);
-    const half=rating%1>=0.5?1:0;
-    const empty=5-full-half;
-    return '★'.repeat(full)+(half?'☆':'')+'☆'.repeat(empty);
+    const empty=5-full;
+    return '★'.repeat(full)+'☆'.repeat(empty);
   }
 
-  // RENDER GRID
+  // RENDER GRID - Called immediately
   function renderGrid(){
     const grid=document.getElementById('photo-grid');
-    grid.innerHTML=photos.map((p,i)=>`
-      <div class="photo-card reveal" onclick="openLB(${i})" style="transition-delay:${i*0.05}s">
-        <img src="${p.img}" alt="${p.title}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22><rect fill=%22%231a1a1a%22 width=%22400%22 height=%22300%22/><text x=%22200%22 y=%22150%22 fill=%22%23666%22 text-anchor=%22middle%22 font-size=%2240%22>📷</text></svg>'">
-        <div class="photo-overlay">
-          <span class="photo-title">${p.title}</span>
-          <span class="photo-loc">${p.loc}</span>
-          <div class="card-rating">
-            <span class="stars">${getStarDisplay(getAvgRating(i))}</span>
-            <span class="count">(${photoData[i].ratings.length})</span>
+    if(!grid){
+      console.error('Grid not found!');
+      return;
+    }
+    
+    let html='';
+    for(let i=0;i<photos.length;i++){
+      const p=photos[i];
+      html+=`
+        <div class="photo-card" onclick="openLB(${i})">
+          <img src="${p.img}" alt="${p.title}" onerror="this.style.background='#1a1a1a';this.style.minHeight='150px';this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 200%22><rect fill=%22%231a1a1a%22 width=%22400%22 height=%22200%22/><text x=%22200%22 y=%22100%22 fill=%22%23555%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2240%22>📷</text></svg>'">
+          <div class="photo-overlay">
+            <span class="photo-title">${p.title}</span>
+            <span class="photo-loc">${p.loc}</span>
+            <div class="card-rating">
+              <span class="stars">${getStarDisplay(getAvgRating(i))}</span>
+              <span class="count">(${photoData[i].ratings.length})</span>
+            </div>
           </div>
-        </div>
-        <span class="photo-num">${String(i+1).padStart(2,'0')}</span>
-      </div>
-    `).join('');
+          <span class="photo-num">${String(i+1).padStart(2,'0')}</span>
+        </div>`;
+    }
+    grid.innerHTML=html;
+    console.log('Grid rendered with ' + photos.length + ' photos');
   }
 
   // LIGHTBOX
@@ -860,12 +765,10 @@
     document.getElementById('lb-title').textContent=p.title;
     document.getElementById('lb-loc').textContent=p.loc;
     
-    // Rating
     const avg=getAvgRating(cur);
     document.getElementById('rating-avg').textContent=avg>0?avg:'-';
     document.getElementById('rating-count').textContent=data.ratings.length;
     
-    // ✅ Check if user already rated this photo
     const userRated=userRatings[cur];
     const stars=document.querySelectorAll('#star-rating .star');
     
@@ -875,7 +778,6 @@
     });
     
     if(userRated){
-      // Show user's existing rating
       stars.forEach((star,i)=>{
         if(i<userRated){
           star.classList.add('active');
@@ -903,22 +805,24 @@
       return;
     }
     
-    list.innerHTML=data.comments.map(c=>`
-      <div class="comment-item">
-        <div class="comment-header">
-          <span class="comment-author">${c.name}</span>
-          <span class="comment-date">${c.date}</span>
-        </div>
-        ${c.rating?`<div class="comment-stars">${getStarDisplay(c.rating)}</div>`:''}
-        <div class="comment-text">${c.text}</div>
-      </div>
-    `).join('');
+    let html='';
+    for(let j=0;j<data.comments.length;j++){
+      const c=data.comments[j];
+      html+=`
+        <div class="comment-item">
+          <div class="comment-header">
+            <span class="comment-author">${c.name}</span>
+            <span class="comment-date">${c.date}</span>
+          </div>
+          ${c.rating?`<div class="comment-stars">${getStarDisplay(c.rating)}</div>`:''}
+          <div class="comment-text">${c.text}</div>
+        </div>`;
+    }
+    list.innerHTML=html;
   }
 
-  // STAR RATING INTERACTION
-  const starContainer=document.getElementById('star-rating');
-  
-  starContainer.addEventListener('mouseover',e=>{
+  // STAR RATING
+  document.getElementById('star-rating').addEventListener('mouseover',function(e){
     if(e.target.classList.contains('star')){
       const rating=parseInt(e.target.dataset.rating);
       document.querySelectorAll('#star-rating .star').forEach((star,i)=>{
@@ -927,22 +831,18 @@
     }
   });
   
-  starContainer.addEventListener('mouseout',()=>{
+  document.getElementById('star-rating').addEventListener('mouseout',function(){
     const userRated=userRatings[cur];
     document.querySelectorAll('#star-rating .star').forEach((star,i)=>{
       star.classList.remove('hovered');
-      if(userRated && i<userRated){
-        star.classList.add('active');
-      }
     });
   });
   
-  starContainer.addEventListener('click',e=>{
+  document.getElementById('star-rating').addEventListener('click',function(e){
     if(e.target.classList.contains('star')){
       const newRating=parseInt(e.target.dataset.rating);
       const userRated=userRatings[cur];
       
-      // ✅ If user already rated, remove old rating first
       if(userRated){
         const oldIndex=photoData[cur].ratings.indexOf(userRated);
         if(oldIndex>-1){
@@ -950,11 +850,9 @@
         }
       }
       
-      // Add new rating
       photoData[cur].ratings.push(newRating);
       userRatings[cur]=newRating;
       
-      // Update UI
       document.querySelectorAll('#star-rating .star').forEach((star,i)=>{
         star.classList.toggle('active',i<newRating);
         star.textContent=i<newRating?'★':'☆';
@@ -998,14 +896,14 @@
   }
 
   // KEYBOARD NAV
-  document.addEventListener('keydown',e=>{
+  document.addEventListener('keydown',function(e){
     if(!document.getElementById('lightbox').classList.contains('open'))return;
     if(e.key==='Escape')closeLB();
     if(e.key==='ArrowRight')lbNav(1);
     if(e.key==='ArrowLeft')lbNav(-1);
   });
 
-  // INIT
+  // INIT - Run renderGrid immediately
   renderGrid();
 </script>
 </body>
