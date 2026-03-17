@@ -241,6 +241,12 @@
   .comment-stars{color:var(--yellow);font-size:11px;margin-bottom:4px;}
   .no-comments{text-align:center;padding:16px;color:rgba(255,255,255,.3);font-family:system-ui,sans-serif;font-size:12px;}
 
+  /* STATUS */
+  .db-status{position:fixed;bottom:20px;left:20px;background:rgba(0,0,0,.8);padding:8px 16px;border-radius:20px;font-size:11px;letter-spacing:1px;z-index:9999;display:flex;align-items:center;gap:8px;}
+  .db-status .dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+  .db-status.off .dot{background:var(--red);}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+
   /* RESPONSIVE */
   @media(max-width:1024px){
     .lb-container{grid-template-columns:1fr;padding:70px 20px 30px;}
@@ -273,6 +279,7 @@
     .lb-sidebar{padding:18px;}
     .star-rating .star{font-size:28px;}
     .rating-big{font-size:36px;}
+    .db-status{bottom:10px;left:10px;padding:6px 12px;font-size:10px;}
   }
 </style>
 </head>
@@ -283,6 +290,9 @@
   <div class="load-name">MACVOLZ</div>
   <div class="load-bar"><div class="load-fill" id="lf"></div></div>
 </div>
+
+<!-- DB STATUS -->
+<div class="db-status" id="dbStatus"><span class="dot"></span><span id="dbText">Connecting...</span></div>
 
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mobMenu">
@@ -402,7 +412,25 @@
   </div>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
 <script>
+  // ============================================
+  // ✅ YOUR FIREBASE CONFIG - ALREADY ADDED!
+  // ============================================
+  const firebaseConfig = {
+    apiKey: "AIzaSyDN2l8AIvBKc-W6aT1uuyYy1oF16qHTs1Q",
+    authDomain: "macvolz-f1d6a.firebaseapp.com",
+    databaseURL: "https://macvolz-f1d6a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "macvolz-f1d6a",
+    storageBucket: "macvolz-f1d6a.firebasestorage.app",
+    messagingSenderId: "343069710383",
+    appId: "1:343069710383:web:219e7b53a25017a75b4eda"
+  };
+  // ============================================
+
   // LOADER
   document.getElementById('lf').style.width='100%';
   setTimeout(()=>document.getElementById('loader').classList.add('gone'),2000);
@@ -420,9 +448,8 @@
   // SCROLL REVEAL
   function revealOnScroll(){
     const reveals=document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-    const windowHeight=window.innerHeight;
     reveals.forEach(el=>{
-      if(el.getBoundingClientRect().top<windowHeight-100){
+      if(el.getBoundingClientRect().top<window.innerHeight-100){
         el.classList.add('active');
       }
     });
@@ -451,38 +478,78 @@
     {img:'17..jpeg',title:'Street Story 17',loc:'Rangia · Assam'},
   ];
 
-  // ✅ PHOTO DATA - Default ratings that show to everyone
-  const defaultData={
-    0:{ratings:[5,4,5,5,4],comments:[{name:'Street Lover',text:'Amazing night shot! 🌙',date:'Mar 10, 2025',rating:5}]},
-    1:{ratings:[5,5,4,5],comments:[{name:'Rahul',text:'Great composition!',date:'Mar 8, 2025',rating:5}]},
-    2:{ratings:[4,5,4,4,5],comments:[{name:'Ankit',text:'Beautiful scene 📸',date:'Mar 7, 2025',rating:4}]},
-    3:{ratings:[5,4,5],comments:[{name:'Priya',text:'Stunning!',date:'Mar 6, 2025',rating:5}]},
-    4:{ratings:[4,4,5,5],comments:[{name:'Amit',text:'Nice perspective!',date:'Mar 5, 2025',rating:4}]},
-    5:{ratings:[5,5,4,5,4],comments:[{name:'Sneha',text:'Love this shot!',date:'Mar 4, 2025',rating:5}]},
-    6:{ratings:[4,5,5],comments:[{name:'Vikram',text:'Great capture!',date:'Mar 3, 2025',rating:4}]},
-    7:{ratings:[5,4,4,5],comments:[{name:'Neha',text:'Awesome! 🔥',date:'Mar 2, 2025',rating:5}]},
-    8:{ratings:[4,5,5,4],comments:[{name:'Ravi',text:'Beautiful moment!',date:'Mar 1, 2025',rating:4}]},
-    9:{ratings:[5,5,4,5,5],comments:[{name:'Ishita',text:'Perfect shot!',date:'Feb 28, 2025',rating:5}]},
-    10:{ratings:[4,4,5],comments:[{name:'Deepak',text:'Nice one!',date:'Feb 27, 2025',rating:4}]},
-    11:{ratings:[5,4,5,5],comments:[{name:'Pooja',text:'Love it!',date:'Feb 26, 2025',rating:5}]},
-    12:{ratings:[4,5,4,4],comments:[{name:'Arun',text:'Great work!',date:'Feb 25, 2025',rating:4}]},
-    13:{ratings:[5,5,5,4],comments:[{name:'Kiran',text:'Amazing!',date:'Feb 24, 2025',rating:5}]},
-    14:{ratings:[4,4,5,5],comments:[{name:'Sanjay',text:'Nice capture!',date:'Feb 23, 2025',rating:4}]},
-    15:{ratings:[5,4,5],comments:[{name:'Meena',text:'Beautiful! ✨',date:'Feb 22, 2025',rating:5}]},
-    16:{ratings:[4,5,4,5,4],comments:[{name:'Raj',text:'Awesome shot!',date:'Feb 21, 2025',rating:4}]},
-  };
+  // PHOTO DATA
+  const photoData={};
+  photos.forEach((p,i)=>{photoData[i]={ratings:[],comments:[]};});
 
-  // Load saved data or use defaults
-  let photoData=JSON.parse(localStorage.getItem('macvolz_photos'))||JSON.parse(JSON.stringify(defaultData));
-  
-  // Get unique user ID
+  let cur=0;
+  let db=null;
+  let dbConnected=false;
+
+  // Get/Create unique user ID
   let userId=localStorage.getItem('macvolz_user');
   if(!userId){
     userId='user_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);
     localStorage.setItem('macvolz_user',userId);
   }
 
-  let cur=0;
+  // Initialize Firebase
+  function initFirebase(){
+    try{
+      firebase.initializeApp(firebaseConfig);
+      db=firebase.database();
+      dbConnected=true;
+      
+      document.getElementById('dbText').textContent='Connected';
+      
+      // Listen for real-time updates from Firebase
+      db.ref('photos').on('value',(snapshot)=>{
+        const data=snapshot.val();
+        if(data){
+          Object.keys(data).forEach(key=>{
+            const idx=parseInt(key);
+            if(photoData[idx]){
+              photoData[idx].ratings=data[key].ratings||[];
+              photoData[idx].comments=data[key].comments||[];
+            }
+          });
+        }
+        renderGrid();
+        if(document.getElementById('lightbox').classList.contains('open')){
+          renderLB();
+        }
+      });
+      
+    }catch(e){
+      console.error('Firebase error:',e);
+      document.getElementById('dbStatus').classList.add('off');
+      document.getElementById('dbText').textContent='Local Mode';
+      loadLocalData();
+    }
+  }
+
+  // Load local data (fallback)
+  function loadLocalData(){
+    const saved=localStorage.getItem('macvolz_photos');
+    if(saved){
+      const data=JSON.parse(saved);
+      Object.keys(data).forEach(key=>{
+        const idx=parseInt(key);
+        if(photoData[idx])photoData[idx]=data[idx];
+      });
+    }
+    renderGrid();
+  }
+
+  // Save data to Firebase
+  function saveData(idx){
+    if(dbConnected && db){
+      db.ref('photos/'+idx).set({
+        ratings:photoData[idx].ratings,
+        comments:photoData[idx].comments
+      });
+    }
+  }
 
   function getAvgRating(i){
     const r=photoData[i].ratings;
@@ -493,10 +560,6 @@
   function getStarDisplay(rating){
     const full=Math.floor(rating);
     return '★'.repeat(full)+'☆'.repeat(5-full);
-  }
-
-  function saveData(){
-    localStorage.setItem('macvolz_photos',JSON.stringify(photoData));
   }
 
   // RENDER GRID
@@ -571,7 +634,7 @@
   function renderComments(){
     const list=document.getElementById('comments-list');
     const data=photoData[cur].comments;
-    if(data.length===0){
+    if(!data||data.length===0){
       list.innerHTML='<div class="no-comments">No comments yet. Be the first!</div>';
       return;
     }
@@ -608,7 +671,7 @@
       
       photoData[cur].ratings.push(newRate);
       localStorage.setItem('macvolz_rate_'+cur,newRate);
-      saveData();
+      saveData(cur);
       
       document.querySelectorAll('#star-rating .star').forEach((s,i)=>{
         s.classList.toggle('active',i<newRate);
@@ -642,7 +705,7 @@
       rating:userRate?parseInt(userRate):null
     });
     
-    saveData();
+    saveData(cur);
     document.getElementById('comment-text').value='';
     document.getElementById('comment-name').value='';
     renderComments();
@@ -658,7 +721,7 @@
   });
 
   // INIT
-  renderGrid();
+  initFirebase();
 </script>
 </body>
 </html>
