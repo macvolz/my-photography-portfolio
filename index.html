@@ -662,7 +662,7 @@
   document.getElementById('mobClose').addEventListener('click',closeMob);
   function closeMob(){document.getElementById('mobMenu').classList.remove('open');}
 
-  // ALL 17 PHOTOS - Make sure these match your file names exactly
+  // ALL 17 PHOTOS
   const photos=[
     {img:'IMG_20260115_085313.jpg.jpg',title:'Street Story 01',loc:'Rangia · Assam'},
     {img:'1.jpeg',title:'Street Story 02',loc:'Rangia · Assam'},
@@ -683,17 +683,26 @@
     {img:'17..jpeg',title:'Street Story 17',loc:'Rangia · Assam'},
   ];
 
-  // DATA STORAGE
-  const photoData={};
-  photos.forEach((p,i)=>{
-    photoData[i]={
-      ratings:[],
-      comments:[
-        {name:'Street Lover',text:'Amazing capture! Love the mood 📸',date:'Mar 10, 2025',rating:5},
-        {name:'Photo Fan',text:'Great composition!',date:'Mar 12, 2025',rating:4},
-      ]
-    };
-  });
+  // ✅ DATA WITH DEFAULT RATINGS - Shown to everyone all the time
+  const photoData={
+    0:{ratings:[5,4,5,5,4],comments:[{name:'Street Lover',text:'Amazing night shot! 🌙',date:'Mar 10, 2025',rating:5},{name:'Photo Fan',text:'Love the colors!',date:'Mar 12, 2025',rating:4}]},
+    1:{ratings:[5,5,4,5],comments:[{name:'Rahul',text:'Great composition!',date:'Mar 8, 2025',rating:5}]},
+    2:{ratings:[4,5,4,4,5],comments:[{name:'Ankit',text:'Beautiful scene 📸',date:'Mar 7, 2025',rating:4}]},
+    3:{ratings:[5,4,5],comments:[{name:'Priya',text:'Stunning!',date:'Mar 6, 2025',rating:5}]},
+    4:{ratings:[4,4,5,5],comments:[{name:'Amit',text:'Nice perspective!',date:'Mar 5, 2025',rating:4}]},
+    5:{ratings:[5,5,4,5,4],comments:[{name:'Sneha',text:'Love this shot!',date:'Mar 4, 2025',rating:5}]},
+    6:{ratings:[4,5,5],comments:[{name:'Vikram',text:'Great capture!',date:'Mar 3, 2025',rating:4}]},
+    7:{ratings:[5,4,4,5],comments:[{name:'Neha',text:'Awesome! 🔥',date:'Mar 2, 2025',rating:5}]},
+    8:{ratings:[4,5,5,4],comments:[{name:'Ravi',text:'Beautiful moment!',date:'Mar 1, 2025',rating:4}]},
+    9:{ratings:[5,5,4,5,5],comments:[{name:'Ishita',text:'Perfect shot!',date:'Feb 28, 2025',rating:5}]},
+    10:{ratings:[4,4,5],comments:[{name:'Deepak',text:'Nice one!',date:'Feb 27, 2025',rating:4}]},
+    11:{ratings:[5,4,5,5],comments:[{name:'Pooja',text:'Love it!',date:'Feb 26, 2025',rating:5}]},
+    12:{ratings:[4,5,4,4],comments:[{name:'Arun',text:'Great work!',date:'Feb 25, 2025',rating:4}]},
+    13:{ratings:[5,5,5,4],comments:[{name:'Kiran',text:'Amazing!',date:'Feb 24, 2025',rating:5}]},
+    14:{ratings:[4,4,5,5],comments:[{name:'Sanjay',text:'Nice capture!',date:'Feb 23, 2025',rating:4}]},
+    15:{ratings:[5,4,5],comments:[{name:'Meena',text:'Beautiful! ✨',date:'Feb 22, 2025',rating:5}]},
+    16:{ratings:[4,5,4,5,4],comments:[{name:'Raj',text:'Awesome shot!',date:'Feb 21, 2025',rating:4}]},
+  };
 
   const userRatings={};
   let cur=0;
@@ -710,13 +719,10 @@
     return '★'.repeat(full)+'☆'.repeat(empty);
   }
 
-  // RENDER GRID - Called immediately
+  // RENDER GRID
   function renderGrid(){
     const grid=document.getElementById('photo-grid');
-    if(!grid){
-      console.error('Grid not found!');
-      return;
-    }
+    if(!grid)return;
     
     let html='';
     for(let i=0;i<photos.length;i++){
@@ -736,7 +742,6 @@
         </div>`;
     }
     grid.innerHTML=html;
-    console.log('Grid rendered with ' + photos.length + ' photos');
   }
 
   // LIGHTBOX
@@ -832,7 +837,6 @@
   });
   
   document.getElementById('star-rating').addEventListener('mouseout',function(){
-    const userRated=userRatings[cur];
     document.querySelectorAll('#star-rating .star').forEach((star,i)=>{
       star.classList.remove('hovered');
     });
@@ -903,7 +907,7 @@
     if(e.key==='ArrowLeft')lbNav(-1);
   });
 
-  // INIT - Run renderGrid immediately
+  // INIT
   renderGrid();
 </script>
 </body>
