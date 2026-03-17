@@ -162,7 +162,6 @@
   .section-title .stroke{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.2);}
   .section-title .filled{background:linear-gradient(90deg,var(--pink),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent;}
   
-  /* Masonry Grid - Auto height based on image */
   .grid{
     column-count:3;
     column-gap:10px;
@@ -198,12 +197,29 @@
   .photo-card:hover .photo-overlay{opacity:1;}
   .photo-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;margin-bottom:4px;}
   .photo-loc{font-size:11px;letter-spacing:2px;opacity:.6;}
+
+  /* Rating preview on card */
+  .card-rating{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    margin-top:8px;
+  }
+  .card-rating .stars{
+    color:var(--yellow);
+    font-size:12px;
+  }
+  .card-rating .count{
+    font-size:10px;
+    opacity:.5;
+    letter-spacing:1px;
+  }
   .photo-num{
     position:absolute;
     top:12px;
     right:12px;
     font-family:'Permanent Marker',cursive;
-    font-size:16px;
+    font-size:14px;
     opacity:.4;
     background:rgba(0,0,0,.3);
     padding:4px 8px;
@@ -259,45 +275,54 @@
   footer p{font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.3);}
   footer .name{font-family:'Permanent Marker',cursive;color:var(--orange);}
 
-  /* LIGHTBOX - Original Ratio */
+  /* LIGHTBOX WITH RATING & COMMENTS */
   #lightbox{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.97);
+    background:rgba(0,0,0,.98);
     z-index:8000;
-    align-items:center;
-    justify-content:center;
+    overflow-y:auto;
   }
-  #lightbox.open{display:flex;}
+  #lightbox.open{display:block;}
+  
+  .lb-container{
+    max-width:1200px;
+    margin:0 auto;
+    padding:80px 20px 40px;
+    display:grid;
+    grid-template-columns:1fr 380px;
+    gap:30px;
+    min-height:100vh;
+    align-items:start;
+  }
+  
   .lb-close{
     position:fixed;
     top:20px;
     right:30px;
-    background:none;
-    border:none;
-    color:rgba(255,255,255,.5);
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.2);
+    color:#fff;
     font-family:'Bebas Neue',sans-serif;
     font-size:14px;
     letter-spacing:3px;
     cursor:pointer;
-    transition:color .3s;
+    transition:all .3s;
     z-index:10;
+    padding:10px 20px;
+    border-radius:4px;
   }
-  .lb-close:hover{color:#fff;}
-  .lb-content{
-    max-width:95vw;
-    max-height:90vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+  .lb-close:hover{background:var(--orange);border-color:var(--orange);}
+  
+  .lb-image-section{
+    position:sticky;
+    top:80px;
   }
-  .lb-content img{
-    max-width:95vw;
-    max-height:90vh;
-    width:auto;
+  .lb-image-section img{
+    width:100%;
     height:auto;
-    object-fit:contain;
+    border-radius:8px;
   }
   .lb-nav{
     position:fixed;
@@ -315,21 +340,198 @@
     cursor:pointer;
     transition:all .3s;
     z-index:10;
+    border-radius:50%;
   }
-  .lb-nav:hover{background:rgba(255,255,255,.1);border-color:var(--orange);}
+  .lb-nav:hover{background:var(--orange);border-color:var(--orange);}
   #lb-prev{left:20px;}
-  #lb-next{right:20px;}
-  .lb-info{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    padding:30px;
-    background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
+  #lb-next{right:420px;}
+  
+  .lb-photo-info{
+    margin-top:20px;
     text-align:center;
   }
-  .lb-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--orange);}
-  .lb-loc{font-size:13px;letter-spacing:4px;opacity:.5;margin-top:4px;}
+  .lb-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--orange);}
+  .lb-loc{font-size:14px;letter-spacing:4px;opacity:.5;margin-top:4px;}
+
+  /* Right Sidebar - Rating & Comments */
+  .lb-sidebar{
+    background:var(--gray);
+    border-radius:8px;
+    padding:24px;
+    height:fit-content;
+    position:sticky;
+    top:80px;
+  }
+  
+  /* RATING SECTION */
+  .rating-section{
+    margin-bottom:30px;
+    padding-bottom:24px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+  }
+  .rating-title{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:18px;
+    letter-spacing:2px;
+    color:var(--yellow);
+    margin-bottom:16px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  
+  .rating-display{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .rating-big{
+    font-size:48px;
+    font-weight:700;
+    background:linear-gradient(135deg,var(--yellow),var(--orange));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .rating-details{
+    font-family:system-ui,sans-serif;
+    font-size:13px;
+    color:rgba(255,255,255,.5);
+  }
+  .rating-details strong{color:#fff;}
+  
+  .star-rating{
+    display:flex;
+    gap:4px;
+    margin-bottom:8px;
+  }
+  .star-rating .star{
+    font-size:28px;
+    cursor:pointer;
+    transition:all .2s;
+    color:rgba(255,255,255,.2);
+  }
+  .star-rating .star:hover,
+  .star-rating .star.active{
+    color:var(--yellow);
+    transform:scale(1.1);
+  }
+  .star-rating .star.hovered{
+    color:var(--yellow);
+  }
+  
+  .rating-hint{
+    font-family:system-ui,sans-serif;
+    font-size:12px;
+    color:rgba(255,255,255,.4);
+    margin-top:8px;
+  }
+  .rating-thanks{
+    color:var(--green);
+    display:none;
+  }
+  .rating-thanks.show{display:block;}
+
+  /* COMMENTS SECTION */
+  .comments-section{}
+  .comments-title{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:18px;
+    letter-spacing:2px;
+    color:var(--teal);
+    margin-bottom:16px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  
+  .comment-form{
+    margin-bottom:20px;
+  }
+  .comment-input{
+    width:100%;
+    background:var(--dark);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:6px;
+    padding:12px;
+    color:#fff;
+    font-family:system-ui,sans-serif;
+    font-size:14px;
+    resize:none;
+    transition:border-color .3s;
+  }
+  .comment-input:focus{
+    outline:none;
+    border-color:var(--teal);
+  }
+  .comment-input::placeholder{color:rgba(255,255,255,.3);}
+  
+  .comment-name-input{
+    margin-top:10px;
+  }
+  
+  .comment-submit{
+    margin-top:12px;
+    background:linear-gradient(135deg,var(--teal),var(--green));
+    border:none;
+    color:#fff;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:14px;
+    letter-spacing:2px;
+    padding:10px 24px;
+    border-radius:4px;
+    cursor:pointer;
+    transition:transform .2s,box-shadow .2s;
+  }
+  .comment-submit:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 20px rgba(46,196,182,.3);
+  }
+  
+  .comments-list{
+    max-height:300px;
+    overflow-y:auto;
+  }
+  .comment-item{
+    background:var(--dark);
+    border-radius:6px;
+    padding:14px;
+    margin-bottom:10px;
+  }
+  .comment-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+  }
+  .comment-author{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:14px;
+    color:var(--pink);
+    letter-spacing:1px;
+  }
+  .comment-date{
+    font-family:system-ui,sans-serif;
+    font-size:11px;
+    color:rgba(255,255,255,.3);
+  }
+  .comment-text{
+    font-family:system-ui,sans-serif;
+    font-size:13px;
+    color:rgba(255,255,255,.7);
+    line-height:1.5;
+  }
+  .comment-stars{
+    color:var(--yellow);
+    font-size:12px;
+  }
+  
+  .no-comments{
+    text-align:center;
+    padding:20px;
+    color:rgba(255,255,255,.3);
+    font-family:system-ui,sans-serif;
+    font-size:13px;
+  }
 
   /* REVEAL */
   .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s;}
@@ -346,6 +548,9 @@
     .stats{gap:30px;}
     .mob-close{right:24px;}
     .grid{column-count:2;}
+    .lb-container{grid-template-columns:1fr;padding:70px 16px 20px;}
+    .lb-sidebar{position:relative;top:0;}
+    #lb-next{right:20px;}
   }
   @media(max-width:600px){
     .grid{column-count:1;}
@@ -359,6 +564,7 @@
       flex-wrap:nowrap;
       gap:5px;
     }
+    .lb-image-section{position:relative;top:0;}
   }
 </style>
 </head>
@@ -409,89 +615,7 @@
 <section class="portfolio" id="portfolio">
   <h2 class="section-title reveal"><span class="stroke">Street</span> <span class="filled">Stories</span></h2>
   
-  <div class="grid">
-    
-    <!-- PHOTO 1 -->
-    <div class="photo-card reveal" onclick="openLB(0)">
-      <img src="IMG_20260115_085313.jpg.jpg" alt="Nature">
-      <div class="photo-overlay">
-        <span class="photo-title">Nature</span>
-        <span class="photo-loc">Tamulpur · Assam</span>
-      </div>
-      <span class="photo-num">01</span>
-    </div>
-
-    <!-- PHOTO 2 - Add your photo here -->
-    <div class="photo-card reveal" onclick="openLB(1)">
-      <img src="14.jpeg" alt="City Motion">
-      <div class="photo-overlay">
-        <span class="photo-title">City Motion</span>
-        <span class="photo-loc">Rangia · 2024</span>
-      </div>
-      <span class="photo-num">02</span>
-    </div>
-
-    <!-- PHOTO 3 - Add your photo here -->
-    <div class="photo-card reveal" onclick="openLB(2)" style="transition-delay:.15s">
-      <img src="1.jpeg" alt="The Walk">
-      <div class="photo-overlay">
-        <span class="photo-title">The Walk</span>
-        <span class="photo-loc">Rangia · 2024</span>
-      </div>
-      <span class="photo-num">03</span>
-    </div>
-
-    <!-- PHOTO 4 - Add your photo here -->
-    <div class="photo-card reveal" onclick="openLB(3)" style="transition-delay:.2s">
-      <img src="photo4.jpg" alt="Street Ride">
-      <div class="photo-overlay">
-        <span class="photo-title">Street Ride</span>
-        <span class="photo-loc">Rangia · 2024</span>
-      </div>
-      <span class="photo-num">04</span>
-    </div>
-
-    <!-- PHOTO 5 - Add your photo here -->
-    <div class="photo-card reveal" onclick="openLB(4)" style="transition-delay:.25s">
-      <img src="photo5.jpg" alt="Rangia Dawn">
-      <div class="photo-overlay">
-        <span class="photo-title">Rangia Dawn</span>
-        <span class="photo-loc">Assam · 2024</span>
-      </div>
-      <span class="photo-num">05</span>
-    </div>
-
-    <!-- PHOTO 6 - Add your photo here -->
-    <div class="photo-card reveal" onclick="openLB(5)" style="transition-delay:.3s">
-      <img src="photo6.jpg" alt="Chai Break">
-      <div class="photo-overlay">
-        <span class="photo-title">Chai Break</span>
-        <span class="photo-loc">Street Corner</span>
-      </div>
-      <span class="photo-num">06</span>
-    </div>
-
-    <!-- PHOTO 7 - Add your photo here -->
-    <div class="photo-card reveal" onclick="openLB(6)" style="transition-delay:.35s">
-      <img src="photo7.jpg" alt="Local Spirit">
-      <div class="photo-overlay">
-        <span class="photo-title">Local Spirit</span>
-        <span class="photo-loc">Rangia · 2024</span>
-      </div>
-      <span class="photo-num">07</span>
-    </div>
-
-    <!-- PHOTO 8 - Add your photo here -->
-    <div class="photo-card reveal" onclick="openLB(7)" style="transition-delay:.4s">
-      <img src="photo8.jpg" alt="Silent Night">
-      <div class="photo-overlay">
-        <span class="photo-title">Silent Night</span>
-        <span class="photo-loc">Rangia</span>
-      </div>
-      <span class="photo-num">08</span>
-    </div>
-
-  </div>
+  <div class="grid" id="photo-grid"></div>
 </section>
 
 <!-- ABOUT -->
@@ -508,7 +632,7 @@
         <div class="stat-label">YEAR</div>
       </div>
       <div class="stat reveal" style="transition-delay:.1s">
-        <div class="stat-num">50+</div>
+        <div class="stat-num">17+</div>
         <div class="stat-label">PHOTOS</div>
       </div>
       <div class="stat reveal" style="transition-delay:.2s">
@@ -561,11 +685,50 @@
 <div id="lightbox">
   <button class="lb-close" onclick="closeLB()">CLOSE ✕</button>
   <button class="lb-nav" id="lb-prev" onclick="lbNav(-1)">‹</button>
-  <div class="lb-content" id="lb-content"></div>
   <button class="lb-nav" id="lb-next" onclick="lbNav(1)">›</button>
-  <div class="lb-info">
-    <div class="lb-title" id="lb-title"></div>
-    <div class="lb-loc" id="lb-loc"></div>
+  
+  <div class="lb-container">
+    <div class="lb-image-section">
+      <img id="lb-img" src="" alt="">
+      <div class="lb-photo-info">
+        <div class="lb-title" id="lb-title"></div>
+        <div class="lb-loc" id="lb-loc"></div>
+      </div>
+    </div>
+    
+    <div class="lb-sidebar">
+      <!-- RATING SECTION -->
+      <div class="rating-section">
+        <div class="rating-title">⭐ Rate This Photo</div>
+        <div class="rating-display">
+          <span class="rating-big" id="rating-avg">-</span>
+          <div class="rating-details">
+            <div><strong id="rating-count">0</strong> ratings</div>
+            <div>out of 5 stars</div>
+          </div>
+        </div>
+        <div class="star-rating" id="star-rating">
+          <span class="star" data-rating="1">☆</span>
+          <span class="star" data-rating="2">☆</span>
+          <span class="star" data-rating="3">☆</span>
+          <span class="star" data-rating="4">☆</span>
+          <span class="star" data-rating="5">☆</span>
+        </div>
+        <div class="rating-hint">Click a star to rate</div>
+        <div class="rating-hint rating-thanks" id="rating-thanks">✓ Thanks for your rating!</div>
+      </div>
+      
+      <!-- COMMENTS SECTION -->
+      <div class="comments-section">
+        <div class="comments-title">💬 Comments</div>
+        <div class="comment-form">
+          <textarea class="comment-input" id="comment-text" placeholder="Write a comment..." rows="3"></textarea>
+          <input type="text" class="comment-input comment-name-input" id="comment-name" placeholder="Your name">
+          <button class="comment-submit" onclick="submitComment()">Post Comment</button>
+        </div>
+        <div class="comments-list" id="comments-list"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -588,47 +751,213 @@
   const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('in');})},{threshold:.15});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-  // LIGHTBOX - PHOTOS DATA
-  // ✅ Just add your photo filename, title, and location here
+  // ✅ ALL 17 PHOTOS
   const photos=[
-    {img:'IMG_20260115_085313.jpg.jpg',title:'Night Market',loc:'Rangia · Assam'},
-    {img:'photo2.jpg',title:'Monsoon Gully',loc:'Rangia · 2024'},
-    {img:'photo3.jpg',title:'The Walk',loc:'Rangia · 2024'},
-    {img:'photo4.jpg',title:'Street Ride',loc:'Rangia · 2024'},
-    {img:'photo5.jpg',title:'Rangia Dawn',loc:'Assam · 2024'},
-    {img:'photo6.jpg',title:'Chai Break',loc:'Street Corner'},
-    {img:'photo7.jpg',title:'Local Spirit',loc:'Rangia · 2024'},
-    {img:'photo8.jpg',title:'Silent Night',loc:'Rangia'},
+    {img:'IMG_20260115_085313.jpg.jpg',title:'Street Story 01',loc:'Rangia · Assam'},
+    {img:'1.jpeg',title:'Street Story 02',loc:'Rangia · Assam'},
+    {img:'2.jpeg',title:'Street Story 03',loc:'Rangia · Assam'},
+    {img:'3.jpeg',title:'Street Story 04',loc:'Rangia · Assam'},
+    {img:'4.jpeg',title:'Street Story 05',loc:'Rangia · Assam'},
+    {img:'5.jpeg',title:'Street Story 06',loc:'Rangia · Assam'},
+    {img:'6.jpeg',title:'Street Story 07',loc:'Rangia · Assam'},
+    {img:'7.jpeg',title:'Street Story 08',loc:'Rangia · Assam'},
+    {img:'8.jpeg',title:'Street Story 09',loc:'Rangia · Assam'},
+    {img:'9.jpeg',title:'Street Story 10',loc:'Rangia · Assam'},
+    {img:'11.jpeg',title:'Street Story 11',loc:'Rangia · Assam'},
+    {img:'12.jpeg',title:'Street Story 12',loc:'Rangia · Assam'},
+    {img:'13.jpeg',title:'Street Story 13',loc:'Rangia · Assam'},
+    {img:'14.jpeg',title:'Street Story 14',loc:'Rangia · Assam'},
+    {img:'15.jpeg',title:'Street Story 15',loc:'Rangia · Assam'},
+    {img:'16.jpeg',title:'Street Story 16',loc:'Rangia · Assam'},
+    {img:'17..jpeg',title:'Street Story 17',loc:'Rangia · Assam'},
   ];
-  let cur=0;
 
+  // RATINGS & COMMENTS DATA
+  const photoData={};
+  photos.forEach((p,i)=>{
+    photoData[i]={
+      ratings:[],
+      comments:[
+        {name:'Street Lover',text:'Amazing capture! Love the mood 📸',date:'Mar 10, 2025',rating:5},
+        {name:'Photo Fan',text:'Great composition!',date:'Mar 12, 2025',rating:4},
+      ]
+    };
+  });
+
+  let cur=0;
+  let userRating=0;
+
+  // RENDER GRID
+  function renderGrid(){
+    const grid=document.getElementById('photo-grid');
+    grid.innerHTML=photos.map((p,i)=>`
+      <div class="photo-card reveal" onclick="openLB(${i})" style="transition-delay:${i*0.05}s">
+        <img src="${p.img}" alt="${p.title}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22><rect fill=%22%231a1a1a%22 width=%22400%22 height=%22300%22/><text x=%22200%22 y=%22150%22 fill=%22%23666%22 text-anchor=%22middle%22 font-size=%2240%22>📷</text></svg>'">
+        <div class="photo-overlay">
+          <span class="photo-title">${p.title}</span>
+          <span class="photo-loc">${p.loc}</span>
+          <div class="card-rating">
+            <span class="stars">${getStarDisplay(getAvgRating(i))}</span>
+            <span class="count">(${photoData[i].ratings.length})</span>
+          </div>
+        </div>
+        <span class="photo-num">${String(i+1).padStart(2,'0')}</span>
+      </div>
+    `).join('');
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  }
+
+  function getAvgRating(i){
+    const r=photoData[i].ratings;
+    if(r.length===0)return 0;
+    return(r.reduce((a,b)=>a+b,0)/r.length).toFixed(1);
+  }
+
+  function getStarDisplay(rating){
+    const full=Math.floor(rating);
+    const half=rating%1>=0.5?1:0;
+    const empty=5-full-half;
+    return '★'.repeat(full)+(half?'☆':'')+'☆'.repeat(empty);
+  }
+
+  // LIGHTBOX
   function openLB(i){
     cur=i;
+    userRating=0;
     renderLB();
     document.getElementById('lightbox').classList.add('open');
-  }
-  function closeLB(){
-    document.getElementById('lightbox').classList.remove('open');
-  }
-  function lbNav(d){
-    cur=(cur+d+photos.length)%photos.length;
-    renderLB();
-  }
-  function renderLB(){
-    const p=photos[cur];
-    document.getElementById('lb-content').innerHTML=`<img src="${p.img}" alt="${p.title}">`;
-    document.getElementById('lb-title').textContent=p.title;
-    document.getElementById('lb-loc').textContent=p.loc;
+    document.body.style.overflow='hidden';
   }
   
-  document.getElementById('lightbox').addEventListener('click',e=>{
-    if(e.target.id==='lightbox')closeLB();
+  function closeLB(){
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow='';
+  }
+  
+  function lbNav(d){
+    cur=(cur+d+photos.length)%photos.length;
+    userRating=0;
+    renderLB();
+  }
+
+  function renderLB(){
+    const p=photos[cur];
+    const data=photoData[cur];
+    
+    document.getElementById('lb-img').src=p.img;
+    document.getElementById('lb-title').textContent=p.title;
+    document.getElementById('lb-loc').textContent=p.loc;
+    
+    // Rating
+    const avg=getAvgRating(cur);
+    document.getElementById('rating-avg').textContent=avg>0?avg:'-';
+    document.getElementById('rating-count').textContent=data.ratings.length;
+    
+    // Reset stars
+    document.querySelectorAll('#star-rating .star').forEach(star=>{
+      star.classList.remove('active','hovered');
+      star.textContent='☆';
+    });
+    document.getElementById('rating-thanks').classList.remove('show');
+    
+    // Comments
+    renderComments();
+  }
+
+  function renderComments(){
+    const list=document.getElementById('comments-list');
+    const data=photoData[cur];
+    
+    if(data.comments.length===0){
+      list.innerHTML='<div class="no-comments">No comments yet. Be the first!</div>';
+      return;
+    }
+    
+    list.innerHTML=data.comments.map(c=>`
+      <div class="comment-item">
+        <div class="comment-header">
+          <span class="comment-author">${c.name}</span>
+          <span class="comment-date">${c.date}</span>
+        </div>
+        ${c.rating?`<div class="comment-stars">${getStarDisplay(c.rating)}</div>`:''}
+        <div class="comment-text">${c.text}</div>
+      </div>
+    `).join('');
+  }
+
+  // STAR RATING INTERACTION
+  const starContainer=document.getElementById('star-rating');
+  starContainer.addEventListener('mouseover',e=>{
+    if(e.target.classList.contains('star')){
+      const rating=parseInt(e.target.dataset.rating);
+      document.querySelectorAll('#star-rating .star').forEach((star,i)=>{
+        star.classList.toggle('hovered',i<rating);
+      });
+    }
   });
+  
+  starContainer.addEventListener('mouseout',()=>{
+    document.querySelectorAll('#star-rating .star').forEach(star=>{
+      star.classList.remove('hovered');
+    });
+  });
+  
+  starContainer.addEventListener('click',e=>{
+    if(e.target.classList.contains('star')){
+      userRating=parseInt(e.target.dataset.rating);
+      document.querySelectorAll('#star-rating .star').forEach((star,i)=>{
+        star.classList.toggle('active',i<userRating);
+        star.textContent=i<userRating?'★':'☆';
+      });
+      
+      // Save rating
+      photoData[cur].ratings.push(userRating);
+      document.getElementById('rating-avg').textContent=getAvgRating(cur);
+      document.getElementById('rating-count').textContent=photoData[cur].ratings.length;
+      document.getElementById('rating-thanks').classList.add('show');
+      
+      // Update grid
+      renderGrid();
+    }
+  });
+
+  // COMMENT SUBMISSION
+  function submitComment(){
+    const text=document.getElementById('comment-text').value.trim();
+    const name=document.getElementById('comment-name').value.trim()||'Anonymous';
+    
+    if(!text){
+      alert('Please write a comment!');
+      return;
+    }
+    
+    const today=new Date();
+    const dateStr=today.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    
+    photoData[cur].comments.unshift({
+      name:name,
+      text:text,
+      date:dateStr,
+      rating:userRating||null
+    });
+    
+    document.getElementById('comment-text').value='';
+    document.getElementById('comment-name').value='';
+    
+    renderComments();
+    renderGrid();
+  }
+
+  // KEYBOARD NAV
   document.addEventListener('keydown',e=>{
+    if(!document.getElementById('lightbox').classList.contains('open'))return;
     if(e.key==='Escape')closeLB();
     if(e.key==='ArrowRight')lbNav(1);
     if(e.key==='ArrowLeft')lbNav(-1);
   });
+
+  // INIT
+  renderGrid();
 </script>
 </body>
 </html>
