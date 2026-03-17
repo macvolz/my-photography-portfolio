@@ -88,19 +88,6 @@
     position:relative;
     flex-shrink:0;
   }
-  .hero-tagline .mac::before{
-    content:'';
-    position:absolute;
-    inset:-10px -20px;
-    border:2px solid transparent;
-    border-radius:8px;
-    background:linear-gradient(90deg,transparent,rgba(247,37,133,.3),transparent) border-box;
-    animation:borderSlide 3s linear infinite;
-    -webkit-mask:linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-    mask:linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite:xor;
-    mask-composite:exclude;
-  }
   @keyframes macFloat{
     0%,100%{transform:skewX(-5deg) rotate(-2deg) translateY(0);}
     50%{transform:skewX(-5deg) rotate(-2deg) translateY(-8px);}
@@ -108,10 +95,6 @@
   @keyframes macGlow{
     0%{filter:drop-shadow(0 0 20px rgba(247,37,133,.4));}
     100%{filter:drop-shadow(0 0 40px rgba(247,37,133,.7));}
-  }
-  @keyframes borderSlide{
-    0%{background-position:-200% 0;}
-    100%{background-position:200% 0;}
   }
 
   .hero-tagline .volz{
@@ -123,18 +106,6 @@
     position:relative;
     flex-shrink:0;
   }
-  .hero-tagline .volz::after{
-    content:'';
-    position:absolute;
-    bottom:-5px;
-    left:0;
-    width:100%;
-    height:3px;
-    background:linear-gradient(90deg,transparent,var(--teal),var(--green),var(--teal),transparent);
-    background-size:200% 100%;
-    animation:underlineMove 2s linear infinite;
-    border-radius:2px;
-  }
   @keyframes volzFloat{
     0%,100%{transform:skewX(5deg) rotate(2deg) translateY(0);}
     50%{transform:skewX(5deg) rotate(2deg) translateY(-8px);}
@@ -142,10 +113,6 @@
   @keyframes volzGlow{
     0%{filter:drop-shadow(0 0 20px rgba(46,196,182,.4));}
     100%{filter:drop-shadow(0 0 40px rgba(46,196,182,.7));}
-  }
-  @keyframes underlineMove{
-    0%{background-position:-200% 0;}
-    100%{background-position:200% 0;}
   }
 
   .hero-sub{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,3vw,22px);letter-spacing:6px;color:rgba(255,255,255,.5);margin-top:40px;position:relative;z-index:2;}
@@ -198,7 +165,6 @@
   .photo-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;margin-bottom:4px;}
   .photo-loc{font-size:11px;letter-spacing:2px;opacity:.6;}
 
-  /* Rating preview on card */
   .card-rating{
     display:flex;
     align-items:center;
@@ -240,7 +206,6 @@
   .stat-num{font-size:48px;font-weight:700;background:linear-gradient(135deg,var(--orange),var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent;}
   .stat-label{font-size:12px;letter-spacing:3px;opacity:.5;margin-top:4px;}
 
-  /* GEAR SECTION */
   .gear-section{margin-top:40px;padding:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);}
   .gear-title{font-family:'Permanent Marker',cursive;font-size:14px;color:var(--yellow);margin-bottom:15px;letter-spacing:2px;}
   .gear-item{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
@@ -275,7 +240,7 @@
   footer p{font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.3);}
   footer .name{font-family:'Permanent Marker',cursive;color:var(--orange);}
 
-  /* LIGHTBOX WITH RATING & COMMENTS */
+  /* LIGHTBOX */
   #lightbox{
     display:none;
     position:fixed;
@@ -283,24 +248,14 @@
     background:rgba(0,0,0,.98);
     z-index:8000;
     overflow-y:auto;
+    overflow-x:hidden;
   }
   #lightbox.open{display:block;}
-  
-  .lb-container{
-    max-width:1200px;
-    margin:0 auto;
-    padding:80px 20px 40px;
-    display:grid;
-    grid-template-columns:1fr 380px;
-    gap:30px;
-    min-height:100vh;
-    align-items:start;
-  }
   
   .lb-close{
     position:fixed;
     top:20px;
-    right:30px;
+    right:20px;
     background:rgba(255,255,255,.1);
     border:1px solid rgba(255,255,255,.2);
     color:#fff;
@@ -309,29 +264,21 @@
     letter-spacing:3px;
     cursor:pointer;
     transition:all .3s;
-    z-index:10;
+    z-index:100;
     padding:10px 20px;
     border-radius:4px;
   }
   .lb-close:hover{background:var(--orange);border-color:var(--orange);}
   
-  .lb-image-section{
-    position:sticky;
-    top:80px;
-  }
-  .lb-image-section img{
-    width:100%;
-    height:auto;
-    border-radius:8px;
-  }
+  /* Navigation buttons */
   .lb-nav{
     position:fixed;
     top:50%;
     transform:translateY(-50%);
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.1);
+    background:rgba(0,0,0,.7);
+    border:1px solid rgba(255,255,255,.2);
     color:#fff;
-    font-size:24px;
+    font-size:28px;
     width:50px;
     height:50px;
     display:flex;
@@ -339,42 +286,70 @@
     justify-content:center;
     cursor:pointer;
     transition:all .3s;
-    z-index:10;
+    z-index:100;
     border-radius:50%;
   }
   .lb-nav:hover{background:var(--orange);border-color:var(--orange);}
-  #lb-prev{left:20px;}
-  #lb-next{right:420px;}
+  #lb-prev{left:15px;}
+  #lb-next{right:15px;}
   
+  .lb-container{
+    max-width:1200px;
+    margin:0 auto;
+    padding:80px 80px 40px;
+    display:grid;
+    grid-template-columns:1fr 350px;
+    gap:30px;
+    min-height:100vh;
+    align-items:start;
+  }
+  
+  .lb-image-section{
+    position:sticky;
+    top:80px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .lb-image-section img{
+    max-width:100%;
+    max-height:calc(100vh - 200px);
+    height:auto;
+    border-radius:8px;
+    object-fit:contain;
+  }
   .lb-photo-info{
     margin-top:20px;
     text-align:center;
+    width:100%;
   }
   .lb-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--orange);}
   .lb-loc{font-size:14px;letter-spacing:4px;opacity:.5;margin-top:4px;}
 
-  /* Right Sidebar - Rating & Comments */
+  /* Right Sidebar */
   .lb-sidebar{
     background:var(--gray);
     border-radius:8px;
     padding:24px;
     height:fit-content;
+    max-height:calc(100vh - 120px);
+    overflow-y:auto;
     position:sticky;
     top:80px;
   }
   
   /* RATING SECTION */
   .rating-section{
-    margin-bottom:30px;
-    padding-bottom:24px;
+    margin-bottom:24px;
+    padding-bottom:20px;
     border-bottom:1px solid rgba(255,255,255,.1);
   }
   .rating-title{
     font-family:'Bebas Neue',sans-serif;
-    font-size:18px;
+    font-size:16px;
     letter-spacing:2px;
     color:var(--yellow);
-    margin-bottom:16px;
+    margin-bottom:14px;
     display:flex;
     align-items:center;
     gap:8px;
@@ -384,36 +359,40 @@
     display:flex;
     align-items:center;
     gap:12px;
-    margin-bottom:16px;
+    margin-bottom:14px;
   }
   .rating-big{
-    font-size:48px;
+    font-size:42px;
     font-weight:700;
     background:linear-gradient(135deg,var(--yellow),var(--orange));
     -webkit-background-clip:text;background-clip:text;color:transparent;
+    line-height:1;
   }
   .rating-details{
     font-family:system-ui,sans-serif;
-    font-size:13px;
+    font-size:12px;
     color:rgba(255,255,255,.5);
+    line-height:1.4;
   }
   .rating-details strong{color:#fff;}
   
   .star-rating{
     display:flex;
-    gap:4px;
+    gap:2px;
     margin-bottom:8px;
+    justify-content:center;
   }
   .star-rating .star{
-    font-size:28px;
+    font-size:32px;
     cursor:pointer;
     transition:all .2s;
     color:rgba(255,255,255,.2);
+    user-select:none;
   }
   .star-rating .star:hover,
   .star-rating .star.active{
     color:var(--yellow);
-    transform:scale(1.1);
+    transform:scale(1.15);
   }
   .star-rating .star.hovered{
     color:var(--yellow);
@@ -421,41 +400,46 @@
   
   .rating-hint{
     font-family:system-ui,sans-serif;
-    font-size:12px;
+    font-size:11px;
     color:rgba(255,255,255,.4);
-    margin-top:8px;
+    text-align:center;
   }
-  .rating-thanks{
+  .rating-hint.rating-thanks{
     color:var(--green);
     display:none;
   }
-  .rating-thanks.show{display:block;}
+  .rating-hint.rating-thanks.show{display:block;}
+  .rating-hint.rating-change{
+    color:var(--teal);
+    display:none;
+  }
+  .rating-hint.rating-change.show{display:block;}
 
   /* COMMENTS SECTION */
   .comments-section{}
   .comments-title{
     font-family:'Bebas Neue',sans-serif;
-    font-size:18px;
+    font-size:16px;
     letter-spacing:2px;
     color:var(--teal);
-    margin-bottom:16px;
+    margin-bottom:14px;
     display:flex;
     align-items:center;
     gap:8px;
   }
   
   .comment-form{
-    margin-bottom:20px;
+    margin-bottom:16px;
   }
   .comment-input{
     width:100%;
     background:var(--dark);
     border:1px solid rgba(255,255,255,.1);
     border-radius:6px;
-    padding:12px;
+    padding:10px 12px;
     color:#fff;
     font-family:system-ui,sans-serif;
-    font-size:14px;
+    font-size:13px;
     resize:none;
     transition:border-color .3s;
   }
@@ -466,21 +450,22 @@
   .comment-input::placeholder{color:rgba(255,255,255,.3);}
   
   .comment-name-input{
-    margin-top:10px;
+    margin-top:8px;
   }
   
   .comment-submit{
-    margin-top:12px;
+    margin-top:10px;
     background:linear-gradient(135deg,var(--teal),var(--green));
     border:none;
     color:#fff;
     font-family:'Bebas Neue',sans-serif;
-    font-size:14px;
+    font-size:13px;
     letter-spacing:2px;
-    padding:10px 24px;
+    padding:10px 20px;
     border-radius:4px;
     cursor:pointer;
     transition:transform .2s,box-shadow .2s;
+    width:100%;
   }
   .comment-submit:hover{
     transform:translateY(-2px);
@@ -488,49 +473,50 @@
   }
   
   .comments-list{
-    max-height:300px;
+    max-height:250px;
     overflow-y:auto;
   }
   .comment-item{
     background:var(--dark);
     border-radius:6px;
-    padding:14px;
-    margin-bottom:10px;
+    padding:12px;
+    margin-bottom:8px;
   }
   .comment-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:8px;
+    margin-bottom:6px;
   }
   .comment-author{
     font-family:'Bebas Neue',sans-serif;
-    font-size:14px;
+    font-size:13px;
     color:var(--pink);
     letter-spacing:1px;
   }
   .comment-date{
     font-family:system-ui,sans-serif;
-    font-size:11px;
+    font-size:10px;
     color:rgba(255,255,255,.3);
   }
   .comment-text{
     font-family:system-ui,sans-serif;
-    font-size:13px;
+    font-size:12px;
     color:rgba(255,255,255,.7);
     line-height:1.5;
   }
   .comment-stars{
     color:var(--yellow);
-    font-size:12px;
+    font-size:11px;
+    margin-bottom:4px;
   }
   
   .no-comments{
     text-align:center;
-    padding:20px;
+    padding:16px;
     color:rgba(255,255,255,.3);
     font-family:system-ui,sans-serif;
-    font-size:13px;
+    font-size:12px;
   }
 
   /* REVEAL */
@@ -538,6 +524,25 @@
   .reveal.in{opacity:1;transform:translateY(0);}
 
   /* RESPONSIVE */
+  @media(max-width:1024px){
+    .lb-container{
+      grid-template-columns:1fr;
+      padding:70px 20px 30px;
+    }
+    .lb-sidebar{
+      position:relative;
+      top:0;
+      max-height:none;
+    }
+    .lb-image-section{
+      position:relative;
+      top:0;
+    }
+    .lb-image-section img{
+      max-height:calc(100vh - 300px);
+    }
+  }
+  
   @media(max-width:900px){
     nav{padding:16px 24px;}
     .nav-links{display:none;}
@@ -548,23 +553,33 @@
     .stats{gap:30px;}
     .mob-close{right:24px;}
     .grid{column-count:2;}
-    .lb-container{grid-template-columns:1fr;padding:70px 16px 20px;}
-    .lb-sidebar{position:relative;top:0;}
-    #lb-next{right:20px;}
   }
+  
   @media(max-width:600px){
     .grid{column-count:1;}
     .stats{justify-content:center;}
-    .lb-nav{width:40px;height:40px;font-size:18px;}
-    #lb-prev{left:10px;}
-    #lb-next{right:10px;}
     .gear-section{padding:15px;}
     .hero-tagline{
       font-size:clamp(40px,15vw,70px);
       flex-wrap:nowrap;
       gap:5px;
     }
-    .lb-image-section{position:relative;top:0;}
+    .lb-nav{width:44px;height:44px;font-size:24px;}
+    #lb-prev{left:8px;}
+    #lb-next{right:8px;}
+    .lb-close{
+      top:12px;
+      right:12px;
+      padding:8px 14px;
+      font-size:12px;
+    }
+    .lb-container{
+      padding:60px 12px 20px;
+    }
+    .lb-title{font-size:24px;}
+    .lb-sidebar{padding:18px;}
+    .star-rating .star{font-size:28px;}
+    .rating-big{font-size:36px;}
   }
 </style>
 </head>
@@ -614,7 +629,6 @@
 <!-- PORTFOLIO -->
 <section class="portfolio" id="portfolio">
   <h2 class="section-title reveal"><span class="stroke">Street</span> <span class="filled">Stories</span></h2>
-  
   <div class="grid" id="photo-grid"></div>
 </section>
 
@@ -697,7 +711,6 @@
     </div>
     
     <div class="lb-sidebar">
-      <!-- RATING SECTION -->
       <div class="rating-section">
         <div class="rating-title">⭐ Rate This Photo</div>
         <div class="rating-display">
@@ -714,15 +727,15 @@
           <span class="star" data-rating="4">☆</span>
           <span class="star" data-rating="5">☆</span>
         </div>
-        <div class="rating-hint">Click a star to rate</div>
-        <div class="rating-hint rating-thanks" id="rating-thanks">✓ Thanks for your rating!</div>
+        <div class="rating-hint" id="rating-hint">Click a star to rate</div>
+        <div class="rating-hint rating-thanks" id="rating-thanks">✓ Thanks for rating!</div>
+        <div class="rating-hint rating-change" id="rating-change">Click to change your rating</div>
       </div>
       
-      <!-- COMMENTS SECTION -->
       <div class="comments-section">
         <div class="comments-title">💬 Comments</div>
         <div class="comment-form">
-          <textarea class="comment-input" id="comment-text" placeholder="Write a comment..." rows="3"></textarea>
+          <textarea class="comment-input" id="comment-text" placeholder="Write a comment..." rows="2"></textarea>
           <input type="text" class="comment-input comment-name-input" id="comment-name" placeholder="Your name">
           <button class="comment-submit" onclick="submitComment()">Post Comment</button>
         </div>
@@ -751,7 +764,7 @@
   const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('in');})},{threshold:.15});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-  // ✅ ALL 17 PHOTOS
+  // ALL 17 PHOTOS
   const photos=[
     {img:'IMG_20260115_085313.jpg.jpg',title:'Street Story 01',loc:'Rangia · Assam'},
     {img:'1.jpeg',title:'Street Story 02',loc:'Rangia · Assam'},
@@ -772,7 +785,7 @@
     {img:'17..jpeg',title:'Street Story 17',loc:'Rangia · Assam'},
   ];
 
-  // RATINGS & COMMENTS DATA
+  // DATA STORAGE
   const photoData={};
   photos.forEach((p,i)=>{
     photoData[i]={
@@ -784,8 +797,23 @@
     };
   });
 
+  // ✅ USER RATINGS TRACKER - One rating per photo per user
+  const userRatings={};
+  
   let cur=0;
-  let userRating=0;
+
+  function getAvgRating(i){
+    const r=photoData[i].ratings;
+    if(r.length===0)return 0;
+    return(r.reduce((a,b)=>a+b,0)/r.length).toFixed(1);
+  }
+
+  function getStarDisplay(rating){
+    const full=Math.floor(rating);
+    const half=rating%1>=0.5?1:0;
+    const empty=5-full-half;
+    return '★'.repeat(full)+(half?'☆':'')+'☆'.repeat(empty);
+  }
 
   // RENDER GRID
   function renderGrid(){
@@ -804,26 +832,11 @@
         <span class="photo-num">${String(i+1).padStart(2,'0')}</span>
       </div>
     `).join('');
-    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-  }
-
-  function getAvgRating(i){
-    const r=photoData[i].ratings;
-    if(r.length===0)return 0;
-    return(r.reduce((a,b)=>a+b,0)/r.length).toFixed(1);
-  }
-
-  function getStarDisplay(rating){
-    const full=Math.floor(rating);
-    const half=rating%1>=0.5?1:0;
-    const empty=5-full-half;
-    return '★'.repeat(full)+(half?'☆':'')+'☆'.repeat(empty);
   }
 
   // LIGHTBOX
   function openLB(i){
     cur=i;
-    userRating=0;
     renderLB();
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow='hidden';
@@ -836,7 +849,6 @@
   
   function lbNav(d){
     cur=(cur+d+photos.length)%photos.length;
-    userRating=0;
     renderLB();
   }
 
@@ -853,14 +865,32 @@
     document.getElementById('rating-avg').textContent=avg>0?avg:'-';
     document.getElementById('rating-count').textContent=data.ratings.length;
     
-    // Reset stars
-    document.querySelectorAll('#star-rating .star').forEach(star=>{
+    // ✅ Check if user already rated this photo
+    const userRated=userRatings[cur];
+    const stars=document.querySelectorAll('#star-rating .star');
+    
+    stars.forEach((star,i)=>{
       star.classList.remove('active','hovered');
       star.textContent='☆';
     });
-    document.getElementById('rating-thanks').classList.remove('show');
     
-    // Comments
+    if(userRated){
+      // Show user's existing rating
+      stars.forEach((star,i)=>{
+        if(i<userRated){
+          star.classList.add('active');
+          star.textContent='★';
+        }
+      });
+      document.getElementById('rating-hint').style.display='none';
+      document.getElementById('rating-thanks').classList.add('show');
+      document.getElementById('rating-change').classList.add('show');
+    }else{
+      document.getElementById('rating-hint').style.display='block';
+      document.getElementById('rating-thanks').classList.remove('show');
+      document.getElementById('rating-change').classList.remove('show');
+    }
+    
     renderComments();
   }
 
@@ -887,6 +917,7 @@
 
   // STAR RATING INTERACTION
   const starContainer=document.getElementById('star-rating');
+  
   starContainer.addEventListener('mouseover',e=>{
     if(e.target.classList.contains('star')){
       const rating=parseInt(e.target.dataset.rating);
@@ -897,26 +928,44 @@
   });
   
   starContainer.addEventListener('mouseout',()=>{
-    document.querySelectorAll('#star-rating .star').forEach(star=>{
+    const userRated=userRatings[cur];
+    document.querySelectorAll('#star-rating .star').forEach((star,i)=>{
       star.classList.remove('hovered');
+      if(userRated && i<userRated){
+        star.classList.add('active');
+      }
     });
   });
   
   starContainer.addEventListener('click',e=>{
     if(e.target.classList.contains('star')){
-      userRating=parseInt(e.target.dataset.rating);
+      const newRating=parseInt(e.target.dataset.rating);
+      const userRated=userRatings[cur];
+      
+      // ✅ If user already rated, remove old rating first
+      if(userRated){
+        const oldIndex=photoData[cur].ratings.indexOf(userRated);
+        if(oldIndex>-1){
+          photoData[cur].ratings.splice(oldIndex,1);
+        }
+      }
+      
+      // Add new rating
+      photoData[cur].ratings.push(newRating);
+      userRatings[cur]=newRating;
+      
+      // Update UI
       document.querySelectorAll('#star-rating .star').forEach((star,i)=>{
-        star.classList.toggle('active',i<userRating);
-        star.textContent=i<userRating?'★':'☆';
+        star.classList.toggle('active',i<newRating);
+        star.textContent=i<newRating?'★':'☆';
       });
       
-      // Save rating
-      photoData[cur].ratings.push(userRating);
       document.getElementById('rating-avg').textContent=getAvgRating(cur);
       document.getElementById('rating-count').textContent=photoData[cur].ratings.length;
+      document.getElementById('rating-hint').style.display='none';
       document.getElementById('rating-thanks').classList.add('show');
+      document.getElementById('rating-change').classList.add('show');
       
-      // Update grid
       renderGrid();
     }
   });
@@ -938,7 +987,7 @@
       name:name,
       text:text,
       date:dateStr,
-      rating:userRating||null
+      rating:userRatings[cur]||null
     });
     
     document.getElementById('comment-text').value='';
